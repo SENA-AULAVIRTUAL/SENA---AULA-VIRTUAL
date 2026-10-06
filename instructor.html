@@ -1,8 +1,0 @@
-function showInstructor(){
- document.getElementById('app').innerHTML=`<h1>INSTRUCTOR</h1><input id="nomInst" placeholder="Nombre: OMAR PARDEY"><input id="p" type="password" placeholder="Contraseña SENA2026"><button class="btn btn-green" onclick="loginInst()">ENTRAR</button><br><br><a href="#" onclick="location.reload()">Volver</a>`;
-}
-async function loginInst(){
- const nom=document.getElementById('nomInst').value, p=document.getElementById('p').value;
- const r=await fetch(`${API_URL}?action=loginInstructor&instructor=${encodeURIComponent(nom)}&pass=${p}`); const j=await r.json();
- if(j.ok){ localStorage.setItem('instructorNombre', j.instructor); localStorage.setItem('fichasInstructor', JSON.stringify(j.fichas)); localStorage.setItem('fichaInst', j.fichas[0]); location.href='instructor.html'; } else alert('Nombre o contraseña mal. Verifica que en el Sheet esté OMAR PARDEY');
-}
