@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ficha - SENA</title>
+<style>
+*{box-sizing:border-box;font-family:Segoe UI}body{background:#0a2e00;margin:0;padding:15px}.card{background:#fff;padding:20px;border-radius:16px;margin-top:15px}h2{color:#39A900}
+.badge{background:#39A900;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px}
+</style></head><body>
+<div class="card"><h2>FICHA <span id="f"></span></h2><p>Centro Colombo Alemán - SENA AULA VIRTUAL</p><a href="index.html">← Volver</a></div>
+<div class="card"><h3>Mi Plan de Trabajo</h3><div id="planes">Cargando...</div></div>
+<div class="card"><h3>Mis Compañeros</h3><div id="apre">Cargando...</div></div>
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbw21TnLVgecMZVQMBWD17LxGt2Z69fEz68WxUFoeLMC_hEs41GhG_lfMvSjM7B2oouc/exec";
+const ficha=new URLSearchParams(location.search).get('ficha'); document.getElementById('f').innerText=ficha;
+async function cargar(){
+ const r=await fetch(`${API_URL}?ficha=${ficha}`); const j=await r.json();
+ document.getElementById('planes').innerHTML=j.planes.map(p=>`<div style="border:1px solid #ddd;padding:12px;border-radius:10px;margin:8px 0"><span class="badge">T${p[1]}</span> <b>${p[2]}</b><br>${p[3]}<br><a href="${p[4]}" target="_blank">📄 Ver Plan / Guía</a></div>`).join('')||'El instructor aún no ha montado plan';
+ document.getElementById('apre').innerHTML=j.aprendices.map(a=>`• ${a[2]} - ${a[1]}`).join('<br>')||'Sin lista';
+}
+cargar();
+</script></body></html>
