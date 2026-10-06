@@ -5,72 +5,54 @@
 <title>SENA AULA VIRTUAL - Colombo Alemán</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui}
-body{background:#f0f5f0}
-#login{position:fixed;inset:0;background:#39A900;display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
-.card{width:400px;max-width:100%;background:#fff;border-radius:22px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:center}
-.logo{width:90px;margin:0 auto;display:block}
-.label{text-align:left;font-size:11px;font-weight:900;color:#39A900;margin:16px 0 5px;letter-spacing:.3px}
-.input{width:100%;padding:14px;border:2px solid #dcedc8;border-radius:12px;font-size:13px}
-.input:focus{border-color:#39A900;outline:none}
-.btn{width:100%;padding:14px;background:#39A900;color:#fff;border:none;border-radius:14px;font-weight:900;font-size:13px;margin-top:20px;cursor:pointer}
+body{background:#1b5e20}
+#login{position:fixed;inset:0;background:#1b5e20;display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.card{width:390px;max-width:100%;background:#fff;border-radius:22px;padding:32px 24px;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center;border-top:6px solid #39A900}
+.logo{width:85px;margin:0 auto;display:block}
+.label{text-align:left;font-size:11px;font-weight:900;color:#222;margin:14px 0 5px}
+.input{width:100%;padding:14px;border:none;background:#e8eefb;border-radius:14px;font-size:14px;font-weight:700;text-align:center}
+.input:focus{outline:2px solid #39A900;background:#fff}
+.btn{width:100%;padding:14px;background:#39A900;color:#fff;border:none;border-radius:14px;font-weight:900;font-size:13px;margin-top:18px;cursor:pointer}
 #app{display:none}
-.header{height:68px;background:#39A900;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 16px;position:sticky;top:0;z-index:10}
+.header{height:68px;background:#39A900;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 16px;position:sticky;top:0}
 .box{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px}
-.cal-head{background:#39A900;color:#fff;padding:7px;border-radius:8px;font-weight:800;font-size:11px}
-.cal-day{padding:10px 4px;border-radius:8px;background:#f1f8e9}
-.cal-falta{background:#ffcdd2!important;color:#b71c1c!important;font-weight:900;border:1px solid #ef9a9a}
+.cal-h{background:#39A900;color:#fff;padding:7px;border-radius:8px;font-weight:800;font-size:11px}
+.cal-d{padding:10px 4px;border-radius:8px;background:#f1f8e9}
+.cal-f{background:#ffcdd2!important;color:#b71c1c!important;font-weight:900;border:1px solid #ef9a9a}
 .cal-hoy{outline:2px solid #39A900}
-.nav-cal{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.nav-cal button{background:#e8f5e9;border:1px solid #a5d6a7;padding:6px 12px;border-radius:20px;font-weight:800;cursor:pointer;color:#2e7d32}
 </style>
 </head>
 <body>
 
-<!-- UNICO INGRESO - SENA AULA VIRTUAL -->
+<!-- UNICO ACCESO CON DOCUMENTO + FICHA - COMO QUERIAS ANTES -->
 <div id="login">
  <div class="card">
   <img class="logo" src="logo-verde.png" alt="SENA">
-  <h2 style="font-size:18px;font-weight:900;margin-top:10px;color:#222">SENA<br>AULA VIRTUAL</h2>
-  <p style="font-size:11px;font-weight:800;color:#666;margin-top:6px;letter-spacing:.5px">CENTRO COLOMBO ALEMÁN</p>
+  <h2 style="color:#39A900;font-size:20px;font-weight:900;line-height:1.1;margin-top:10px">SENA<br>AULA VIRTUAL</h2>
+  <p style="font-size:11px;color:#666;font-weight:800;letter-spacing:.8px;margin-top:6px">COLOMBO ALEMÁN</p>
+  <div style="width:50px;height:4px;background:#39A900;border-radius:10px;margin:10px auto"></div>
 
-  <div class="label">NUMERO DE DOCUMENTO</div>
-  <input id="doc" class="input" placeholder="Ingrese su número de documento">
+  <div class="label">Escribe tu Numero de Documento</div>
+  <input id="doc" class="input" placeholder="Ej: 1054711276">
 
-  <div class="label">FICHA</div>
-  <input id="ficha" class="input" value="3410389" placeholder="3410389">
+  <div class="label">Escribe tu ficha</div>
+  <input id="ficha" class="input" value="3410389">
 
   <button class="btn" onclick="entrar()">ENTRAR A MI AULA VIRTUAL →</button>
   <p id="msg" style="font-size:11px;color:#c62828;margin-top:10px;min-height:14px"></p>
+  <p style="font-size:10px;color:#999;margin-top:8px">Ficha 3410389 - Centro Colombo Alemán</p>
  </div>
 </div>
 
-<!-- DENTRO DEL AULA -->
+<!-- DENTRO -->
 <div id="app">
- <div class="header">
-  <div style="display:flex;gap:8px;align-items:center"><img src="logo-verde.png" style="width:38px;background:#fff;border-radius:8px;padding:3px"><div><b>SENA</b> <span style="font-size:11px">AULA VIRTUAL</span></div></div>
-  <div style="display:flex;gap:8px;align-items:center"><span id="semaTop" style="background:#fff;padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px">-</span><button onclick="localStorage.clear();location.reload()" style="background:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:10px;font-weight:800">Salir</button></div>
- </div>
-
+ <div class="header"><div style="display:flex;gap:8px;align-items:center"><img src="logo-verde.png" style="width:36px;background:#fff;border-radius:8px;padding:3px"><b>SENA</b></div><div style="display:flex;gap:8px;align-items:center"><span id="semaTop" style="background:#fff;padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px">-</span><button onclick="localStorage.clear();location.reload()" style="background:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:10px;font-weight:800">Salir</button></div></div>
  <div style="max-width:1100px;margin:12px auto;padding:0 12px">
-  <div class="box" style="background:linear-gradient(90deg,#e8f5e9,#c5e1a5)"><h2 id="bien">Bienvenido</h2><p id="det" style="font-size:12px"></p></div>
-
+  <div class="box"><h2 id="bien">Bienvenido</h2><p id="det" style="font-size:12px"></p></div>
   <div style="display:grid;grid-template-columns:1.1fr.9fr;gap:12px">
-   <!-- CALENDARIO QUE RUEDA -->
-   <div class="box">
-    <div class="nav-cal"><button onclick="cambiarMes(-1)">◀ Anterior</button><b id="mesTitulo"></b><button onclick="cambiarMes(1)">Siguiente ▶</button></div>
-    <div class="cal-grid" id="cal"></div>
-    <p style="font-size:10px;margin-top:10px"><span style="background:#ffcdd2;padding:3px 8px;border-radius:6px">🔴 Rojo = Faltaste ese día</span> <span style="background:#c8e6c9;padding:3px 8px;border-radius:6px;margin-left:6px">Borde verde = Hoy</span></p>
-    <div id="listaFaltasMes" style="margin-top:12px"></div>
-   </div>
-
-   <!-- SOLO SEMAFORO + CARPETA -->
-   <div>
-    <div class="box" style="border-left:5px solid #39A900">
-     <div id="semaforoBox" style="padding:12px;background:#f1f8e9;border-radius:12px;text-align:center"></div>
-     <div id="carpeta" style="margin-top:12px"></div>
-    </div>
-   </div>
+   <div class="box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><button onclick="cambiarMes(-1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:6px 12px;border-radius:20px;font-weight:800">◀</button><b id="mesTit"></b><button onclick="cambiarMes(1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:6px 12px;border-radius:20px;font-weight:800">▶</button></div><div class="cal-grid" id="cal"></div><p style="font-size:10px;margin-top:8px"><span style="background:#ffcdd2;padding:3px 8px;border-radius:6px">🔴 Faltaste</span></p><div id="listaMes" style="margin-top:10px"></div></div>
+   <div><div class="box" style="border-left:5px solid #39A900"><div id="semaBox" style="padding:12px;background:#f1f8e9;border-radius:12px;text-align:center"></div><div id="carp" style="margin-top:12px;font-size:12px"></div></div></div>
   </div>
  </div>
 </div>
@@ -78,7 +60,7 @@ body{background:#f0f5f0}
 <script>
 const FILE="1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8", PUB="2PACX-1vTdcStJvMC8Ggfh-Y4BBWp2IvXmINK64xCp5ZOf5N7ev9_J3t3OFWiQcVmllElwf6EjM8MuIStF7ZDu";
 const UR="https://docs.google.com/spreadsheets/d/"+FILE+"/gviz/tq?tqx=out:csv&sheet=RESUMEN_WEB", UA="https://docs.google.com/spreadsheets/d/"+FILE+"/gviz/tq?tqx=out:csv&sheet=ASISTENCIA", UP="https://docs.google.com/spreadsheets/d/e/"+PUB+"/pub?output=csv";
-let mesActual=new Date(), faltasGlobal=[];
+let mesAct=new Date(), faltas=[];
 async function get(u){try{let r=await fetch(u,{cache:"no-store"});if(r.ok)return await r.text()}catch(e){}return""}
 async function entrar(){
  let d=document.getElementById("doc").value.trim(), f=document.getElementById("ficha").value.trim(), m=document.getElementById("msg");
@@ -89,44 +71,28 @@ async function entrar(){
  localStorage.setItem("doc",d); localStorage.setItem("fic",f);
  document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f);
 }
-function cambiarMes(dir){mesActual.setMonth(mesActual.getMonth()+dir); renderCalendario()}
-function renderCalendario(){
- let y=mesActual.getFullYear(), m=mesActual.getMonth();
- document.getElementById("mesTitulo").innerText=new Date(y,m).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase();
- let primer=new Date(y,m,1).getDay(); primer=primer==0?6:primer-1;
- let diasMes=new Date(y,m+1,0).getDate();
- let html=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-head">${d}</div>`).join("");
- for(let i=0;i<primer;i++) html+=`<div></div>`;
+function cambiarMes(dir){mesAct.setMonth(mesAct.getMonth()+dir); renderCal()}
+function renderCal(){
+ let y=mesAct.getFullYear(), m=mesAct.getMonth();
+ document.getElementById("mesTit").innerText=new Date(y,m).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase();
+ let prim=new Date(y,m,1).getDay(); prim=prim==0?6:prim-1; let dias=new Date(y,m+1,0).getDate();
+ let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-h">${d}</div>`).join("");
+ for(let i=0;i<prim;i++) h+=`<div></div>`;
  let hoy=new Date();
- for(let d=1;d<=diasMes;d++){
-  let fechaStr=`${d}/${m+1}/${y}`; let esFalta=faltasGlobal.some(f=>{let num=parseInt((f.match(/\\d+/)||[0])[0]); return num==d && (f.includes((m+1).toString()) || f.length<15)});
-  // check real: si la fecha del Sheet contiene el dia
-  let faltaExacta=faltasGlobal.includes(fechaStr) || faltasGlobal.some(f=>f.includes(`${d}/${m+1}`) || f.includes(`${d}-${m+1}`) || (parseInt(f)==d));
-  // simplificado: marcamos si el dia coincide con alguna falta registrada
-  let esF = faltasGlobal.some(f=>{let n=parseInt((f.match(/\\d+/)||[999])[0]); return n===d});
-  let esHoy=hoy.getDate()==d && hoy.getMonth()==m && hoy.getFullYear()==y;
-  html+=`<div class="cal-day ${esF?'cal-falta':''} ${esHoy?'cal-hoy':''}">${d}</div>`;
- }
- document.getElementById("cal").innerHTML=html;
- let faltasDelMes=faltasGlobal.filter(f=>{let n=parseInt((f.match(/\\d+/)||[0])[0]); return n>=1 && n<=31}); // muestra todas por ahora, tu Sheet ASISTENCIA trae fechas dd/mm
- document.getElementById("listaFaltasMes").innerHTML=faltasGlobal.length?`<b style="font-size:12px">Días que faltaste:</b><ul style="padding:0;margin-top:6px">${faltasGlobal.map(f=>`<li style="list-style:none;margin:4px 0;font-size:12px">🔴 ${f}</li>`).join("")}</ul>`:`<p style="color:#2e7d32;font-size:12px">✅ Sin faltas este periodo</p>`;
+ for(let d=1;d<=dias;d++){let esF=faltas.some(f=>parseInt((f.match(/\d+/)||[999])[0])===d); let esHoy=hoy.getDate()==d&&hoy.getMonth()==m&&hoy.getFullYear()==y; h+=`<div class="cal-d ${esF?'cal-f':''} ${esHoy?'cal-hoy':''}">${d}</div>`}
+ document.getElementById("cal").innerHTML=h;
+ document.getElementById("listaMes").innerHTML=faltas.length?`<b style="font-size:11px">Faltaste:</b><ul style="padding:0;margin-top:6px">${faltas.map(f=>`<li style="list-style:none;margin:4px 0;font-size:12px">🔴 ${f}</li>`).join("")}</ul>`:`<p style="color:#2e7d32;font-size:12px">✅ Sin faltas</p>`;
 }
 async function cargar(doc,fic){
  let csvR=await get(UR); if(!csvR) csvR=await get(UP); let csvA=await get(UA);
  let fila=csvR.split("\n").find(l=>l.includes(doc)); let fall=0,est="VERDE",nom="Aprendiz";
  if(fila){let p=fila.split(",").map(s=>s.replace(/"/g,"").trim()); nom=p[1]||"Aprendiz"; fall=p[3]||0; est=(p[4]||"VERDE").toUpperCase()}
- document.getElementById("bien").innerText=`Bienvenido, ${nom.split(" ")[0]}`; document.getElementById("det").innerText=`Ficha ${fic} - Centro Colombo Alemán`;
- let top=document.getElementById("semaTop"); let box=document.getElementById("semaforoBox");
- if(est.includes("VERDE")){top.innerText="🟢 VERDE - Al día"; top.style.color="#1b5e20"; box.innerHTML=`<div style="font-size:42px">🟢</div><b style="color:#1b5e20">${est}</b><br><span style="font-size:12px">Fallas: ${fall} - Al día</span>`}
- else if(est.includes("AMARILLO")){top.innerText="🟡 AMARILLO"; top.style.color="#f57f17"; box.innerHTML=`<div style="font-size:42px">🟡</div><b style="color:#f57f17">${est}</b><br><span style="font-size:12px">Fallas: ${fall} - Atención</span>`}
- else{top.innerText="🔴 ROJO"; top.style.color="#b71c1c"; box.innerHTML=`<div style="font-size:42px">🔴</div><b style="color:#b71c1c">${est}</b><br><span style="font-size:12px">Fallas: ${fall} - Riesgo</span>`}
- if(csvA){
-  let ls=csvA.split("\n"), hs=ls[0].split(",").map(h=>h.replace(/"/g,"").trim()), fa=ls.find(l=>l.includes(doc));
-  if(fa){let vs=fa.split(",").map(v=>v.replace(/"/g,"").trim()); faltasGlobal=[]; for(let i=3;i<vs.length;i++){if(vs[i].toUpperCase()=="F") faltasGlobal.push(hs[i]||`Día ${i-2}`)}
-   document.getElementById("carpeta").innerHTML=`<p style="font-size:12px"><b>Carpeta Única:</b> ${faltasGlobal.length} faltas<br><span style="font-size:10px;color:#666">Máximo 5 - Ficha 3410389</span></p>`;
-   renderCalendario();
-  }
- }
+ document.getElementById("bien").innerText=`Bienvenido, ${nom.split(" ")[0]}`; document.getElementById("det").innerText=`Ficha ${fic} - Colombo Alemán - Fallas: ${fall}`;
+ let top=document.getElementById("semaTop"), box=document.getElementById("semaBox");
+ if(est.includes("VERDE")){top.innerText="🟢 VERDE"; top.style.color="#1b5e20"; box.innerHTML=`<div style="font-size:44px">🟢</div><b style="color:#1b5e20">${est}</b><br><span style="font-size:12px">${fall} faltas - Al día</span>`}
+ else if(est.includes("AMARILLO")){top.innerText="🟡 AMARILLO"; top.style.color="#f57f17"; box.innerHTML=`<div style="font-size:44px">🟡</div><b style="color:#f57f17">${est}</b><br><span style="font-size:12px">${fall} faltas</span>`}
+ else{top.innerText="🔴 ROJO"; top.style.color="#b71c1c"; box.innerHTML=`<div style="font-size:44px">🔴</div><b style="color:#b71c1c">${est}</b><br><span style="font-size:12px">${fall} faltas</span>`}
+ if(csvA){let ls=csvA.split("\n"), hs=ls[0].split(",").map(h=>h.replace(/"/g,"").trim()), fa=ls.find(l=>l.includes(doc)); if(fa){let vs=fa.split(",").map(v=>v.replace(/"/g,"").trim()); faltas=[]; for(let i=3;i<vs.length;i++){if(vs[i].toUpperCase()=="F") faltas.push(hs[i]||`Día ${i-2}`)} document.getElementById("carp").innerHTML=`<b>Carpeta:</b> ${faltas.length} días`; renderCal();}}
 }
 window.onload=async()=>{let d=localStorage.getItem("doc"), f=localStorage.getItem("fic"); if(d&&f){document.getElementById("doc").value=d; document.getElementById("ficha").value=f; document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f)}}
 </script>
