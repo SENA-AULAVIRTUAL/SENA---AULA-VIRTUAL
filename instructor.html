@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel Instructor - SENA</title>
+<style>
+*{box-sizing:border-box;font-family:Segoe UI}body{background:#f0f2f0;margin:0;padding:15px}header{background:#39A900;color:#fff;padding:15px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+.card{background:#fff;padding:18px;border-radius:12px;margin-top:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}input,select{width:100%;padding:12px;margin:6px 0;border:2px solid #ddd;border-radius:8px}
+button{background:#39A900;color:#fff;border:none;padding:12px 18px;border-radius:8px;font-weight:800;cursor:pointer;width:100%;margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:10px}th,td{border:1px solid #ddd;padding:8px;font-size:13px;text-align:left}
+</style></head><body>
+<header><b>PANEL INSTRUCTOR - Ficha <span id="fichaLabel"></span></b><button onclick="salir()" style="width:auto;background:#000">Salir</button></header>
+
+<div class="card"><h3>+ Agregar Aprendiz</h3>
+<input id="doc" placeholder="Documento"><input id="nom" placeholder="Nombre completo"><input id="tel" placeholder="Teléfono">
+<button onclick="addAprendiz()">Guardar Aprendiz</button></div>
+
+<div class="card"><h3>+ Agregar Competencia / Plan</h3>
+<select id="tri"><option value="1">Trimestre 1</option><option value="2">Trimestre 2</option><option value="3">Trimestre 3</option><option value="4">Trimestre 4</option></select>
+<input id="comp" placeholder="Competencia Ej: Programación"><input id="res" placeholder="Resultado Ej: RA1 Diagramas"><input id="link" placeholder="Link de Drive del PDF del plan">
+<button onclick="addPlan()">Guardar Plan</button></div>
+
+<div class="card"><h3>Aprendices de esta ficha</h3><div id="listaA">Cargando...</div></div>
+<div class="card"><h3>Planes de esta ficha</h3><div id="listaP">Cargando...</div></div>
+
+<script>
+const API_URL="https://script.google.com/macros/s/AKfycbw21TnLVgecMZVQMBWD17LxGt2Z69fEz68WxUFoeLMC_hEs41GhG_lfMvSjM7B2oouc/exec";
+const ficha=localStorage.getItem('fichaInst'); if(!ficha) location.href='index.html';
+document.getElementById('fichaLabel').innerText=ficha;
+
+async function cargar(){
+ const r=await fetch(`${API_URL}?ficha=${ficha}`); const j=await r.json();
+ document.getElementById('listaA').innerHTML=j.aprendices.length?`<table><tr><th>Doc</th><th>Nombre</th></tr>${j.aprendices.map(a=>`<tr><td>${a[1]}</td><td>${a[2]}</td></tr>`).join('')}</table>`:'Sin aprendices';
+ document.getElementById('listaP').innerHTML=j.planes.length?`<table><tr><th>Tri</th><th>Comp</th><th>Link</th></tr>${j.planes.map(p=>`<tr><td>${p[1]}</td><td>${p[2]}</td><td><a href="${p[4]}" target="_blank">Ver PDF</a></td></tr>`).join('')}</table>`:'Sin planes';
+}
+async function addAprendiz(){
+ await fetch(API_URL,{method:'POST',body:JSON.stringify({tipo:'aprendiz',ficha,doc:doc.value,nombre:nom.value,tel:tel.value})});
+ alert('Aprendiz guardado en tu Google Sheet'); cargar();
+}
+async function addPlan(){
+ await fetch(API_URL,{method:'POST',body:JSON.stringify({tipo:'plan',ficha,tri:tri.value,comp:comp.value,res:res.value,link:link.value})});
+ alert('Plan guardado en tu Google Sheet'); cargar();
+}
+function salir(){localStorage.clear(); location.href='index.html';}
+cargar();
+</script></body></html>
