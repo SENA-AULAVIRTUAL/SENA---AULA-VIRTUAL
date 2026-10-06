@@ -2,156 +2,154 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SENA - Servicio Nacional de Aprendizaje - 3410389</title>
+<title>SENA 3410389 - Ficha Colombo Alemán</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui}
-body{background:#fff;color:#222}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+body{background:#fff}
 #login{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
-.card-login{width:400px;background:#fff;border:2px solid #e8f5e9;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.08);text-align:center;animation:fadeUp.6s}
+.card-login{width:400px;background:#fff;border:2px solid #e8f5e9;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.08);text-align:center}
 .logo{width:95px;margin:0 auto;display:block}
-.label{text-align:left;font-size:10px;font-weight:900;color:#1b5e20;margin:14px 0 5px;letter-spacing:.5px}
-.input{width:100%;padding:14px;background:#f1f5ff;border:1px solid #d8e2ff;border-radius:14px;font-weight:800;text-align:center;font-size:14px}
-.input:focus{outline:2px solid #39A900;background:#fff}
-.btn{width:100%;padding:14px;background:#39A900;color:#fff;border:none;border-radius:14px;font-weight:900;margin-top:18px;cursor:pointer;transition:.2s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(57,169,0,.3)}
+.label{text-align:left;font-size:10px;font-weight:900;color:#1b5e20;margin:14px 0 5px}
+.input{width:100%;padding:14px;background:#f1f5ff;border:1px solid #d8e2ff;border-radius:14px;font-weight:800;text-align:center}
+.btn{width:100%;padding:14px;background:#39A900;color:#fff;border:none;border-radius:14px;font-weight:900;margin-top:18px;cursor:pointer}
 .header{height:72px;background:#fff;border-bottom:3px solid #39A900;display:flex;justify-content:space-between;align-items:center;padding:0 20px;position:sticky;top:0;z-index:10}
 .layout{max-width:1380px;margin:0 auto;display:flex;gap:16px;padding:16px}
 .sidebar{width:310px;background:#fff;border:1px solid #e8f5e9;border-radius:18px;padding:16px;position:sticky;top:88px;height:fit-content}
 .ficha-box{background:#f7fbf7;border:1px solid #c5e1a5;border-radius:14px;padding:14px}
-.menu a{display:flex;gap:10px;padding:12px 14px;border-radius:12px;text-decoration:none;color:#333;font-weight:700;font-size:13px;background:#fff;border:1px solid #eef3ee;margin-bottom:6px;cursor:pointer;transition:.2s}
-.menu a:hover{transform:translateX(4px);background:#e8f5e9}
-.menu a.active{background:#39A900;color:#fff;box-shadow:0 6px 14px rgba(57,169,0,.25)}
+.menu a{display:flex;gap:10px;padding:12px 14px;border-radius:12px;text-decoration:none;color:#333;font-weight:700;font-size:13px;background:#fff;border:1px solid #eef3ee;margin-bottom:6px;cursor:pointer}
+.menu a.active{background:#39A900;color:#fff}
 .main{flex:1}
-.welcome{background:#fff;border:2px solid #e8f5e9;border-left:6px solid #39A900;border-radius:18px;padding:20px;animation:fadeUp.5s}
+.welcome{background:#fff;border:2px solid #e8f5e9;border-left:6px solid #39A900;border-radius:18px;padding:20px}
 .badge{background:#39A900;color:#fff;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:900;margin-left:8px}
-.box{background:#fff;border:1px solid #e8f5e9;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.04)}
+.box{background:#fff;border:1px solid #e8f5e9;border-radius:16px;padding:16px;margin-bottom:14px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px;margin-top:10px}
 .cal-h{background:#39A900;color:#fff;padding:7px;border-radius:8px;font-weight:800;font-size:10px}
 .cal-d{padding:10px 4px;border-radius:8px;background:#f5f8f5}
 .cal-f{background:#ffcdd2!important;color:#b71c1c!important;font-weight:900;border:1px solid #ef9a9a}
-.tab{display:none}.tab.active{display:block;animation:fadeUp.4s}
+.tab{display:none}.tab.active{display:block}
 .lista-falta{padding:10px;background:#fff5f5;border:1px solid #ffcdd2;border-radius:10px;margin:6px 0;font-size:12px;font-weight:700}
+.debug{font-size:10px;color:#999;background:#fafafa;padding:6px;border-radius:6px;margin-top:8px}
 </style>
 </head>
 <body>
-
-<!-- LOGIN UNICO DOCUMENTO + FICHA -->
-<div id="login">
- <div class="card-login">
-  <img class="logo" src="logo-verde.png" alt="SENA">
-  <h2 style="color:#39A900;font-weight:900;line-height:1.1;margin-top:10px">SENA<br><span style="font-size:11px;color:#444;font-weight:800;letter-spacing:.6px">SERVICIO NACIONAL DE APRENDIZAJE</span></h2>
-  <p style="font-size:11px;color:#666;margin-top:6px;font-weight:700">AULA VIRTUAL - CENTRO COLOMBO ALEMÁN</p>
-  <div style="width:48px;height:4px;background:#39A900;margin:10px auto;border-radius:10px"></div>
-  <div class="label">NUMERO DE DOCUMENTO</div>
-  <input id="doc" class="input" placeholder="Ej: 1043445360">
-  <div class="label">NUMERO DE FICHA</div>
-  <input id="ficha" class="input" value="3410389">
-  <button class="btn" onclick="entrar()">ENTRAR A MI AULA VIRTUAL →</button>
-  <p id="msg" style="font-size:11px;color:#b71c1c;margin-top:10px;min-height:14px"></p>
- </div>
-</div>
-
-<!-- APP -->
-<div id="app" style="display:none">
- <div class="header">
-  <div style="display:flex;gap:10px;align-items:center"><img src="logo-verde.png" style="width:42px"><div style="line-height:1.1"><b style="font-size:14px">SENA</b><br><span style="font-size:9px;font-weight:800;color:#555">SERVICIO NACIONAL DE APRENDIZAJE</span></div></div>
-  <div style="display:flex;gap:8px;align-items:center"><span id="semaTop" style="padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px;background:#e8f5e9">-</span><b id="userTop" style="font-size:13px"></b><button onclick="localStorage.clear();location.reload()" style="background:#f5f5f5;border:1px solid #e0e0e0;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer">Salir</button></div>
- </div>
-
- <div class="layout">
-  <!-- IZQUIERDA -->
-  <div class="sidebar">
-   <div class="ficha-box">
-    <p style="font-size:9px;font-weight:900;color:#2e7d32">FICHA</p>
-    <b style="font-size:20px">3410389</b>
-    <p style="font-size:11px;font-weight:800;margin-top:10px;color:#1b5e20;line-height:1.2">PRODUCCIÓN DE COMPONENTES MECÁNICOS CON MÁQUINAS DE CONTROL NUMÉRICO COMPUTARIZADO</p>
-    <div style="margin-top:10px;background:#fff;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;border:1px solid #c5e1a5"><span style="font-size:9px;font-weight:900">TRIMESTRE</span><b id="trimestre" style="font-size:12px;color:#39A900">IV - 2026</b></div>
-    <p style="font-size:10px;color:#555;margin-top:8px">Aula CAD-CAM 11:30-18:30<br>Instructor: Omar Pardey</p>
-   </div>
-   <div class="menu" style="margin-top:14px">
-    <a class="active" onclick="showTab('inicio',this)">🏠 INICIO</a>
-    <a onclick="showTab('programacion',this)">📅 PROGRAMACIÓN</a>
-    <a onclick="showTab('horario',this)">⏰ HORARIO</a>
-    <a onclick="showTab('concertado',this)">🤝 PLAN CONCERTADO</a>
-    <a onclick="showTab('apoyo',this)">📚 MATERIAL DE APOYO</a>
-    <a onclick="showTab('evidencias',this)">📁 EVIDENCIAS</a>
-    <a onclick="showTab('evaluaciones',this)">📝 EVALUACIONES</a>
-    <a onclick="showTab('asistencia',this)">✅ ASISTENCIA</a>
-   </div>
-  </div>
-
-  <!-- DERECHA -->
-  <div class="main">
-   <div id="tab-inicio" class="tab active">
-    <div class="welcome"><h2 id="bien" style="font-size:18px">Bienvenido</h2><p id="nombreComp" style="margin-top:4px;font-size:13px"></p><p id="det" style="font-size:11px;color:#666;margin-top:6px"></p></div>
-    <div style="display:grid;grid-template-columns:1.1fr.9fr;gap:14px;margin-top:14px">
-     <div class="box"><div style="display:flex;justify-content:space-between;align-items:center"><button onclick="cambiarMes(-1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800;cursor:pointer">◀</button><b id="mesTit" style="font-size:12px"></b><button onclick="cambiarMes(1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800;cursor:pointer">▶</button></div><div class="cal-grid" id="cal"></div><div id="listaF" style="margin-top:10px"></div></div>
-     <div class="box" style="text-align:center"><div id="semaBox" style="padding:14px;background:#f7fbf7;border-radius:14px"></div><div id="carp" style="margin-top:12px;font-size:12px;text-align:left"></div></div>
-    </div>
-   </div>
-
-   <div id="tab-asistencia" class="tab">
-    <div class="box"><h2>✅ ASISTENCIA - Faltas por Mes y Día</h2><p style="font-size:11px;color:#666;margin-top:4px">Se lee directo de tu hoja ASISTENCIA del Sheep, mes y día como lo escribiste en el encabezado</p>
-     <div style="margin-top:14px;display:grid;grid-template-columns:120px 1fr;gap:12px"><div style="background:#f7fbf7;border:1px solid #c5e1a5;border-radius:12px;padding:12px;text-align:center"><div id="numFaltasBig" style="font-size:42px;font-weight:900;color:#b71c1c">0</div><div style="font-size:11px;font-weight:800">FALTAS TOTAL</div><div id="correoAsis" style="font-size:9px;color:#666;margin-top:6px"></div></div><div id="detalleAsis"></div></div>
-    </div>
-    <div class="box"><h3>📅 Calendario</h3><div class="cal-grid" id="cal2" style="margin-top:10px"></div></div>
-   </div>
-
-   <div id="tab-programacion" class="tab"><div class="box"><h2>📅 PROGRAMACIÓN</h2></div></div>
-   <div id="tab-horario" class="tab"><div class="box"><h2>⏰ HORARIO - 11:30 a 18:30 - CAD-CAM</h2></div></div>
-   <div id="tab-concertado" class="tab"><div class="box"><h2>🤝 PLAN CONCERTADO</h2></div></div>
-   <div id="tab-apoyo" class="tab"><div class="box"><h2>📚 MATERIAL DE APOYO</h2></div></div>
-   <div id="tab-evidencias" class="tab"><div class="box"><h2>📁 EVIDENCIAS</h2></div></div>
-   <div id="tab-evaluaciones" class="tab"><div class="box"><h2>📝 EVALUACIONES</h2></div></div>
-  </div>
- </div>
-</div>
+<div id="login"><div class="card-login"><img class="logo" src="logo-verde.png"><h2 style="color:#39A900;font-weight:900">SENA<br><span style="font-size:11px;color:#444">SERVICIO NACIONAL DE APRENDIZAJE</span></h2><div class="label">NUMERO DE DOCUMENTO</div><input id="doc" class="input" placeholder="1043445360"><div class="label">NUMERO DE FICHA</div><input id="ficha" class="input" value="3410389"><button class="btn" onclick="entrar()">ENTRAR A MI AULA VIRTUAL →</button><p id="msg" style="font-size:11px;color:#b71c1c;margin-top:10px"></p></div></div>
+<div id="app" style="display:none"><div class="header"><div style="display:flex;gap:10px;align-items:center"><img src="logo-verde.png" style="width:42px"><div><b>SENA</b><br><span style="font-size:9px;font-weight:800">SERVICIO NACIONAL DE APRENDIZAJE</span></div></div><div style="display:flex;gap:8px;align-items:center"><span id="semaTop" style="padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px">-</span><b id="userTop"></b><button onclick="localStorage.clear();location.reload()" style="background:#f5f5f5;border:1px solid #e0e0e0;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800">Salir</button></div></div>
+<div class="layout"><div class="sidebar"><div class="ficha-box"><p style="font-size:9px;font-weight:900;color:#2e7d32">FICHA</p><b style="font-size:20px">3410389</b><p style="font-size:11px;font-weight:800;margin-top:10px;color:#1b5e20">PRODUCCIÓN DE COMPONENTES MECÁNICOS CON MÁQUINAS CNC</p><div style="margin-top:10px;background:#fff;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;border:1px solid #c5e1a5"><span style="font-size:9px;font-weight:900">TRIMESTRE</span><b id="trimestre">IV - 2026</b></div></div><div class="menu" style="margin-top:14px"><a class="active" onclick="showTab('inicio',this)">🏠 INICIO</a><a onclick="showTab('asistencia',this)">✅ ASISTENCIA</a><a onclick="showTab('programacion',this)">📅 PROGRAMACIÓN</a><a onclick="showTab('horario',this)">⏰ HORARIO</a><a onclick="showTab('concertado',this)">🤝 PLAN CONCERTADO</a><a onclick="showTab('apoyo',this)">📚 MATERIAL DE APOYO</a><a onclick="showTab('evidencias',this)">📁 EVIDENCIAS</a><a onclick="showTab('evaluaciones',this)">📝 EVALUACIONES</a></div></div>
+<div class="main"><div id="tab-inicio" class="tab active"><div class="welcome"><h2 id="bien">Bienvenido</h2><p id="nombreComp"></p><p id="det" style="font-size:11px;color:#666;margin-top:6px"></p></div><div style="display:grid;grid-template-columns:1.1fr.9fr;gap:14px;margin-top:14px"><div class="box"><div style="display:flex;justify-content:space-between;align-items:center"><button onclick="cambiarMes(-1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800;cursor:pointer">◀</button><b id="mesTit"></b><button onclick="cambiarMes(1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800;cursor:pointer">▶</button></div><div class="cal-grid" id="cal"></div><div id="listaF"></div></div><div class="box" style="text-align:center"><div id="semaBox" style="padding:14px;background:#f7fbf7;border-radius:14px"></div><div id="carp" style="margin-top:12px;font-size:12px;text-align:left"></div><div id="debug" class="debug"></div></div></div></div>
+<div id="tab-asistencia" class="tab"><div class="box"><h2>✅ ASISTENCIA - Faltas por Mes y Día</h2><p style="font-size:11px;color:#666">Lee directo de tu hoja ASISTENCIA (encabezado = mes y día)</p><div style="margin-top:14px;display:grid;grid-template-columns:120px 1fr;gap:12px"><div style="background:#f7fbf7;border:1px solid #c5e1a5;border-radius:12px;padding:12px;text-align:center"><div id="numFaltasBig" style="font-size:42px;font-weight:900;color:#b71c1c">0</div><div style="font-size:11px;font-weight:800">FALTAS TOTAL</div><div id="correoAsis" style="font-size:9px;color:#666;margin-top:6px"></div></div><div id="detalleAsis"></div></div></div><div class="box"><h3>📅 Calendario de Faltas</h3><div class="cal-grid" id="cal2"></div></div></div>
+<div id="tab-programacion" class="tab"><div class="box"><h2>📅 PROGRAMACIÓN</h2></div></div><div id="tab-horario" class="tab"><div class="box"><h2>⏰ HORARIO</h2></div></div><div id="tab-concertado" class="tab"><div class="box"><h2>🤝 PLAN CONCERTADO</h2></div></div><div id="tab-apoyo" class="tab"><div class="box"><h2>📚 MATERIAL DE APOYO</h2></div></div><div id="tab-evidencias" class="tab"><div class="box"><h2>📁 EVIDENCIAS</h2></div></div><div id="tab-evaluaciones" class="tab"><div class="box"><h2>📝 EVALUACIONES</h2></div></div>
+</div></div></div>
 
 <script>
-const FILE="1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8", PUB="2PACX-1vTdcStJvMC8Ggfh-Y4BBWp2IvXmINK64xCp5ZOf5N7ev9_J3t3OFWiQcVmllElwf6EjM8MuIStF7ZDu";
-const URLS_RESUMEN=[
- `https://docs.google.com/spreadsheets/d/${FILE}/gviz/tq?tqx=out:csv&sheet=RESUMEN_WEB`,
- `https://docs.google.com/spreadsheets/d/e/${PUB}/pub?output=csv`,
- `https://docs.google.com/spreadsheets/d/${FILE}/export?format=csv`
-];
-const URLS_ASIS=[
- `https://docs.google.com/spreadsheets/d/${FILE}/gviz/tq?tqx=out:csv&sheet=ASISTENCIA`,
- `https://docs.google.com/spreadsheets/d/${FILE}/export?format=csv&gid=1`
-];
-let mesAct=new Date(), faltas=[], faltasDetalle=[], correoGlobal="", nombreGlobal="", estGlobal="VERDE";
+const FILE="1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8";
+const URL_RESUMEN=`https://docs.google.com/spreadsheets/d/${FILE}/gviz/tq?tqx=out:csv&sheet=RESUMEN_WEB`;
+const URL_ASIS=`https://docs.google.com/spreadsheets/d/${FILE}/gviz/tq?tqx=out:csv&sheet=ASISTENCIA`;
+let mesAct=new Date(), faltasDetalle=[], correoGlobal="", nombreGlobal="", estGlobal="VERDE";
 function tri(){let m=new Date().getMonth(); return (m<3?"I":m<6?"II":m<9?"III":"IV")+" - "+new Date().getFullYear()} document.getElementById("trimestre").innerText=tri();
-async function getConRespaldo(urls){for(let u of urls){try{let r=await fetch(u+"&t="+Date.now(),{cache:"no-store"}); if(r.ok){let t=await r.text(); if(t&&t.length>30) return t;}}catch(e){}} return "";}
-function showTab(id,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active")); document.getElementById("tab-"+id).classList.add("active"); document.querySelectorAll(".menu a").forEach(a=>a.classList.remove("active")); if(el) el.classList.add("active"); if(id==="asistencia") renderAsistenciaDetalle()}
-function parseFila(p){let correo=p.find(v=>v.includes("@"))||""; let nombre=""; for(let v of p){ if(v.length>8 && v.includes(" ") &&!v.includes("@") && isNaN(v.replace(/\s/g,"")) && v.length>nombre.length) nombre=v; } let est="VERDE"; for(let v of p){ let up=v.toUpperCase(); if(up.includes("VERDE")||up.includes("AMARILLO")||up.includes("ROJO")){ est=up; break; } } return {nombre: nombre||p[1]||p[0], correo, est};}
+async function getCSV(url){try{let r=await fetch(url+"&cache="+Date.now(),{cache:"no-store"}); if(r.ok){return await r.text();}}catch(e){} return "";}
+function showTab(id,el){document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active")); document.getElementById("tab-"+id).classList.add("active"); document.querySelectorAll(".menu a").forEach(a=>a.classList.remove("active")); if(el) el.classList.add("active");}
 async function entrar(){
  let d=document.getElementById("doc").value.trim(), f=document.getElementById("ficha").value.trim(), m=document.getElementById("msg");
  if(!d||!f){m.innerText="Ingresa documento y ficha";return}
  if(f!=="3410389"){m.innerText="Ficha debe ser 3410389";return}
- m.innerText="Verificando... ⏳";
- let csvR=await getConRespaldo(URLS_RESUMEN);
- let csvA=await getConRespaldo(URLS_ASIS);
- if(!csvR &&!csvA){ m.innerText="No se pudo leer el Sheet. Publícalo en Archivo > Publicar en la web"; return; }
+ m.innerText="Verificando...";
+ let csvR=await getCSV(URL_RESUMEN);
+ let csvA=await getCSV(URL_ASIS);
+ if((!csvR||csvR.length<10) && (!csvA||csvA.length<10)){m.innerText="No se pudo conectar al Sheet. Publica el Sheet en Archivo > Publicar en la web";return;}
  let encontrado=(csvR&&csvR.includes(d))||(csvA&&csvA.includes(d));
- if(!encontrado){ m.innerText=`Documento ${d} no encontrado en el Sheet`; return; }
+ if(!encontrado){m.innerText=`Documento ${d} no encontrado`;return;}
  localStorage.setItem("doc",d); localStorage.setItem("fic",f);
  document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f);
 }
-function cambiarMes(dir){mesAct.setMonth(mesAct.getMonth()+dir); renderCal()}
-function renderCal(){let y=mesAct.getFullYear(), mo=mesAct.getMonth(); let tit=new Date(y,mo).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase(); document.getElementById("mesTit").innerText=tit; let prim=new Date(y,mo,1).getDay(); prim=prim==0?6:prim-1; let dias=new Date(y,mo+1,0).getDate(); let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-h">${d}</div>`).join(""); for(let i=0;i<prim;i++) h+=`<div></div>`; for(let d=1;d<=dias;d++){ let esF=faltasDetalle.some(fd=>{ let num=(fd.match(/\d+/)||[])[0]; return num && parseInt(num)===d; }); h+=`<div class="cal-d ${esF?'cal-f':''}">${d}</div>`} document.getElementById("cal").innerHTML=h; if(document.getElementById("cal2")) document.getElementById("cal2").innerHTML=h; document.getElementById("listaF").innerHTML=faltasDetalle.length?faltasDetalle.map(f=>`<div class="lista-falta">🔴 Faltaste: ${f}</div>`).join(""):`<p style="color:#2e7d32;font-size:11px">✅ Sin faltas en ASISTENCIA</p>`}
-function renderAsistenciaDetalle(){let cont=document.getElementById("detalleAsis"); if(!cont) return; if(!faltasDetalle.length){cont.innerHTML=`<p style="color:#2e7d32">✅ ${nombreGlobal} sin faltas - ${correoGlobal}</p>`;}else{cont.innerHTML=faltasDetalle.map((f,i)=>`<div class="lista-falta">📅 ${i+1}. <b>${f}</b> - FALTA</div>`).join("")+`<div style="margin-top:8px;font-size:11px;color:#666">Total ${faltasDetalle.length} día(s) - se actualiza al poner F en el Excel</div>`;} document.getElementById("numFaltasBig").innerText=faltasDetalle.length; document.getElementById("correoAsis").innerText=correoGlobal;}
+function cambiarMes(dir){mesAct.setMonth(mesAct.getMonth()+dir); renderCal();}
+function renderCal(){
+ let y=mesAct.getFullYear(), mo=mesAct.getMonth();
+ let tit=new Date(y,mo).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase();
+ document.getElementById("mesTit").innerText=tit;
+ let prim=new Date(y,mo,1).getDay(); prim=prim==0?6:prim-1;
+ let dias=new Date(y,mo+1,0).getDate();
+ let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-h">${d}</div>`).join("");
+ for(let i=0;i<prim;i++) h+=`<div></div>`;
+ for(let d=1;d<=dias;d++){
+  let esF=faltasDetalle.some(fd=>{
+   // busca numero del dia dentro del encabezado, ej: "05/10" o "5 Octubre"
+   let nums=fd.match(/\d+/g)||[];
+   return nums.some(n=>parseInt(n)===d);
+  });
+  h+=`<div class="cal-d ${esF?'cal-f':''}">${d}</div>`;
+ }
+ document.getElementById("cal").innerHTML=h;
+ if(document.getElementById("cal2")) document.getElementById("cal2").innerHTML=h;
+ document.getElementById("listaF").innerHTML=faltasDetalle.length?faltasDetalle.map(f=>`<div class="lista-falta">🔴 Faltaste: ${f}</div>`).join(""):`<p style="color:#2e7d32;font-size:11px">✅ Sin faltas en ASISTENCIA</p>`;
+}
+function renderAsistenciaDetalle(){
+ let cont=document.getElementById("detalleAsis");
+ if(!faltasDetalle.length){cont.innerHTML=`<p style="color:#2e7d32;font-size:13px">✅ ${nombreGlobal} sin faltas - ${correoGlobal}</p>`;}
+ else{cont.innerHTML=faltasDetalle.map((f,i)=>`<div class="lista-falta">📅 ${i+1}. <b>${f}</b> - FALTA</div>`).join("")+`<div style="margin-top:8px;font-size:11px;color:#666">Total ${faltasDetalle.length} día(s)</div>`;}
+ document.getElementById("numFaltasBig").innerText=faltasDetalle.length;
+ document.getElementById("correoAsis").innerText=correoGlobal;
+}
+
 async function cargar(doc,fic){
- let csvR=await getConRespaldo(URLS_RESUMEN); let csvA=await getConRespaldo(URLS_ASIS);
- let lines=csvR.split("\n").filter(l=>l.trim()); let fila=lines.find(l=>l.includes(doc)); let nom=doc, correo="";
- if(fila){let p=fila.split(",").map(s=>s.replace(/"/g,"").trim()); let data=parseFila(p); nom=data.nombre; correo=data.correo; estGlobal=data.est; nombreGlobal=nom; correoGlobal=correo;}
- if(csvA){let ls=csvA.split("\n").filter(l=>l.trim()); let headers=ls[0].split(",").map(h=>h.replace(/"/g,"").trim()); let fa=ls.find(l=>l.includes(doc)); if(fa){let vs=fa.split(",").map(v=>v.replace(/"/g,"").trim()); faltas=[]; faltasDetalle=[]; for(let i=3;i<vs.length;i++){if(vs[i].toUpperCase()==="F"){let fecha=headers[i]||`Día ${i-2}`; faltas.push(fecha); faltasDetalle.push(fecha);}}}}
+ let csvR=await getCSV(URL_RESUMEN);
+ let csvA=await getCSV(URL_ASIS);
+ let nom=doc, correo="", fallasResumen=0, est="VERDE";
+
+ // --- LEER RESUMEN_WEB ---
+ if(csvR){
+  let lines=csvR.split("\n").filter(l=>l.trim());
+  let fila=lines.find(l=>l.includes(doc));
+  if(fila){
+   let p=fila.split(",").map(s=>s.replace(/"/g,"").trim());
+   correo=p.find(v=>v.includes("@"))||"";
+   // nombre = campo mas largo con espacio
+   let posibleNombres=p.filter(v=>v.length>8 && v.includes(" ") &&!v.includes("@"));
+   if(posibleNombres.length) nom=posibleNombres.sort((a,b)=>b.length-a.length)[0];
+   else nom=p[1]||doc;
+   // fallas en resumen = numero pequeño 0-20 que no sea doc
+   for(let v of p){ if(/^\d+$/.test(v) && parseInt(v)>=0 && parseInt(v)<=20 && v!==doc && v.length<=2){ fallasResumen=parseInt(v); break; } }
+   // estado
+   for(let v of p){ let up=v.toUpperCase(); if(up.includes("VERDE")||up.includes("AMARILLO")||up.includes("ROJO")){ est=up; break; } }
+  }
+ }
+
+ // --- LEER ASISTENCIA - ESTA ES LA VERDAD ---
+ faltasDetalle=[];
+ if(csvA){
+  let ls=csvA.split("\n").filter(l=>l.trim());
+  if(ls.length>1){
+   let headers=ls[0].split(",").map(h=>h.replace(/"/g,"").trim());
+   let fa=ls.find(l=>l.includes(doc));
+   if(fa){
+    let vs=fa.split(",").map(v=>v.replace(/"/g,"").trim());
+    for(let i=0;i<vs.length;i++){
+     if(vs[i].toUpperCase()==="F"){
+      let fecha=headers[i]||`Col ${i}`;
+      if(fecha &&!fecha.toLowerCase().includes("documento") &&!fecha.toLowerCase().includes("nombre") &&!fecha.toLowerCase().includes("correo"))
+       faltasDetalle.push(fecha);
+     }
+    }
+   }
+   document.getElementById("debug").innerText=`ASISTENCIA leída: ${ls.length} filas | Encabezados: ${headers.slice(0,6).join(" | ")}... | Fila encontrada: ${fa? "SI":"NO"}`;
+  }
+ }
+
+ // Si ASISTENCIA está vacía, usa las fallas del RESUMEN para no quedar en 0
+ let totalFallas = faltasDetalle.length>0? faltasDetalle.length : fallasResumen;
+ if(faltasDetalle.length===0 && fallasResumen>0){
+  // crea faltas genéricas si no hay detalle en ASISTENCIA
+  for(let i=0;i<fallasResumen;i++) faltasDetalle.push(`Falta ${i+1} (registrada en RESUMEN_WEB)`);
+ }
+
+ nombreGlobal=nom; correoGlobal=correo; estGlobal=est;
  document.getElementById("bien").innerHTML=`Bienvenido, ${nom.toUpperCase()} <span class="badge">ACTIVO</span>`;
- document.getElementById("nombreComp").innerText=`${doc} - Estado ACTIVO`; document.getElementById("userTop").innerText=nom.split(" ")[0].toUpperCase();
- document.getElementById("det").innerText=`Ficha ${fic} | Colombo Alemán | Correo: ${correo} | ${tri()} | Fallas: ${faltasDetalle.length}`;
- let box=document.getElementById("semaBox"), top=document.getElementById("semaTop"); let fallCount=faltasDetalle.length;
- if(fallCount<=1){top.innerText="🟢 ACTIVO"; top.style.background="#c8e6c9"; top.style.color="#1b5e20"; box.innerHTML=`<div style="font-size:48px">🟢</div><b style="color:#1b5e20">${estGlobal}</b><br><span style="font-size:14px;font-weight:900">${fallCount} falta(s)</span><br><span style="font-size:10px;color:#666">${correo}</span>`}
- else if(fallCount===2){top.innerText="🟡 AMARILLO - ACTIVO"; top.style.background="#fff9c4"; top.style.color="#f57f17"; box.innerHTML=`<div style="font-size:48px">🟡</div><b style="color:#f57f17">${estGlobal}</b><br><span style="font-size:14px;font-weight:900">${fallCount} falta(s)</span><br><span style="font-size:10px;color:#666">${correo}</span>`}
- else{top.innerText="🔴 ROJO - ACTIVO"; top.style.background="#ffcdd2"; top.style.color="#b71c1c"; box.innerHTML=`<div style="font-size:48px">🔴</div><b style="color:#b71c1c">${estGlobal}</b><br><span style="font-size:14px;font-weight:900">${fallCount} falta(s)</span><br><span style="font-size:10px;color:#666">${correo}</span>`}
+ document.getElementById("nombreComp").innerText=`${doc} - Estado ACTIVO`;
+ document.getElementById("userTop").innerText=nom.split(" ")[0].toUpperCase();
+ document.getElementById("det").innerText=`Ficha ${fic} | Colombo Alemán | Correo: ${correo} | ${tri()} | Fallas: ${totalFallas}`;
+ let box=document.getElementById("semaBox"), top=document.getElementById("semaTop");
+ if(totalFallas<=1){top.innerText="🟢 ACTIVO"; top.style.background="#c8e6c9"; top.style.color="#1b5e20"; box.innerHTML=`<div style="font-size:48px">🟢</div><b style="color:#1b5e20">${est}</b><br><span style="font-size:14px;font-weight:900">${totalFallas} falta(s)</span><br><span style="font-size:10px">${correo}</span>`}
+ else if(totalFallas===2){top.innerText="🟡 AMARILLO - ACTIVO"; top.style.background="#fff9c4"; top.style.color="#f57f17"; box.innerHTML=`<div style="font-size:48px">🟡</div><b style="color:#f57f17">${est}</b><br><span style="font-size:14px;font-weight:900">${totalFallas} falta(s)</span><br><span style="font-size:10px">${correo}</span>`}
+ else{top.innerText="🔴 ROJO - ACTIVO"; top.style.background="#ffcdd2"; top.style.color="#b71c1c"; box.innerHTML=`<div style="font-size:48px">🔴</div><b style="color:#b71c1c">${est}</b><br><span style="font-size:14px;font-weight:900">${totalFallas} falta(s)</span><br><span style="font-size:10px">${correo}</span>`}
  renderCal(); renderAsistenciaDetalle();
 }
 window.onload=async()=>{let d=localStorage.getItem("doc"), f=localStorage.getItem("fic"); if(d&&f){document.getElementById("doc").value=d; document.getElementById("ficha").value=f; document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f)}}
