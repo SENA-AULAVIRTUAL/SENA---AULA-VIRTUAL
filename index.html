@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SENA AULA VIRTUAL</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{background:#0e3300;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
-.card{width:100%;max-width:390px;background:#fff;border-radius:28px;padding:35px 28px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.35);border-top:10px solid #39A900}
-.logo{width:120px;margin:0 auto 12px;display:block}
-h1{color:#39A900;font-weight:900;line-height:1.1;font-size:32px;letter-spacing:-1px}
+.card{width:100%;max-width:390px;background:#fff;border-radius:28px;padding:35px 28px;text-align:center;border-top:10px solid #39A900}
+.logo{width:120px;margin:auto;display:block}
+h1{color:#39A900;font-weight:900;font-size:32px;line-height:1.1}
 .sub{color:#555;font-size:13px;font-weight:700;letter-spacing:2px;margin-top:6px;text-transform:uppercase}
 .divider{width:60px;height:4px;background:#39A900;margin:18px auto;border-radius:10px}
-.label{font-size:14px;color:#222;font-weight:700;margin-top:20px;text-align:left}
+.label{font-size:14px;font-weight:700;margin-top:20px;text-align:left}
 input{width:100%;padding:18px;border:2px solid #e0e0e0;border-radius:14px;margin-top:8px;text-align:center;font-size:20px;font-weight:900;outline:none}
 input:focus{border-color:#39A900}
 .btn{width:100%;padding:18px;margin-top:16px;background:#39A900;color:#fff;border:none;border-radius:14px;font-weight:900;font-size:17px;cursor:pointer}
-.foot{margin-top:18px;font-size:11px;color:#999}
+#msg{margin-top:10px;font-size:13px;font-weight:700}
 </style>
 </head>
 <body>
 <div class="card">
-<img class="logo" src="logo-verde.png" alt="SENA">
+<img class="logo" src="logo-verde.png">
 <h1>SENA<br>AULA VIRTUAL</h1>
 <p class="sub">Colombo Alemán</p>
 <div class="divider"></div>
 <p class="label">Escribe tu ficha</p>
 <input id="ficha" type="number" placeholder="Ej: 3410389">
 <button class="btn" onclick="entrar()">ENTRAR</button>
-<p id="error" style="color:#d00;font-size:13px;margin-top:10px;font-weight:700"></p>
-<p class="foot">Centro de Comercio y Servicios</p>
+<p id="msg"></p>
 </div>
 <script>
-function entrar(){
-  const f = document.getElementById('ficha').value.trim();
-  if(!f){document.getElementById('error').innerText='Escribe tu ficha';return;}
-  if(f==='3410389'){window.location.href='ficha.html?ficha='+f;}
-  else{document.getElementById('error').innerText='Ficha '+f+' aún no tiene aula creada';}
+async function entrar(){
+ const f=document.getElementById('ficha').value.trim();
+ const m=document.getElementById('msg');
+ if(!f){m.style.color='red';m.innerText='Escribe tu ficha';return;}
+ m.style.color='#555';m.innerText='Buscando aula...';
+ try{
+   const res=await fetch(f+'.html',{method:'HEAD'});
+   if(res.ok){ window.location.href=f+'.html'; }
+   else{ m.style.color='red';m.innerText='Ficha '+f+' aún no tiene aula creada'; }
+ }catch(e){
+   // Si es local, igual intentamos redirigir
+   window.location.href=f+'.html';
+ }
 }
 </script>
 </body>
