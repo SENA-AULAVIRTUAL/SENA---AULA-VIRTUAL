@@ -2,31 +2,26 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SENA - Servicio Nacional de Aprendizaje - 3410389</title>
+<title>SENA 3410389</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui}
-body{background:#fff;color:#222}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-5px)}100%{transform:translateY(0)}}
+body{background:#fff}
 #login{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
-.card-login{width:400px;background:#fff;border:2px solid #e8f5e9;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.08);animation:fadeUp.6s;text-align:center}
-.logo{width:92px;margin:0 auto;display:block;animation:float 3s infinite}
-.label{text-align:left;font-size:10px;font-weight:900;color:#1b5e20;margin:14px 0 5px;letter-spacing:.6px}
+.card-login{width:400px;background:#fff;border:2px solid #e8f5e9;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px rgba(0,0,0,.08);text-align:center}
+.logo{width:92px;margin:0 auto;display:block}
+.label{text-align:left;font-size:10px;font-weight:900;color:#1b5e20;margin:14px 0 5px}
 .input{width:100%;padding:14px;background:#f6f8ff;border:1px solid #dfe6ff;border-radius:14px;font-weight:700;text-align:center}
-.input:focus{outline:2px solid #39A900;background:#fff}
 .btn{width:100%;padding:14px;background:#39A900;color:#fff;border:none;border-radius:14px;font-weight:900;margin-top:18px;cursor:pointer}
-.header{height:72px;background:#fff;border-bottom:3px solid #39A900;display:flex;justify-content:space-between;align-items:center;padding:0 20px;position:sticky;top:0;z-index:10}
+.header{height:72px;background:#fff;border-bottom:3px solid #39A900;display:flex;justify-content:space-between;align-items:center;padding:0 20px;position:sticky;top:0}
 .layout{max-width:1380px;margin:0 auto;display:flex;gap:16px;padding:16px}
 .sidebar{width:310px;background:#fff;border:1px solid #e8f5e9;border-radius:18px;padding:16px;position:sticky;top:88px;height:fit-content}
 .ficha-box{background:#f7fbf7;border:1px solid #c5e1a5;border-radius:14px;padding:14px}
-.menu{margin-top:14px;display:grid;gap:6px}
-.menu a{display:flex;gap:10px;padding:12px 14px;border-radius:12px;text-decoration:none;color:#333;font-weight:700;font-size:13px;background:#fff;border:1px solid #eef3ee;transition:.2s}
-.menu a:hover{transform:translateX(5px);background:#e8f5e9}
+.menu a{display:flex;gap:10px;padding:12px 14px;border-radius:12px;text-decoration:none;color:#333;font-weight:700;font-size:13px;background:#fff;border:1px solid #eef3ee;margin-bottom:6px}
 .menu a.active{background:#39A900;color:#fff}
 .main{flex:1}
-.welcome{background:#fff;border:2px solid #e8f5e9;border-left:6px solid #39A900;border-radius:18px;padding:20px;animation:fadeUp.6s}
+.welcome{background:#fff;border:2px solid #e8f5e9;border-left:6px solid #39A900;border-radius:18px;padding:20px}
 .badge{background:#39A900;color:#fff;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:900;margin-left:8px}
-.box{background:#fff;border:1px solid #e8f5e9;border-radius:16px;padding:16px;box-shadow:0 4px 18px rgba(0,0,0,.04)}
+.box{background:#fff;border:1px solid #e8f5e9;border-radius:16px;padding:16px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px;margin-top:10px}
 .cal-h{background:#39A900;color:#fff;padding:7px;border-radius:8px;font-weight:800;font-size:10px}
 .cal-d{padding:10px 4px;border-radius:8px;background:#f5f8f5}
@@ -34,88 +29,32 @@ body{background:#fff;color:#222}
 </style>
 </head>
 <body>
-
-<div id="login">
- <div class="card-login">
-  <img class="logo" src="logo-verde.png" alt="SENA">
-  <h2 style="color:#39A900;font-weight:900;line-height:1.1;margin-top:10px">SENA<br><span style="font-size:11px;color:#444;font-weight:800">SERVICIO NACIONAL DE APRENDIZAJE</span></h2>
-  <p style="font-size:11px;color:#666;margin-top:6px;font-weight:700">AULA VIRTUAL - CENTRO COLOMBO ALEMÁN</p>
-  <div class="label">NUMERO DE DOCUMENTO</div>
-  <input id="doc" class="input" placeholder="Ingrese su documento">
-  <div class="label">NUMERO DE FICHA</div>
-  <input id="ficha" class="input" value="3410389">
-  <button class="btn" onclick="entrar()">ENTRAR A MI AULA VIRTUAL →</button>
-  <p id="msg" style="font-size:11px;color:#c62828;margin-top:10px;min-height:14px"></p>
- </div>
-</div>
-
-<div id="app" style="display:none">
- <div class="header">
-  <div style="display:flex;gap:10px;align-items:center"><img src="logo-verde.png" style="width:42px"><div style="line-height:1.1"><b style="font-size:14px">SENA</b><br><span style="font-size:9px;font-weight:800;color:#555">SERVICIO NACIONAL DE APRENDIZAJE</span></div></div>
-  <div style="display:flex;gap:10px;align-items:center"><span id="semaTop" style="background:#e8f5e9;color:#1b5e20;padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px">ACTIVO</span><b id="userTop" style="font-size:13px"></b><button onclick="localStorage.clear();location.reload()" style="background:#f5f5f5;border:1px solid #e0e0e0;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer">Salir</button></div>
- </div>
- <div class="layout">
-  <div class="sidebar">
-   <div class="ficha-box"><p style="font-size:9px;font-weight:900;color:#2e7d32">FICHA</p><b style="font-size:20px">3410389</b><p style="font-size:11px;font-weight:800;margin-top:10px;color:#1b5e20;line-height:1.25">PRODUCCIÓN DE COMPONENTES MECÁNICOS CON MÁQUINAS DE CONTROL NUMÉRICO COMPUTARIZADO</p><div style="margin-top:10px;background:#fff;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;border:1px solid #c5e1a5"><span style="font-size:9px;font-weight:900">TRIMESTRE</span><b id="trimestre" style="font-size:12px;color:#39A900">IV - 2026</b></div></div>
-   <div class="menu"><a class="active">🏠 INICIO</a><a>📅 PROGRAMACIÓN</a><a>⏰ HORARIO</a><a>🤝 PLAN CONCERTADO</a><a>📚 MATERIAL DE APOYO</a><a>📂 EVIDENCIAS</a><a>📝 EVALUACIONES</a><a>✅ ASISTENCIA</a></div>
-  </div>
-  <div class="main">
-   <div class="welcome"><h2 id="bien" style="font-size:18px">Bienvenido</h2><p id="nombreComp" style="margin-top:4px;font-size:13px"></p><p id="det" style="font-size:11px;color:#666;margin-top:6px"></p></div>
-   <div style="display:grid;grid-template-columns:1.1fr.9fr;gap:14px;margin-top:14px"><div class="box"><div style="display:flex;justify-content:space-between;align-items:center"><button onclick="cambiarMes(-1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800;cursor:pointer">◀</button><b id="mesTit" style="font-size:12px"></b><button onclick="cambiarMes(1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800;cursor:pointer">▶</button></div><div class="cal-grid" id="cal"></div><div id="listaF" style="margin-top:10px"></div></div><div class="box" style="text-align:center"><div id="semaBox" style="padding:14px;background:#f7fbf7;border-radius:14px"></div><div id="carp" style="margin-top:12px;font-size:12px;text-align:left"></div></div></div>
-  </div>
- </div>
-</div>
-
+<div id="login"><div class="card-login"><img class="logo" src="logo-verde.png"><h2 style="color:#39A900;font-weight:900">SENA<br><span style="font-size:11px;color:#444">SERVICIO NACIONAL DE APRENDIZAJE</span></h2><div class="label">NUMERO DE DOCUMENTO</div><input id="doc" class="input"><div class="label">NUMERO DE FICHA</div><input id="ficha" class="input" value="3410389"><button class="btn" onclick="entrar()">ENTRAR A MI AULA VIRTUAL →</button><p id="msg" style="font-size:11px;color:#c62828;margin-top:10px"></p></div></div>
+<div id="app" style="display:none"><div class="header"><div style="display:flex;gap:10px;align-items:center"><img src="logo-verde.png" style="width:42px"><div><b>SENA</b><br><span style="font-size:9px;font-weight:800">SERVICIO NACIONAL DE APRENDIZAJE</span></div></div><div><span id="semaTop" style="background:#e8f5e9;padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px">ACTIVO</span> <b id="userTop"></b> <button onclick="localStorage.clear();location.reload()" style="background:#f5f5f5;border:1px solid #e0e0e0;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800">Salir</button></div></div>
+<div class="layout"><div class="sidebar"><div class="ficha-box"><b>3410389</b><p style="font-size:11px;font-weight:800;margin-top:10px;color:#1b5e20">PRODUCCIÓN DE COMPONENTES MECÁNICOS CON MÁQUINAS CNC</p><div style="margin-top:10px;background:#fff;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;border:1px solid #c5e1a5"><span style="font-size:9px;font-weight:900">TRIMESTRE</span><b id="trimestre">IV - 2026</b></div></div><div style="margin-top:14px"><a class="menu a active">🏠 INICIO</a></div></div>
+<div class="main"><div class="welcome"><h2 id="bien">Bienvenido</h2><p id="nombreComp"></p><p id="det" style="font-size:11px;color:#666;margin-top:6px"></p></div><div style="display:grid;grid-template-columns:1.1fr.9fr;gap:14px;margin-top:14px"><div class="box"><div style="display:flex;justify-content:space-between"><button onclick="cambiarMes(-1)">◀</button><b id="mesTit"></b><button onclick="cambiarMes(1)">▶</button></div><div class="cal-grid" id="cal"></div><div id="listaF" style="margin-top:10px"></div></div><div class="box" style="text-align:center"><div id="semaBox" style="padding:14px;background:#f7fbf7;border-radius:14px"></div><div id="carp" style="margin-top:12px;font-size:12px"></div></div></div></div></div></div>
 <script>
 const FILE="1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8", PUB="2PACX-1vTdcStJvMC8Ggfh-Y4BBWp2IvXmINK64xCp5ZOf5N7ev9_J3t3OFWiQcVmllElwf6EjM8MuIStF7ZDu";
 const UR="https://docs.google.com/spreadsheets/d/"+FILE+"/gviz/tq?tqx=out:csv&sheet=RESUMEN_WEB", UA="https://docs.google.com/spreadsheets/d/"+FILE+"/gviz/tq?tqx=out:csv&sheet=ASISTENCIA", UP="https://docs.google.com/spreadsheets/d/e/"+PUB+"/pub?output=csv";
 let mesAct=new Date(), faltas=[]; function tri(){let m=new Date().getMonth(); return (m<3?"I":m<6?"II":m<9?"III":"IV")+" - "+new Date().getFullYear()} document.getElementById("trimestre").innerText=tri();
 async function get(u){try{let r=await fetch(u,{cache:"no-store"});if(r.ok)return await r.text()}catch(e){}return""}
-
-// ESTA ES LA CORRECCION QUE NECESITAS - BUSCA POR NOMBRE DE COLUMNA
-function parseSheet(csv){
- let lines=csv.split("\n").filter(l=>l.trim());
- if(!lines.length) return null;
- let headers=lines[0].split(",").map(h=>h.replace(/"/g,"").trim().toUpperCase());
- let idxDoc=headers.findIndex(h=>h.includes("DOCUMENTO")||h.includes("CEDULA")||h==="ID");
- let idxNom=headers.findIndex(h=>h.includes("NOMBRE COMPLETO")||h==="NOMBRE"||h.includes("APRENDIZ")||h.includes("NOMBRES"));
- let idxEmail=headers.findIndex(h=>h.includes("CORREO")||h.includes("EMAIL"));
- let idxFall=headers.findIndex(h=>h.includes("FALLAS")||h.includes("FALTAS")||h==="FALLA");
- let idxEst=headers.findIndex(h=>h.includes("ESTADO")||h.includes("SEMAFORO"));
- if(idxDoc==-1) idxDoc=0; if(idxNom==-1) idxNom=1; if(idxFall==-1) idxFall=3; if(idxEst==-1) idxEst=4;
- return {headers, idxDoc, idxNom, idxEmail, idxFall, idxEst, rows:lines.slice(1)};
-}
-
-async function entrar(){let d=document.getElementById("doc").value.trim(), f=document.getElementById("ficha").value.trim(), m=document.getElementById("msg"); if(!d||!f){m.innerText="Ingresa documento y ficha";return} m.innerText="Verificando..."; let csv=await get(UR); if(!csv) csv=await get(UP); if(!csv.includes(d)){m.innerText="Documento no encontrado";return} if(!csv.includes(f)){m.innerText="Ficha debe ser 3410389";return} localStorage.setItem("doc",d); localStorage.setItem("fic",f); document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f)}
+function parseSheet(csv){let lines=csv.split("\n").filter(l=>l.trim()); let headers=lines[0].split(",").map(h=>h.replace(/"/g,"").trim().toUpperCase()); let idxDoc=headers.findIndex(h=>h.includes("DOCUMENTO")); let idxNom=headers.findIndex(h=>h.includes("NOMBRE")); let idxEmail=headers.findIndex(h=>h.includes("CORREO")||h.includes("EMAIL")); let idxFall=headers.findIndex(h=>h.includes("FALLA")||h.includes("FALTA")); let idxEst=headers.findIndex(h=>h.includes("ESTADO")||h.includes("SEMAFORO")); if(idxDoc==-1) idxDoc=0; if(idxNom==-1) idxNom=1; return {headers, idxDoc, idxNom, idxEmail, idxFall, idxEst, rows:lines.slice(1)}}
+async function entrar(){let d=document.getElementById("doc").value.trim(), f=document.getElementById("ficha").value.trim(), m=document.getElementById("msg"); if(!d||!f){m.innerText="Ingresa documento y ficha";return} m.innerText="Verificando..."; let csv=await get(UR); if(!csv) csv=await get(UP); if(!csv.includes(d)){m.innerText="Documento no encontrado";return} document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f)}
 function cambiarMes(dir){mesAct.setMonth(mesAct.getMonth()+dir); renderCal()}
-function renderCal(){let y=mesAct.getFullYear(), mo=mesAct.getMonth(); document.getElementById("mesTit").innerText=new Date(y,mo).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase(); let prim=new Date(y,mo,1).getDay(); prim=prim==0?6:prim-1; let dias=new Date(y,mo+1,0).getDate(); let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-h">${d}</div>`).join(""); for(let i=0;i<prim;i++) h+=`<div></div>`; let hoy=new Date(); for(let d=1;d<=dias;d++){let esF=faltas.some(f=>parseInt((f.match(/\d+/)||[999])[0])===d); let esHoy=hoy.getDate()==d&&hoy.getMonth()==mo&&hoy.getFullYear()==y; h+=`<div class="cal-d ${esF?'cal-f':''}" style="${esHoy?'outline:2px solid #39A900':''}">${d}</div>`} document.getElementById("cal").innerHTML=h; document.getElementById("listaF").innerHTML=faltas.length?faltas.map(f=>`<div style="font-size:11px;margin:4px 0">🔴 ${f}</div>`).join(""):`<p style="color:#2e7d32;font-size:11px">✅ Sin faltas</p>`}
-
+function renderCal(){let y=mesAct.getFullYear(), mo=mesAct.getMonth(); document.getElementById("mesTit").innerText=new Date(y,mo).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase(); let prim=new Date(y,mo,1).getDay(); prim=prim==0?6:prim-1; let dias=new Date(y,mo+1,0).getDate(); let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-h">${d}</div>`).join(""); for(let i=0;i<prim;i++) h+=`<div></div>`; for(let d=1;d<=dias;d++){let esF=faltas.some(f=>parseInt((f.match(/\d+/)||[999])[0])===d); h+=`<div class="cal-d ${esF?'cal-f':''}">${d}</div>`} document.getElementById("cal").innerHTML=h; document.getElementById("listaF").innerHTML=faltas.length?faltas.map(f=>`<div style="font-size:11px;margin:4px 0">🔴 ${f}</div>`).join(""):`<p style="color:#2e7d32;font-size:11px">✅ Sin faltas</p>`}
 async function cargar(doc,fic){
  let csvR=await get(UR); if(!csvR) csvR=await get(UP); let csvA=await get(UA);
- let parsed=parseSheet(csvR);
- let nom=doc, fall=0, est="VERDE";
- if(parsed){
-  let fila=parsed.rows.find(l=>l.includes(doc));
-  if(fila){
-   let p=fila.split(",").map(s=>s.replace(/"/g,"").trim());
-   nom=p[parsed.idxNom]||p[1]||doc;
-   fall=p[parsed.idxFall]||0;
-   est=(p[parsed.idxEst]||"VERDE").toUpperCase();
-   // si fallas tiene @ es que agarro email, corregir
-   if(String(fall).includes("@")){ // busca columna que sea numero
-     for(let v of p){ if(/^\d+$/.test(v) && parseInt(v)<10) fall=v; }
-   }
-  }
- }
- document.getElementById("bien").innerHTML=`Bienvenido, ${nom} <span class="badge">ACTIVO</span>`;
+ let parsed=parseSheet(csvR); let nom=doc, fall=0, est="VERDE", correo="";
+ if(parsed){let fila=parsed.rows.find(l=>l.includes(doc)); if(fila){let p=fila.split(",").map(s=>s.replace(/"/g,"").trim()); nom=p[parsed.idxNom]||doc; fall=p[parsed.idxFall]||0; est=(p[parsed.idxEst]||"VERDE").toUpperCase(); correo=p[parsed.idxEmail]||""; if(String(fall).includes("@")){ correo=fall; fall=0; for(let v of p){ if(/^\d+$/.test(v)&&parseInt(v)<10) fall=v; } } } }
+ document.getElementById("bien").innerHTML=`Bienvenido, ${nom} <span style="background:#39A900;color:#fff;padding:4px 12px;border-radius:20px;font-size:10px;margin-left:8px">ACTIVO</span>`;
  document.getElementById("nombreComp").innerText=`${doc} - Estado ACTIVO`;
  document.getElementById("userTop").innerText=nom.split(" ")[0];
- document.getElementById("det").innerText=`Ficha ${fic} | Colombo Alemán | Fallas: ${fall} | ${tri()} | ${nom}`;
+ // AQUI ESTA LA CORRECCION QUE PEDISTE - YA NO DICE FALLAS, DICE CORREO
+ document.getElementById("det").innerText=`Ficha ${fic} | Colombo Alemán | Correo: ${correo} | ${tri()}`;
  let box=document.getElementById("semaBox"), top=document.getElementById("semaTop");
- if(est.includes("VERDE")){top.innerText="🟢 ACTIVO"; top.style.background="#c8e6c9"; box.innerHTML=`<div style="font-size:42px">🟢</div><b style="color:#1b5e20">${est}</b><br><span style="font-size:11px">${fall} faltas</span>`}
- else if(est.includes("AMARILLO")){top.innerText="🟡 ACTIVO"; top.style.background="#fff9c4"; box.innerHTML=`<div style="font-size:42px">🟡</div><b style="color:#f57f17">${est}</b><br><span style="font-size:11px">${fall} faltas - ${nom}</span>`}
- else{top.innerText="🔴 ACTIVO"; top.style.background="#ffcdd2"; box.innerHTML=`<div style="font-size:42px">🔴</div><b style="color:#b71c1c">${est}</b><br><span style="font-size:11px">${fall} faltas</span>`}
- if(csvA){let ls=csvA.split("\n"), hs=ls[0].split(",").map(h=>h.replace(/"/g,"").trim()), fa=ls.find(l=>l.includes(doc)); if(fa){let vs=fa.split(",").map(v=>v.replace(/"/g,"").trim()); faltas=[]; for(let i=3;i<vs.length;i++){if(vs[i].toUpperCase()=="F") faltas.push(hs[i]||`Día ${i-2}`)} document.getElementById("carp").innerHTML=`<b>Carpeta Única:</b> ${faltas.length} días - ${nom}`; renderCal();}}
+ box.innerHTML=`<div style="font-size:42px">${est.includes("VERDE")?"🟢":est.includes("AMARILLO")?"🟡":"🔴"}</div><b>${est}</b><br><span style="font-size:11px">${fall} faltas</span><br><span style="font-size:10px;color:#666">${correo}</span>`;
+ top.innerText=est+" - ACTIVO";
+ if(csvA){let ls=csvA.split("\n"), hs=ls[0].split(",").map(h=>h.replace(/"/g,"").trim()), fa=ls.find(l=>l.includes(doc)); if(fa){let vs=fa.split(",").map(v=>v.replace(/"/g,"").trim()); faltas=[]; for(let i=3;i<vs.length;i++){if(vs[i].toUpperCase()=="F") faltas.push(hs[i]||`Día ${i-2}`)} document.getElementById("carp").innerHTML=`<b>Carpeta Única:</b> ${faltas.length} días`; renderCal();}}
 }
 window.onload=async()=>{let d=localStorage.getItem("doc"), f=localStorage.getItem("fic"); if(d&&f){document.getElementById("doc").value=d; document.getElementById("ficha").value=f; document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; cargar(d,f)}}
 </script>
