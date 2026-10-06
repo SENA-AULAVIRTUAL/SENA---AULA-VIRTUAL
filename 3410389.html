@@ -1,72 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ficha 3410389 - SENA | Producción CNC</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SENA - Ficha 3410389 - Verde Oficial</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:#f1f5f9;color:#0f172a}
-.topbar{height:58px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:10}
-.layout{max-width:1360px;margin:0 auto;display:flex}
-.sidebar{width:280px;background:#fff;border-right:1px solid #e2e8f0;padding:14px}
-.ficha-box{background:linear-gradient(135deg,#dbeafe,#eff6ff);border:1px solid #bfdbfe;border-radius:16px;padding:14px}
-.ficha-box.fid{color:#1e3a8a;font-weight:900;font-size:18px}
-.ficha-box.prog{font-size:11px;font-weight:800;color:#1e40af;margin-top:6px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;margin-bottom:12px}
-.btn{display:block;padding:10px 14px;border-radius:22px;font-weight:800;font-size:12px;text-decoration:none;text-align:center;width:100%;border:none;cursor:pointer}
-.btn-green{background:#16a34a;color:#fff}.btn-blue{background:#2563eb;color:#fff}.btn-outline{background:#fff;border:1px solid #cbd5e1}
-.semaforo{padding:14px;border-radius:12px;text-align:center;font-weight:900;font-size:15px;margin-top:8px}
-.main{flex:1;padding:16px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
-.stat{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center}
-.table{width:100%;border-collapse:collapse;font-size:12px}
-.table th{background:#f8fafc;padding:8px;border:1px solid #e2e8f0}
-.table td{padding:8px;border:1px solid #e2e8f0;text-align:center}
+:root{--verde:#39A900;--verde-dark:#2d7a00}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui}
+body{background:#f1f5f1}
+#login{position:fixed;inset:0;background:linear-gradient(135deg,#39A900,#6dc247,#a3d977);display:flex;align-items:center;justify-content:center;z-index:100}
+.login-card{background:#fff;width:440px;border-radius:20px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center}
+.login-card input{width:100%;padding:13px;border:2px solid #c7e8b8;border-radius:12px;margin:8px 0;font-size:14px}
+.login-card input:focus{border-color:var(--verde);outline:none}
+.btn{width:100%;padding:13px;border-radius:12px;border:none;background:var(--verde);color:#fff;font-weight:900;font-size:15px;cursor:pointer;margin-top:10px}
+.btn:hover{background:var(--verde-dark)}
+.sena-header{height:70px;background:var(--verde);display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#fff;position:sticky;top:0;z-index:10}
+.layout{max-width:1440px;margin:12px auto;display:flex;gap:12px;padding:0 12px}
+.sidebar{width:260px;background:#fff;border-radius:18px;padding:12px;box-shadow:0 4px 20px rgba(0,0,0,.06);height:fit-content;position:sticky;top:82px}
+.ficha{background:#e8f5e9;border:1px solid #a5d6a7;border-radius:14px;padding:14px;color:#1b5e20}
+.menu a{display:flex;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#334155;font-size:13px;font-weight:700;margin:2px 0}
+.menu a.active{background:var(--verde);color:#fff}
+.main{flex:1}
+.welcome{background:linear-gradient(90deg,#e8f5e9,#c8e6c9);border:1px solid #a5d6a7;border-radius:18px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}
+.card{background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.05);border-top:4px solid var(--verde)}
+.box{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 12px rgba(0,0,0,.05);margin-bottom:12px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:12px;text-align:center}
+.calendar.head{font-weight:800;color:#fff;background:var(--verde);padding:6px;border-radius:8px}
+.calendar.falta{background:#ffcdd2;color:#b71c1c;font-weight:900;border:1px solid #ef9a9a}
+#dashboard{display:none}
+.carpeta{background:#fffde7;border:1px dashed #f9a825;border-radius:14px;padding:12px}
 </style>
 </head>
 <body>
-<div class="topbar"><b>SENA - Ficha 3410389</b><small style="background:#dbeafe;color:#1e40af;padding:4px 10px;border-radius:20px">Omar Pardey - Aula CAD-CAM 11:30am-6:30pm</small></div>
-<div class="layout">
-<div class="sidebar">
-<div class="ficha-box"><div class="fid">FICHA 3410389</div><div class="prog">PRODUCCIÓN DE COMPONENTES MECÁNICOS CNC - FRESADORA CNC<br>POMCNC-BOC-CE-ART</div><div style="font-size:10px;margin-top:6px">INSTRUCTOR OMAR PARDEY - Área Metalmecánica</div></div>
-<div class="card" style="background:#f0fdf4;border:1px dashed #86efac;margin-top:12px"><h3>📁 Plan Concertado Drive</h3><a class="btn btn-green" href="https://docs.google.com/spreadsheets/d/1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8/edit?usp=sharing" target="_blank">📂 Abrir Google Sheet</a><a class="btn btn-outline" style="margin-top:8px" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTdcStJvMC8Ggfh-Y4BBWp2IvXmINK64xCp5ZOf5N7ev9_J3t3OFWiQcVmllElwf6EjM8MuIStF7ZDu/pubhtml" target="_blank">🌐 Ver Publicado</a></div>
-<div class="card"><h3>✅ Mi Asistencia Diaria</h3><p id="asist-nombre" style="font-size:11px;color:#64748b">Cargando...</p><input id="docInput" placeholder="Tu documento" style="width:100%;padding:8px;border-radius:8px;border:1px solid #cbd5e1;margin-top:8px"><button class="btn btn-blue" style="margin-top:8px" onclick="buscarAsistencia()">Consultar</button><div id="semaforo" class="semaforo" style="background:#f1f5f9">-</div><p id="fallas-detalle" style="font-size:11px;margin-top:8px"></p></div>
-</div>
-<div class="main">
-<div class="card"><h2>Dashboard 3410389 - Aula CAD-CAM</h2><p style="font-size:12px;color:#64748b">Panel seguimiento - Lunes a Viernes 11:30am a 6:30pm</p></div>
-<div class="stats"><div class="stat">📅<br><b>8</b><br><span>Actividades</span></div><div class="stat">⏰<br><b>90</b><br><span>Días</span></div><div class="stat">🤝<br><b>Planes</b><br><span>Concertado</span></div><div class="stat">📁<br><b>12</b><br><span>Recursos</span></div></div>
-<div class="card"><h3>📋 Asistencia Tiempo Real - RESUMEN_WEB</h3><table class="table" id="tablaAsist"><thead><tr><th>Documento</th><th>Nombre</th><th>Ficha</th><th>Fallas</th><th>Semáforo</th></tr></thead><tbody><tr><td colspan="5">Cargando...</td></tr></tbody></table></div>
-</div>
-</div>
+
+<div id="login"><div class="login-card">
+<img src="https://i.ibb.co/0jZz3sS/sena-green.png" onerror="this.style.display='none'" style="height:60px">
+<div style="font-size:60px;color:#39A900;font-weight:900">SENA</div>
+<h2 style="color:#333">Ficha 3410389</h2>
+<p style="font-size:12px;color:#555">Producción Componentes Mecánicos CNC<br>Aula CAD-CAM 11:30am-6:30pm - Omar Pardey</p>
+<p style="text-align:left;font-size:12px;font-weight:800;color:#39A900;margin-top:12px">Numero de Documento</p>
+<input id="docInput" placeholder="Ingrese su número de documento">
+<p style="text-align:left;font-size:12px;font-weight:800;color:#39A900">Ficha 3410389</p>
+<input id="fichaInput" value="3410389">
+<button class="btn" onclick="login()">Entrar a mi carpeta →</button>
+<p id="loginMsg" style="font-size:11px;color:#c62828;margin-top:10px"></p>
+<p style="font-size:10px;color:#888;margin-top:14px">SENA © 2024 - Servicio Nacional de Aprendizaje</p>
+</div></div>
+
+<div id="dashboard">
+<div class="sena-header"><div style="display:flex;gap:10px;align-items:center"><b>SENA</b> Servicio Nacional de Aprendizaje</div><div style="display:flex;gap:12px;align-items:center"><span id="semaforoTop" style="background:#fff;color:#39A900;padding:6px 14px;border-radius:20px;font-weight:900">-</span><b id="userTop">Aprendiz</b><button onclick="logout()" style="background:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer">Salir</button></div></div>
+<div class="layout"><div class="sidebar"><div class="ficha"><b>Ficha 3410389</b><p style="font-size:11px">PRODUCCIÓN COMPONENTES MECÁNICOS CNC<br>Trimestre IV 2024</p></div><div class="menu"><a class="active">🏠 Dashboard</a><a>📅 Programación</a><a>⏰ Horario</a><a>🤝 Planes Concertados</a><a>📁 Material</a><a>📷 Evidencias</a><a>📝 Evaluaciones</a><a style="background:#e8f5e9;color:#2e7d32">👤 Asistencia - Mi Carpeta Única</a></div></div>
+<div class="main"><div class="welcome"><div><h2 id="bienvenida">Bienvenido, Aprendiz</h2><p style="font-size:12px">Ficha 3410389 - Producción Componentes Mecánicos CNC <span id="estadoBadge" style="background:#39A900;color:#fff;padding:3px 10px;border-radius:20px;font-size:10px">Activo</span></p></div></div>
+<div class="cards"><div class="card"><b>Programación</b><p style="font-size:11px">8 Actividades<br>3 pendientes</p></div><div class="card"><b>Horario</b><p style="font-size:11px">11:30-18:30<br>Aula CAD-CAM 402</p></div><div class="card"><b>Planes</b><p style="font-size:11px">5 Empresas</p></div><div class="card" style="border-top:4px solid #39A900;background:#f1f8e9"><b>Mi Carpeta</b><p id="cardAsist" style="font-size:11px">-</p></div></div>
+<div style="display:grid;grid-template-columns:1.1fr.9fr;gap:12px"><div class="box"><h3>📅 Calendario - Noviembre 2024</h3><div class="calendar" id="calendario"></div><p style="font-size:10px;margin-top:8px"><span style="background:#ffcdd2;padding:2px 6px;border-radius:6px">Rojo = Faltaste</span></p></div><div><div class="box" style="border-left:4px solid #39A900"><h3>🚦 Semáforo de Asistencia - Por fuera</h3><div id="semaforoDetalle" style="padding:10px;background:#f1f8e9;border-radius:12px;font-size:12px;margin-top:8px"></div></div><div class="box" style="border:2px solid #f9a825"><h3>📁 Asistencia - Carpeta Única</h3><div class="carpeta"><b>📁 Registro de Ausencias - 3410389</b><div id="carpetaContenido" style="margin-top:10px"></div><ul id="listaFaltas"></ul><p id="totalFaltas" style="font-weight:800;margin-top:10px"></p></div></div></div></div>
+</div></div></div>
+
 <script>
-const FILE_ID = "1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8";
-const PUB_ID = "2PACX-1vTdcStJvMC8Ggfh-Y4BBWp2IvXmINK64xCp5ZOf5N7ev9_J3t3OFWiQcVmllElwf6EjM8MuIStF7ZDu";
-const URL1 = `https://docs.google.com/spreadsheets/d/${FILE_ID}/gviz/tq?tqx=out:csv&sheet=RESUMEN_WEB`;
-const URL2 = `https://docs.google.com/spreadsheets/d/e/${PUB_ID}/pub?output=csv`;
-let datos=[];
-async function cargar(){
- let csv="";
- try{let r=await fetch(URL1); if(r.ok) csv=await r.text();}catch(e){}
- if(!csv || csv.length<20){ try{let r2=await fetch(URL2); csv=await r2.text();}catch(e){} }
- const lineas=csv.split("\n").filter(l=>l.trim()!="");
- datos=lineas.slice(1).map(l=>{let p=l.split(","); return {doc:p[0].replace(/"/g,"").trim(), nombre:p[1].replace(/"/g,"").trim(), ficha:p[2].replace(/"/g,"").trim(), fallas:p[3].replace(/"/g,"").trim(), sem:(p[4]||"").replace(/"/g,"").trim().toUpperCase()}}).filter(x=>x.doc);
- const tbody=document.querySelector("#tablaAsist tbody"); tbody.innerHTML="";
- datos.forEach(d=>{let c="#f1f5f9"; if(d.sem.includes("VERDE")) c="#dcfce7"; else if(d.sem.includes("AMARILLO")) c="#fef9c3"; else if(d.sem.includes("ROJO")) c="#fee2e2"; tbody.innerHTML+=`<tr><td>${d.doc}</td><td style="text-align:left">${d.nombre}</td><td>${d.ficha}</td><td>${d.fallas}</td><td style="background:${c};font-weight:800">${d.sem}</td></tr>`});
- const saved=localStorage.getItem("documento"); if(saved){document.getElementById("docInput").value=saved; buscarAsistencia();}
+const FILE_ID="1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8"; const PUB_ID="2PACX-1vTdcStJvMC8Ggfh-Y4BBWp2IvXmINK64xCp5ZOf5N7ev9_J3t3OFWiQcVmllElwf6EjM8MuIStF7ZDu";
+const URL_RESUMEN=`https://docs.google.com/spreadsheets/d/${FILE_ID}/gviz/tq?tqx=out:csv&sheet=RESUMEN_WEB`;
+const URL_ASIST=`https://docs.google.com/spreadsheets/d/${FILE_ID}/gviz/tq?tqx=out:csv&sheet=ASISTENCIA`;
+const URL_PUB=`https://docs.google.com/spreadsheets/d/e/${PUB_ID}/pub?output=csv`;
+async function fetchCSV(u){try{const r=await fetch(u,{cache:"no-store"});if(r.ok)return await r.text()}catch(e){}return""}
+async function login(){
+ const doc=document.getElementById("docInput").value.trim(); const ficha=document.getElementById("fichaInput").value.trim();
+ if(!doc||!ficha){document.getElementById("loginMsg").innerText="Ingresa documento y ficha";return}
+ let csv=await fetchCSV(URL_RESUMEN); if(!csv) csv=await fetchCSV(URL_PUB);
+ if(!csv.includes(doc)){document.getElementById("loginMsg").innerText="Documento no encontrado en Ficha "+ficha;return}
+ if(!csv.includes(ficha)){document.getElementById("loginMsg").innerText="Ficha no válida";return}
+ localStorage.setItem("documento",doc); localStorage.setItem("ficha",ficha); mostrarDashboard(doc,ficha);
 }
-function buscarAsistencia(){
- const doc=document.getElementById("docInput").value.trim(); if(!doc) return alert("Escribe documento");
- localStorage.setItem("documento",doc);
- const d=datos.find(x=>x.doc.includes(doc) || doc.includes(x.doc));
- const nEl=document.getElementById("asist-nombre"), sEl=document.getElementById("semaforo"), fEl=document.getElementById("fallas-detalle");
- if(d){ nEl.innerText=d.nombre+" - "+d.doc; fEl.innerText="Fallas: "+d.fallas+" | Ficha: "+d.ficha;
-  if(d.sem.includes("VERDE")){sEl.style.background="#dcfce7"; sEl.style.color="#166534"; sEl.innerText="🟢 VERDE - Al día";}
-  else if(d.sem.includes("AMARILLO")){sEl.style.background="#fef9c3"; sEl.style.color="#854d0e"; sEl.innerText="🟡 AMARILLO - "+d.fallas+" fallas";}
-  else {sEl.style.background="#fee2e2"; sEl.style.color="#991b1b"; sEl.innerText="🔴 ROJO - "+d.fallas+" fallas";}
- } else { nEl.innerText="Doc: "+doc+" - No encontrado"; sEl.innerText="Sin registro"; }
+function logout(){localStorage.clear();document.getElementById("dashboard").style.display="none";document.getElementById("login").style.display="flex"}
+async function mostrarDashboard(d,f){document.getElementById("login").style.display="none";document.getElementById("dashboard").style.display="block";await cargarDatos(d,f)}
+async function cargarDatos(doc,ficha){
+ let csvR=await fetchCSV(URL_RESUMEN); if(!csvR) csvR=await fetchCSV(URL_PUB); let csvA=await fetchCSV(URL_ASIST);
+ const fila=csvR.split("\n").find(l=>l.includes(doc)); let fallas=0,estado="VERDE",nombre="Aprendiz";
+ if(fila){const p=fila.split(",").map(s=>s.replace(/"/g,"").trim()); nombre=p[1]||"Aprendiz"; fallas=p[3]||0; estado=(p[4]||"VERDE").toUpperCase()}
+ document.getElementById("bienvenida").innerText=`Bienvenido, ${nombre.split(" ")[0]}`; document.getElementById("userTop").innerText=`${nombre}`; document.getElementById("cardAsist").innerText=`Fallas: ${fallas} - ${estado}`;
+ const top=document.getElementById("semaforoTop"); if(estado.includes("VERDE")){top.innerText="🟢 VERDE - Al día"; top.style.background="#c8e6c9"; top.style.color="#1b5e20"} else if(estado.includes("AMARILLO")){top.innerText="🟡 AMARILLO - "+fallas+" faltas"; top.style.background="#fff9c4"; top.style.color="#f57f17"} else {top.innerText="🔴 ROJO - "+fallas+" faltas"; top.style.background="#ffcdd2"; top.style.color="#b71c1c"}
+ document.getElementById("semaforoDetalle").innerHTML=`<b style="color:#39A900">Semáforo ${estado}</b><br>Fallas: ${fallas}<br>Ficha: ${ficha} - Aula CAD-CAM 11:30-18:30`;
+ if(csvA){
+  const lines=csvA.split("\n"); const heads=lines[0].split(",").map(h=>h.replace(/"/g,"").trim()); const filaA=lines.find(l=>l.includes(doc));
+  if(filaA){const vals=filaA.split(",").map(v=>v.replace(/"/g,"").trim()); const faltasDias=[]; for(let i=3;i<vals.length;i++){if(vals[i].toUpperCase()==="F") faltasDias.push(heads[i])}
+   const cont=document.getElementById("carpetaContenido"); const lista=document.getElementById("listaFaltas");
+   if(faltasDias.length===0){cont.innerHTML="<p style='color:#2e7d32'>✅ Sin faltas - Vas al día</p>"; lista.innerHTML=""}
+   else{cont.innerHTML="<p>📄 Días que no asististe:</p>"; lista.innerHTML=faltasDias.map(d=>`<li style='list-style:none;margin:6px 0'>🔴 <b>${d}</b></li>`).join("")}
+   document.getElementById("totalFaltas").innerText=`Total: ${faltasDias.length} días • ${estado}`;
+   const cal=document.getElementById("calendario"); const dias=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"]; let h=dias.map(d=>`<div class="head">${d}</div>`).join(""); for(let i=1;i<=30;i++){let isF=false; for(let f of faltasDias){const n=parseInt((f.match(/\d+/)||[0])[0]); if(n===i) isF=true} h+=`<div class="${isF?"falta":""}" style="padding:6px;border-radius:8px">${i}</div>`} cal.innerHTML=h;
+  }
+ }
 }
-cargar();
+window.onload=async()=>{const d=localStorage.getItem("documento"),f=localStorage.getItem("ficha"); if(d&&f){document.getElementById("docInput").value=d; document.getElementById("fichaInput").value=f; await mostrarDashboard(d,f)}}
 </script>
 </body>
 </html>
