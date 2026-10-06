@@ -1,31 +1,67 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SENA AULA VIRTUAL</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}body{background:#0a2e00;display:flex;justify-content:center;padding:20px;min-height:100vh}
-.card{width:100%;max-width:380px;background:#fff;border-radius:24px;padding:30px;text-align:center;border-top:8px solid #39A900}
-.logo{width:100px;margin:auto;display:block}h1{color:#39A900;font-weight:900;margin:10px 0}.btn{width:100%;padding:16px;margin-top:12px;border:none;border-radius:12px;font-weight:900;cursor:pointer;font-size:16px}
-.btn-green{background:#39A900;color:#fff}.btn-white{background:#fff;color:#39A900;border:2px solid #39A900}
-input{width:100%;padding:14px;border:2px solid #ddd;border-radius:10px;margin-top:10px;text-align:center;font-weight:700}
-</style></head><body>
-<div class="card" id="app">
-<img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/8/83/Sena_Colombia_logo.svg">
-<h1>SENA<br>AULA VIRTUAL</h1><p>Centro Colombo Alemán</p>
-<button class="btn btn-green" onclick="showInstructor()">SOY INSTRUCTOR</button>
-<button class="btn btn-white" onclick="showAprendiz()">SOY APRENDIZ</button>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{background:#0e3300;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.card{
+width:100%;max-width:390px;background:#ffffff;
+border-radius:28px;padding:35px 28px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,.35);
+border-top:10px solid #39A900;
+}
+.logo{width:110px;margin:0 auto 15px;display:block}
+h1{color:#39A900;font-weight:900;line-height:1.1;font-size:32px;letter-spacing:-1px}
+.sub{color:#666;font-size:13px;font-weight:700;letter-spacing:2px;margin-top:6px;text-transform:uppercase}
+.divider{width:60px;height:4px;background:#39A900;margin:18px auto;border-radius:10px}
+.label{font-size:14px;color:#222;font-weight:600;margin-top:20px;text-align:left}
+input{
+width:100%;padding:18px;border:2px solid #e0e0e0;
+border-radius:14px;margin-top:8px;
+text-align:center;font-size:20px;font-weight:900;
+letter-spacing:1px;outline:none;
+}
+input:focus{border-color:#39A900}
+.btn{
+width:100%;padding:18px;margin-top:16px;
+background:#39A900;color:#fff;border:none;
+border-radius:14px;font-weight:900;font-size:17px;
+cursor:pointer;letter-spacing:.5px;
+}
+.btn:active{transform:scale(.98)}
+.foot{margin-top:18px;font-size:11px;color:#999}
+</style>
+</head>
+<body>
+<div class="card">
+<img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/8/83/Sena_Colombia_logo.svg" alt="SENA">
+<h1>SENA<br>AULA VIRTUAL</h1>
+<p class="sub">Colombo Alemán</p>
+<div class="divider"></div>
+
+<p class="label">Escribe tu ficha</p>
+<input id="ficha" type="number" placeholder="Ej: 3410389">
+<button class="btn" onclick="entrar()">ENTRAR</button>
+<p id="error" style="color:#d00;font-size:13px;margin-top:10px;font-weight:700"></p>
+
+<p class="foot">Centro de Comercio y Servicios</p>
 </div>
+
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbw21TnLVgecMZVQMBWD17LxGt2Z69fEz68WxUFoeLMC_hEs41GhG_lfMvSjM7B2oouc/exec";
-function showInstructor(){
- document.getElementById('app').innerHTML=`<h1>INSTRUCTOR</h1><input id="f" placeholder="Ficha Ej: 3410389"><input id="p" type="password" placeholder="Contraseña SENA2026"><button class="btn btn-green" onclick="loginInst()">ENTRAR</button><br><br><a href="#" onclick="location.reload()">Volver</a>`;
+function entrar(){
+  const f = document.getElementById('ficha').value.trim();
+  if(!f){ document.getElementById('error').innerText='Escribe tu ficha'; return; }
+  // Por ahora solo tu ficha 3410389 existe, las demás las creamos después
+  if(f === '3410389'){
+    window.location.href = 'ficha.html?ficha=' + f;
+  } else {
+    document.getElementById('error').innerText = 'Ficha ' + f + ' aún no tiene aula creada';
+  }
 }
-function showAprendiz(){
- document.getElementById('app').innerHTML=`<h1>APRENDIZ</h1><input id="f" placeholder="Escribe tu ficha"><button class="btn btn-green" onclick="loginApr()">VER MI PLAN</button><br><br><a href="#" onclick="location.reload()">Volver</a>`;
-}
-async function loginInst(){
- const f=document.getElementById('f').value, p=document.getElementById('p').value;
- const r=await fetch(`${API_URL}?action=loginInstructor&ficha=${f}&pass=${p}`); const j=await r.json();
- if(j.ok){ localStorage.setItem('fichaInst',f); location.href='instructor.html'; } else alert('Ficha o contraseña mal');
-}
-function loginApr(){ const f=document.getElementById('f').value; if(!f)return; location.href=`ficha.html?ficha=${f}`; }
-</script></body></html>
+</script>
+</body>
+</html>
