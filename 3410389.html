@@ -2,16 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SENA 3410389 - Doble Acceso</title>
+<title>SENA - Admin Fichas</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui}
 body{background:#fff}
 #login{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
 .card-login{width:460px;background:#fff;border:2px solid #e8f5e9;border-radius:24px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.08);text-align:center}
-.logo{width:90px;margin:0 auto;display:block}
 .tabs-login{display:flex;background:#f1f8f1;border-radius:14px;padding:4px;margin:16px 0;gap:4px}
 .tab-btn{flex:1;padding:10px;border-radius:10px;border:none;font-weight:800;font-size:12px;cursor:pointer;background:transparent;color:#555}
-.tab-btn.active{background:#39A900;color:#fff;box-shadow:0 4px 12px rgba(57,169,0,.3)}
+.tab-btn.active{background:#39A900;color:#fff}
 .label{text-align:left;font-size:10px;font-weight:900;color:#1b5e20;margin:12px 0 5px}
 .input{width:100%;padding:13px;background:#f1f5ff;border:1px solid #d8e2ff;border-radius:12px;font-weight:700;text-align:center}
 .btn{width:100%;padding:13px;background:#39A900;color:#fff;border:none;border-radius:12px;font-weight:900;margin-top:16px;cursor:pointer}
@@ -22,188 +21,72 @@ body{background:#fff}
 .ficha-box{background:#f7fbf7;border:1px solid #c5e1a5;border-radius:14px;padding:14px}
 .menu a{display:flex;gap:10px;padding:12px 14px;border-radius:12px;text-decoration:none;color:#333;font-weight:700;font-size:13px;background:#fff;border:1px solid #eef3ee;margin-bottom:6px;cursor:pointer}
 .menu a.active{background:#39A900;color:#fff}
-.main{flex:1}
-.welcome{background:#fff;border:2px solid #e8f5e9;border-left:6px solid #39A900;border-radius:18px;padding:20px}
-.badge{background:#39A900;color:#fff;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:900;margin-left:8px}
-.box{background:#fff;border:1px solid #e8f5e9;border-radius:16px;padding:16px;margin-bottom:14px}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px;margin-top:10px}
-.cal-h{background:#39A900;color:#fff;padding:7px;border-radius:8px;font-weight:800;font-size:10px}
-.cal-d{padding:10px 4px;border-radius:8px;background:#f5f8f5}
-.cal-f{background:#ffcdd2!important;color:#b71c1c!important;font-weight:900}
-.tab{display:none}.tab.active{display:block}
-.lista-falta{padding:10px;background:#fff5f5;border:1px solid #ffcdd2;border-radius:10px;margin:6px 0;font-size:12px;font-weight:700}
-.tag{padding:3px 8px;border-radius:10px;font-size:10px;font-weight:800}
+.main{flex:1}.box{background:#fff;border:1px solid #e8f5e9;border-radius:16px;padding:16px;margin-bottom:14px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:200}
+.modal.active{display:flex}
+.modal-card{background:#fff;border-radius:18px;padding:24px;width:420px}
+.ficha-chip{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f7fbf7;border:1px solid #c5e1a5;border-radius:12px;margin-bottom:8px}
 </style>
 </head>
 <body>
 
 <div id="login">
  <div class="card-login">
-  <img class="logo" src="logo-verde.png">
-  <h2 style="color:#39A900;font-weight:900;line-height:1">SENA<br><span style="font-size:11px;color:#444">SERVICIO NACIONAL DE APRENDIZAJE</span></h2>
-  <p style="font-size:11px;color:#666;font-weight:700;margin-top:6px">FICHA 3410389 - DOBLE ACCESO</p>
-
-  <div class="tabs-login">
-   <button class="tab-btn active" onclick="switchLogin('aprendiz',this)">👨‍🎓 APRENDIZ</button>
-   <button class="tab-btn" onclick="switchLogin('instructor',this)">👨‍🏫 INSTRUCTOR</button>
-  </div>
-
-  <!-- FORM APRENDIZ -->
-  <div id="form-aprendiz" class="form active">
-   <div class="label">NUMERO DE DOCUMENTO</div>
-   <input id="doc" class="input" placeholder="Ej: 1042855938">
-   <div class="label">NUMERO DE FICHA</div>
-   <input id="ficha" class="input" value="3410389">
-   <button class="btn" onclick="entrarAprendiz()">ENTRAR COMO APRENDIZ →</button>
-  </div>
-
-  <!-- FORM INSTRUCTOR -->
-  <div id="form-instructor" class="form">
-   <div class="label">CORREO INSTITUCIONAL</div>
-   <input id="correoInst" class="input" placeholder="instructor@sena.edu.co">
-   <div class="label">CONTRASEÑA</div>
-   <input id="passInst" type="password" class="input" placeholder="••••••••">
-   <p style="font-size:9px;color:#666;margin-top:6px;text-align:left">Demo: omar@sena.edu.co / SENA2026</p>
-   <button class="btn" style="background:#1b5e20" onclick="entrarInstructor()">ENTRAR COMO INSTRUCTOR →</button>
-  </div>
-
-  <p id="msg" style="font-size:11px;color:#b71c1c;margin-top:10px;min-height:14px"></p>
+  <img src="logo-verde.png" style="width:90px;margin:0 auto;display:block">
+  <h2 style="color:#39A900;font-weight:900">SENA<br><span style="font-size:11px;color:#444">DOBLE ACCESO</span></h2>
+  <div class="tabs-login"><button class="tab-btn active" onclick="switchLogin('aprendiz',this)">👨‍🎓 APRENDIZ</button><button class="tab-btn" onclick="switchLogin('instructor',this)">👨‍🏫 INSTRUCTOR</button></div>
+  <div id="form-aprendiz" class="form active"><div class="label">DOCUMENTO</div><input id="doc" class="input" placeholder="1042855938"><div class="label">FICHA</div><input id="ficha" class="input" placeholder="3410389" value="3410389"><button class="btn" onclick="entrarAprendiz()">ENTRAR COMO APRENDIZ →</button></div>
+  <div id="form-instructor" class="form"><div class="label">CORREO INSTITUCIONAL</div><input id="correoInst" class="input" placeholder="omar@sena.edu.co"><div class="label">CONTRASEÑA</div><input id="passInst" type="password" class="input"><button class="btn" style="background:#1b5e20" onclick="entrarInstructor()">ENTRAR COMO INSTRUCTOR →</button></div>
+  <p id="msg" style="font-size:11px;color:#b71c1c;margin-top:10px"></p>
  </div>
 </div>
 
-<div id="app" style="display:none">
- <div class="header"><div style="display:flex;gap:10px;align-items:center"><img src="logo-verde.png" style="width:42px"><div><b>SENA</b><br><span style="font-size:9px;font-weight:800">SERVICIO NACIONAL DE APRENDIZAJE</span><br><span id="rolBadge" style="font-size:9px;background:#e8f5e9;padding:2px 8px;border-radius:10px;font-weight:900">-</span></div></div><div style="display:flex;gap:8px;align-items:center"><span id="semaTop" style="padding:6px 14px;border-radius:20px;font-weight:900;font-size:11px">-</span><b id="userTop"></b><button onclick="localStorage.clear();location.reload()" style="padding:6px 12px;border-radius:20px;border:1px solid #e0e0e0;background:#f5f5f5;font-size:11px;font-weight:800">Salir</button></div></div>
+<!-- MODAL CREAR FICHA -->
+<div id="modalFicha" class="modal"><div class="modal-card"><h3 style="color:#1b5e20">➕ CREAR NUEVA FICHA</h3><div class="label">NUMERO DE FICHA</div><input id="nFichaNum" class="input" placeholder="Ej: 3410390"><div class="label">NOMBRE DEL PROGRAMA</div><input id="nFichaNom" class="input" placeholder="Ej: MANTENIMIENTO MECANICO"><div class="label">JORNADA</div><select id="nFichaJor" class="input"><option>MAÑANA</option><option>TARDE</option><option>NOCTURNA</option></select><button class="btn" onclick="crearFicha()">CREAR FICHA</button><button onclick="cerrarModal()" style="width:100%;padding:10px;margin-top:8px;border-radius:10px;border:1px solid #ccc;background:#fff;font-weight:800">CANCELAR</button></div></div>
 
+<div id="app" style="display:none">
+ <div class="header"><div style="display:flex;gap:10px;align-items:center"><img src="logo-verde.png" style="width:42px"><div><b>SENA</b><br><span id="rolBadge" style="font-size:9px;background:#e8f5e9;padding:2px 8px;border-radius:10px;font-weight:900">-</span></div></div><div><b id="userTop"></b> <button onclick="localStorage.clear();location.reload()" style="padding:6px 12px;border-radius:20px;border:1px solid #e0e0e0;background:#f5f5f5;font-size:11px;font-weight:800">Salir</button></div></div>
  <div class="layout">
   <div class="sidebar">
-   <div class="ficha-box"><p style="font-size:9px;font-weight:900;color:#2e7d32">FICHA ASOCIADA</p><b style="font-size:20px">3410389</b><p style="font-size:11px;font-weight:800;margin-top:10px;color:#1b5e20">PRODUCCIÓN DE COMPONENTES MECÁNICOS CNC</p><div style="margin-top:10px;background:#fff;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;border:1px solid #c5e1a5"><span style="font-size:9px;font-weight:900">ROL</span><b id="rolSide" style="font-size:11px;color:#39A900">-</b></div></div>
-   <div class="menu" style="margin-top:14px" id="menuAprendiz"><a class="active" onclick="showTab('inicio',this)">🏠 INICIO - MI JUICIO</a><a onclick="showTab('asistencia',this)">✅ MI ASISTENCIA (Mes/Día)</a><a onclick="showTab('juicios',this)">📊 JUICIOS FICHA</a></div>
-   <div class="menu" style="margin-top:14px;display:none" id="menuInstructor"><a class="active" onclick="showTab('dashboard',this)">📊 DASHBOARD FICHA</a><a onclick="showTab('juicios',this)">📊 JUICIOS EVALUATIVOS (TODOS)</a><a onclick="showTab('asistencia',this)">✅ ASISTENCIA GENERAL</a><a onclick="showTab('lista',this)">👥 LISTA APRENDICES</a></div>
+   <div class="ficha-box"><p style="font-size:9px;font-weight:900;color:#2e7d32">FICHAS ADMINISTRADAS</p><div id="listaFichasSide" style="margin-top:10px"></div><button id="btnCrearFicha" style="display:none;width:100%;margin-top:10px;padding:10px;background:#1b5e20;color:#fff;border:none;border-radius:10px;font-weight:900;cursor:pointer" onclick="abrirModal()">+ CREAR OTRA FICHA</button></div>
+   <div class="menu" style="margin-top:14px" id="menuInstructor"><a class="active" onclick="showTab('dashboard',this)">📊 DASHBOARD</a><a onclick="showTab('juicios',this)">📊 JUICIOS FICHA</a><a onclick="showTab('lista',this)">👥 APRENDICES</a></div>
+   <div class="menu" style="margin-top:14px" id="menuAprendiz"><a class="active" onclick="showTab('inicio',this)">🏠 MI JUICIO</a><a onclick="showTab('asistencia',this)">✅ MI ASISTENCIA</a></div>
   </div>
-
   <div class="main">
-   <div id="tab-inicio" class="tab active"><div class="welcome"><h2 id="bien">Bienvenido</h2><p id="nombreComp"></p><p id="det" style="font-size:11px;color:#666;margin-top:6px"></p><div id="juicioBox" style="margin-top:12px;padding:12px;background:#f7fbf7;border:1px solid #c5e1a5;border-radius:12px"></div></div><div style="display:grid;grid-template-columns:1.1fr.9fr;gap:14px;margin-top:14px"><div class="box"><div style="display:flex;justify-content:space-between;align-items:center"><button onclick="cambiarMes(-1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800">◀</button><b id="mesTit"></b><button onclick="cambiarMes(1)" style="background:#e8f5e9;border:1px solid #a5d6a7;padding:5px 10px;border-radius:20px;font-weight:800">▶</button></div><div class="cal-grid" id="cal"></div><div id="listaF"></div></div><div class="box" style="text-align:center"><div id="semaBox" style="padding:14px;background:#f7fbf7;border-radius:14px"></div></div></div></div>
-
-   <div id="tab-dashboard" class="tab"><div class="box"><h2>📊 DASHBOARD INSTRUCTOR - FICHA 3410389</h2><div id="stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px"></div></div><div class="box"><h3>Lista rápida de juicios asociados a la ficha</h3><div id="dashboardLista" style="margin-top:10px"></div></div></div>
-
-   <div id="tab-juicios" class="tab"><div class="box"><h2>📊 JUICIOS EVALUATIVOS ASOCIADOS A 3410389</h2><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><input id="buscJuicio" placeholder="Buscar nombre o documento..." style="flex:1;padding:10px;border:1px solid #c5e1a5;border-radius:10px"><select id="filtroEstado" style="padding:10px;border-radius:10px;border:1px solid #c5e1a5"><option value="">Todos</option><option>VERDE</option><option>AMARILLO</option><option>ROJO</option></select></div><div style="margin-top:12px;overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead style="background:#e8f5e9"><tr><th style="padding:8px;border:1px solid #c5e1a5">Doc</th><th style="padding:8px;border:1px solid #c5e1a5">Nombre</th><th style="padding:8px;border:1px solid #c5e1a5">Fallas (Mes/Día)</th><th style="padding:8px;border:1px solid #c5e1a5">Juicio</th><th style="padding:8px;border:1px solid #c5e1a5">Estado</th></tr></thead><tbody id="bodyJuicios"></tbody></table></div></div></div>
-
-   <div id="tab-asistencia" class="tab"><div class="box"><h2>✅ ASISTENCIA</h2><div style="display:grid;grid-template-columns:120px 1fr;gap:12px;margin-top:12px"><div style="background:#f7fbf7;border:1px solid #c5e1a5;border-radius:12px;padding:12px;text-align:center"><div id="numFaltasBig" style="font-size:42px;font-weight:900;color:#b71c1c">0</div><div style="font-size:11px;font-weight:800">FALTAS</div><div id="correoAsis" style="font-size:9px;color:#666"></div></div><div id="detalleAsis"></div></div></div><div class="box"><div class="cal-grid" id="cal2"></div></div></div>
-
-   <div id="tab-lista" class="tab"><div class="box"><h2>👥 LISTA COMPLETA APRENDICES FICHA 3410389</h2><div id="listaCompleta"></div></div></div>
+   <div id="tab-dashboard" class="tab active"><div class="box"><h2>📊 PANEL INSTRUCTOR - <span id="fichaActivaTit">3410389</span></h2><p style="font-size:11px;color:#666">Aquí puedes crear otra ficha y cambiar entre fichas. Cada ficha mantiene su juicio evaluativo independiente.</p><div style="margin-top:12px;display:flex;gap:8px"><button class="btn" style="width:auto;padding:10px 20px;background:#1b5e20" onclick="abrirModal()">+ CREAR NUEVA FICHA</button><button class="btn" style="width:auto;padding:10px 20px;background:#fff;color:#1b5e20;border:2px solid #1b5e20" onclick="exportarFichas()">📤 EXPORTAR LISTA</button></div></div><div class="box" id="contenedorFichasAdmin"></div></div>
+   <div id="tab-juicios" class="tab"><div class="box"><h2>Juicios - Ficha <span class="fichaActiva">3410389</span></h2><div id="bodyJuicios"></div></div></div>
+   <div id="tab-lista" class="tab"><div class="box"><h2>Lista</h2><div id="listaCompleta"></div></div></div>
+   <div id="tab-inicio" class="tab"><div class="box"><h2 id="bien">Bienvenido</h2><p id="det"></p></div></div>
+   <div id="tab-asistencia" class="tab"><div class="box">Asistencia del aprendiz</div></div>
   </div>
  </div>
 </div>
 
 <script>
-const FILE="1lzrJLYzG11KVNdfFIcOgCjaJzFX2z96EhHjbveNJUX8";
-const URL_RESUMEN=`https://opensheet.elk.sh/${FILE}/RESUMEN_WEB`;
-const URL_ASIS=`https://opensheet.elk.sh/${FILE}/ASISTENCIA`;
-let mesAct=new Date(), faltasDetalle=[], datosResumen=[], datosAsis=[], rol="aprendiz";
-const INSTRUCTORES=[{correo:"omar@sena.edu.co",pass:"SENA2026",nombre:"Omar Pardey"},{correo:"instructor@sena.edu.co",pass:"3410389",nombre:"Instructor SENA"},{correo:"admin@sena.edu.co",pass:"admin",nombre:"Admin 3410389"}];
+const INSTRUCTORES=[{correo:"omar@sena.edu.co",pass:"SENA2026"},{correo:"instructor@sena.edu.co",pass:"3410389"},{correo:"admin@sena.edu.co",pass:"admin"}];
+let fichas = JSON.parse(localStorage.getItem("sena_fichas")||`[{"numero":"3410389","nombre":"PRODUCCIÓN DE COMPONENTES MECÁNICOS CNC","jornada":"MAÑANA"}]`);
+let fichaActual = "3410389";
 
-function switchLogin(tipo,btn){
- document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active");
- document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));
- document.getElementById("form-"+tipo).classList.add("active");
- document.getElementById("msg").innerText="";
+function switchLogin(t,n){document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));n.classList.add("active");document.querySelectorAll(".form").forEach(f=>f.classList.remove("active"));document.getElementById("form-"+t).classList.add("active")}
+function abrirModal(){document.getElementById("modalFicha").classList.add("active")} function cerrarModal(){document.getElementById("modalFicha").classList.remove("active")}
+function crearFicha(){
+ let num=document.getElementById("nFichaNum").value.trim(), nom=document.getElementById("nFichaNom").value.trim(), jor=document.getElementById("nFichaJor").value;
+ if(!num||!nom){alert("Completa número y nombre");return}
+ if(fichas.find(f=>f.numero===num)){alert("Esa ficha ya existe");return}
+ fichas.push({numero:num,nombre:nom,jornada:jor}); localStorage.setItem("sena_fichas",JSON.stringify(fichas)); cerrarModal(); renderFichas(); alert(`Ficha ${num} creada! Ya puedes cambiar a ella.`);
 }
-function showTab(id,el){
- document.querySelectorAll(".main.tab").forEach(t=>t.classList.remove("active"));
- let target=document.getElementById("tab-"+id); if(target) target.classList.add("active");
- document.querySelectorAll(".menu a").forEach(a=>a.classList.remove("active")); if(el) el.classList.add("active");
- if(id==="juicios") cargarJuiciosTabla(); if(id==="asistencia") renderAsistenciaDetalle(); if(id==="dashboard") cargarDashboard();
+function renderFichas(){
+ let side=document.getElementById("listaFichasSide"); side.innerHTML=fichas.map(f=>`<div class="ficha-chip" style="${f.numero===fichaActual?'border:2px solid #39A900;background:#e8f5e9':''}"><div><b style="font-size:13px">${f.numero}</b><br><span style="font-size:9px">${f.nombre}</span></div><button onclick="cambiarFicha('${f.numero}')" style="padding:4px 10px;border-radius:20px;border:none;background:${f.numero===fichaActual?'#39A900':'#1b5e20'};color:#fff;font-size:10px;font-weight:800;cursor:pointer">${f.numero===fichaActual?'ACTIVA':'VER'}</button></div>`).join("");
+ document.getElementById("contenedorFichasAdmin").innerHTML=fichas.map(f=>`<div class="ficha-chip"><div><b>${f.numero}</b> - ${f.nombre} - ${f.jornada}</div><div style="display:flex;gap:6px"><button onclick="cambiarFicha('${f.numero}')" style="padding:6px 12px;border-radius:8px;background:#39A900;color:#fff;border:none;font-weight:800">ENTRAR</button><button onclick="eliminarFicha('${f.numero}')" style="padding:6px 12px;border-radius:8px;background:#fff;color:#b71c1c;border:1px solid #ffcdd2">🗑️</button></div></div>`).join("");
+ document.getElementById("fichaActivaTit").innerText=fichaActual; document.querySelectorAll(".fichaActiva").forEach(e=>e.innerText=fichaActual);
 }
-async function getDatos(){try{let r=await fetch(URL_RESUMEN+"?t="+Date.now()); if(r.ok) datosResumen=await r.json();}catch(e){} try{let r2=await fetch(URL_ASIS+"?t="+Date.now()); if(r2.ok) datosAsis=await r2.json();}catch(e){}}
-
-async function entrarAprendiz(){
- let d=document.getElementById("doc").value.trim(), f=document.getElementById("ficha").value.trim(), m=document.getElementById("msg");
- if(!d||!f){m.innerText="Ingresa documento y ficha";return}
- if(f!=="3410389"){m.innerText="Ficha debe ser 3410389";return}
- m.innerText="Verificando aprendiz... ⏳"; await getDatos();
- let ok=datosResumen.find(o=>Object.values(o).some(v=>String(v).includes(d))) || datosAsis.find(o=>Object.values(o).some(v=>String(v).includes(d)));
- if(!ok){m.innerText=`Documento ${d} no está en ficha ${f}`;return;}
- rol="aprendiz"; localStorage.setItem("rol","aprendiz"); localStorage.setItem("doc",d); localStorage.setItem("fic",f);
- iniciarApp(d,f,"aprendiz");
-}
-async function entrarInstructor(){
- let c=document.getElementById("correoInst").value.trim().toLowerCase(), p=document.getElementById("passInst").value.trim(), m=document.getElementById("msg");
- if(!c||!p){m.innerText="Ingresa correo y contraseña";return}
- let inst=INSTRUCTORES.find(i=>i.correo===c && i.pass===p);
- if(!inst){m.innerText="Correo o contraseña incorrecta. Prueba omar@sena.edu.co / SENA2026";return;}
- rol="instructor"; localStorage.setItem("rol","instructor"); localStorage.setItem("correoInst",c); localStorage.setItem("nombreInst",inst.nombre);
- await getDatos(); iniciarApp(c,"3410389","instructor",inst.nombre);
-}
-
-function iniciarApp(ident,fic,tipo,nombreInst){
- document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block";
- document.getElementById("rolBadge").innerText=tipo.toUpperCase(); document.getElementById("rolSide").innerText=tipo.toUpperCase();
- if(tipo==="instructor"){
-  document.getElementById("menuAprendiz").style.display="none"; document.getElementById("menuInstructor").style.display="block";
-  document.querySelectorAll(".main.tab").forEach(t=>t.classList.remove("active")); document.getElementById("tab-dashboard").classList.add("active");
-  document.getElementById("userTop").innerText=nombreInst||ident.split("@")[0].toUpperCase(); document.getElementById("semaTop").innerText="👨‍🏫 INSTRUCTOR";
-  cargarDashboard();
- }else{
-  document.getElementById("menuAprendiz").style.display="block"; document.getElementById("menuInstructor").style.display="none";
-  document.querySelectorAll(".main.tab").forEach(t=>t.classList.remove("active")); document.getElementById("tab-inicio").classList.add("active");
-  cargar(ident,fic);
- }
-}
-
-function cambiarMes(dir){mesAct.setMonth(mesAct.getMonth()+dir); renderCal();}
-function renderCal(){
- let y=mesAct.getFullYear(), mo=mesAct.getMonth();
- document.getElementById("mesTit").innerText=new Date(y,mo).toLocaleDateString('es-CO',{month:'long',year:'numeric'}).toUpperCase();
- let prim=new Date(y,mo,1).getDay(); prim=prim==0?6:prim-1; let dias=new Date(y,mo+1,0).getDate();
- let h=["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"].map(d=>`<div class="cal-h">${d}</div>`).join("");
- for(let i=0;i<prim;i++) h+=`<div></div>`;
- for(let d=1;d<=dias;d++){let esF=faltasDetalle.some(fd=>{let n=fd.match(/\d+/g)||[]; return n.some(x=>parseInt(x)===d);}); h+=`<div class="cal-d ${esF?'cal-f':''}">${d}</div>`;}
- document.getElementById("cal").innerHTML=h; if(document.getElementById("cal2")) document.getElementById("cal2").innerHTML=h;
- document.getElementById("listaF").innerHTML=faltasDetalle.length?faltasDetalle.map(f=>`<div class="lista-falta">🔴 ${f}</div>`).join(""):`<p style="color:#2e7d32;font-size:11px">✅ Sin faltas</p>`;
-}
-function renderAsistenciaDetalle(){let c=document.getElementById("detalleAsis"); if(!faltasDetalle.length){c.innerHTML=`<p style="color:#2e7d32">✅ Sin faltas</p>`;}else{c.innerHTML=faltasDetalle.map((f,i)=>`<div class="lista-falta">📅 ${i+1}. <b>${f}</b> - FALTA</div>`).join("");} document.getElementById("numFaltasBig").innerText=faltasDetalle.length;}
-
-async function cargar(doc,fic){
- if(datosResumen.length===0) await getDatos();
- let fila=datosResumen.find(o=>Object.values(o).some(v=>String(v).includes(doc)));
- let nom=doc, correo="", estado="VERDE", juicio="POR EVALUAR", fallasResumen=0;
- if(fila){let keys=Object.keys(fila); let kNom=keys.find(k=>k.toLowerCase().includes("nombre"))||keys[1]; nom=fila[kNom]||doc; let vals=Object.values(fila); correo=vals.find(v=>String(v).includes("@"))||""; let kEst=keys.find(k=>k.toLowerCase().includes("estado")); if(kEst) estado=fila[kEst]||"VERDE"; let kJui=keys.find(k=>k.toLowerCase().includes("juicio")||k.toLowerCase().includes("resultado")); if(kJui) juicio=fila[kJui]||"POR EVALUAR"; let kFal=keys.find(k=>k.toLowerCase().includes("falla")); if(kFal) fallasResumen=parseInt(fila[kFal])||0;}
- faltasDetalle=[]; let filaAsis=datosAsis.find(o=>Object.values(o).some(v=>String(v).includes(doc))); if(filaAsis){for(let [k,v] of Object.entries(filaAsis)){if(String(v).toUpperCase()==="F" &&!k.toLowerCase().includes("documento") &&!k.toLowerCase().includes("nombre")) faltasDetalle.push(k);}} let total=faltasDetalle.length>0?faltasDetalle.length:fallasResumen; if(faltasDetalle.length===0 && fallasResumen>0){for(let i=0;i<fallasResumen;i++) faltasDetalle.push(`Falta ${i+1}`);}
- document.getElementById("bien").innerHTML=`Bienvenido, ${String(nom).toUpperCase()} <span class="badge">ACTIVO</span>`;
- document.getElementById("nombreComp").innerText=`${doc} - Ficha ${fic} asociada`; document.getElementById("det").innerText=`Correo: ${correo} | Fallas: ${total}`; document.getElementById("userTop").innerText=String(nom).split(" ")[0].toUpperCase();
- document.getElementById("juicioBox").innerHTML=`<b>📊 Juicio de ficha ${fic}:</b><br><span style="padding:6px 12px;background:#e8f5e9;border-radius:20px;font-weight:800">${juicio}</span> <span class="tag" style="background:${estado.includes("VERDE")?"#c8e6c9":estado.includes("AMARILLO")?"#fff9c4":"#ffcdd2"}">${estado}</span>`;
- let box=document.getElementById("semaBox"), top=document.getElementById("semaTop"); if(total<=1){top.innerText="🟢 ACTIVO"; top.style.background="#c8e6c9"; top.style.color="#1b5e20"; box.innerHTML=`<div style="font-size:48px">🟢</div><b>${estado}</b><br>${total} falta(s)`} else if(total===2){top.innerText="🟡 AMARILLO"; top.style.background="#fff9c4"; top.style.color="#f57f17"; box.innerHTML=`<div style="font-size:48px">🟡</div><b>${estado}</b><br>${total}`} else{top.innerText="🔴 ROJO"; top.style.background="#ffcdd2"; top.style.color="#b71c1c"; box.innerHTML=`<div style="font-size:48px">🔴</div><b>${estado}</b><br>${total}`;}
- renderCal(); renderAsistenciaDetalle();
-}
-
-function cargarJuiciosTabla(){
- let body=document.getElementById("bodyJuicios"); body.innerHTML="";
- datosResumen.forEach(r=>{
-  let vals=Object.values(r); let doc=vals.find(v=>/^\d{6,12}$/.test(String(v)))||""; if(!doc) return;
-  let keys=Object.keys(r); let kNom=keys.find(k=>k.toLowerCase().includes("nombre"))||keys[1]; let nombre=r[kNom]||"";
-  let kJui=keys.find(k=>k.toLowerCase().includes("juicio")||k.toLowerCase().includes("resultado")); let juicio=kJui?r[kJui]:"POR EVALUAR";
-  let kEst=keys.find(k=>k.toLowerCase().includes("estado")); let est=kEst?r[kEst]:"VERDE";
-  let filaAsis=datosAsis.find(a=>Object.values(a).some(v=>String(v).includes(doc))); let fallas=[]; if(filaAsis){for(let [k,v] of Object.entries(filaAsis)){if(String(v).toUpperCase()==="F") fallas.push(k);}}
-  let tr=document.createElement("tr"); tr.innerHTML=`<td style="padding:6px;border:1px solid #e0e0e0">${doc}</td><td style="padding:6px;border:1px solid #e0e0e0;font-weight:700">${nombre}</td><td style="padding:6px;border:1px solid #e0e0e0;color:#b71c1c;font-weight:700">${fallas.join(", ")||"0"}</td><td style="padding:6px;border:1px solid #e0e0e0">${juicio}</td><td style="padding:6px;border:1px solid #e0e0e0"><span class="tag" style="background:${String(est).includes("VERDE")?"#c8e6c9":String(est).includes("AMARILLO")?"#fff9c4":"#ffcdd2"}">${est}</span></td>`; body.appendChild(tr);
- });
- document.getElementById("buscJuicio").oninput=(e)=>{let q=e.target.value.toLowerCase(); document.querySelectorAll("#bodyJuicios tr").forEach(tr=>tr.style.display=tr.innerText.toLowerCase().includes(q)?"":"none");};
- document.getElementById("filtroEstado").onchange=(e)=>{let q=e.target.value; document.querySelectorAll("#bodyJuicios tr").forEach(tr=>tr.style.display=!q||tr.innerText.includes(q)?"":"none");};
-}
-
-function cargarDashboard(){
- let verdes=datosResumen.filter(r=>String(Object.values(r)).toUpperCase().includes("VERDE")).length;
- let amarillos=datosResumen.filter(r=>String(Object.values(r)).toUpperCase().includes("AMARILLO")).length;
- let rojos=datosResumen.filter(r=>String(Object.values(r)).toUpperCase().includes("ROJO")).length;
- document.getElementById("stats").innerHTML=`<div style="background:#e8f5e9;padding:14px;border-radius:12px;text-align:center"><div style="font-size:28px;font-weight:900;color:#2e7d32">${verdes}</div><div style="font-size:11px;font-weight:800">VERDE</div></div><div style="background:#fff9c4;padding:14px;border-radius:12px;text-align:center"><div style="font-size:28px;font-weight:900;color:#f57f17">${amarillos}</div><div style="font-size:11px;font-weight:800">AMARILLO</div></div><div style="background:#ffcdd2;padding:14px;border-radius:12px;text-align:center"><div style="font-size:28px;font-weight:900;color:#b71c1c">${rojos}</div><div style="font-size:11px;font-weight:800">ROJO</div></div>`;
- cargarJuiciosTabla();
- document.getElementById("dashboardLista").innerHTML=document.getElementById("bodyJuicios").parentElement.parentElement.innerHTML;
-}
-
-window.onload=async()=>{
- let rol=localStorage.getItem("rol");
- if(rol==="instructor"){ let c=localStorage.getItem("correoInst"), n=localStorage.getItem("nombreInst"); await getDatos(); iniciarApp(c,"3410389","instructor",n); }
- else if(rol==="aprendiz"){ let d=localStorage.getItem("doc"), f=localStorage.getItem("fic"); if(d&&f){ await getDatos(); iniciarApp(d,f,"aprendiz"); document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; } }
-}
+function cambiarFicha(num){fichaActual=num; localStorage.setItem("fichaActual",num); renderFichas(); alert(`Cambiaste a ficha ${num}. Ahora los juicios evaluativos que subas serán de esa ficha.`); location.reload()}
+function eliminarFicha(num){if(num==="3410389"){alert("No puedes borrar la 3410389 principal");return} if(confirm(`¿Borrar ficha ${num}?`)){fichas=fichas.filter(f=>f.numero!==num); localStorage.setItem("sena_fichas",JSON.stringify(fichas)); renderFichas();}}
+function exportarFichas(){let t=fichas.map(f=>`${f.numero} - ${f.nombre}`).join("\n"); navigator.clipboard.writeText(t); alert("Lista copiada:\n"+t)}
+function showTab(id,el){document.querySelectorAll(".main.tab").forEach(t=>t.classList.remove("active"));let tar=document.getElementById("tab-"+id);if(tar) tar.classList.add("active"); if(el){el.parentElement.querySelectorAll("a").forEach(a=>a.classList.remove("active")); el.classList.add("active")}}
+async function entrarInstructor(){let c=document.getElementById("correoInst").value.trim().toLowerCase(),p=document.getElementById("passInst").value.trim();let ok=INSTRUCTORES.find(i=>i.correo===c&&i.pass===p); if(!ok){document.getElementById("msg").innerText="Clave incorrecta. Prueba omar@sena.edu.co / SENA2026";return} localStorage.setItem("rol","instructor"); document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; document.getElementById("btnCrearFicha").style.display="block"; document.getElementById("menuAprendiz").style.display="none"; document.getElementById("rolBadge").innerText="INSTRUCTOR"; document.getElementById("userTop").innerText=c.split("@")[0].toUpperCase(); renderFichas();}
+async function entrarAprendiz(){let d=document.getElementById("doc").value.trim(), f=document.getElementById("ficha").value.trim(); if(!d||!f){document.getElementById("msg").innerText="Ingresa datos";return} localStorage.setItem("rol","aprendiz"); localStorage.setItem("doc",d); document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block"; document.getElementById("menuInstructor").style.display="none"; document.getElementById("btnCrearFicha").style.display="none"; document.getElementById("rolBadge").innerText="APRENDIZ"; document.getElementById("userTop").innerText=d; document.getElementById("bien").innerText="Bienvenido "+d; document.getElementById("det").innerText="Ficha "+f; showTab('inicio',null)}
+renderFichas();
 </script>
 </body>
 </html>
