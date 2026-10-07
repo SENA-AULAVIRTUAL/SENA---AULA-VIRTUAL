@@ -114,6 +114,30 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--dgreen);color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:300;display:none;max-width:90%;text-align:center}
 .warn{background:var(--pend-bg);color:var(--pend-tx);border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.45}
 
+
+/* Asistencia */
+.seg{display:inline-flex;border:1px solid var(--border2);border-radius:10px;overflow:hidden}
+.seg button{padding:8px 13px;border:none;background:var(--card);color:var(--text);font-size:12px;font-weight:700;border-right:1px solid var(--border2)}
+.seg button:last-child{border-right:none}
+.seg button.on.asistio{background:var(--green);color:#fff}
+.seg button.on.falla{background:#c62828;color:#fff}
+.seg button.on.excusa{background:#f9a825;color:#1d2b1d}
+.asrow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 4px;border-bottom:1px solid var(--border)}
+.semwrap{display:flex;gap:16px;align-items:center;padding:16px;border-radius:16px;border:2px solid;margin:12px 0}
+.semwrap.verde{background:var(--ok-bg);border-color:var(--green)}
+.semwrap.amarillo{background:var(--pend-bg);border-color:#f9a825}
+.semwrap.rojo{background:var(--bad-bg);border-color:#c62828}
+.semtit{font-size:18px;font-weight:800}
+.semaforo{display:flex;flex-direction:column;gap:6px;background:#222;padding:8px;border-radius:14px;flex-shrink:0}
+.luz{width:28px;height:28px;border-radius:50%;opacity:.22;display:block}
+.luz.r{background:#e53935}.luz.a{background:#fdd835}.luz.v{background:#43a047}
+.luz.r.on{opacity:1;box-shadow:0 0 14px #e53935}
+.luz.a.on{opacity:1;box-shadow:0 0 14px #fdd835}
+.luz.v.on{opacity:1;box-shadow:0 0 14px #43a047}
+.pdot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.pdot.verde{background:#43a047}.pdot.amarillo{background:#fdd835}.pdot.rojo{background:#e53935}
+.dotc{background:#c62828;color:#fff;border-radius:10px;font-size:10px;padding:1px 7px;margin-left:auto}
+
 @media (max-width:820px){
   .layout{flex-direction:column;padding:10px}
   .sidebar{width:100%;position:static}
@@ -170,6 +194,17 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
   <button class="btn sec" style="margin-top:8px" onclick="cerrar('modalPrev')">Cancelar</button>
 </div></div>
 
+<!-- MODAL CARGAR EXCUSA -->
+<div id="modalExc" class="modal"><div class="modal-card">
+  <h3 style="color:var(--dgreen)">Cargar excusa</h3>
+  <p id="excFechaTxt" class="muted" style="margin:6px 0 4px"></p>
+  <div class="label">Archivo (foto o PDF)</div>
+  <input type="file" id="excArchivo" class="input" style="text-align:left" accept=".pdf,image/*">
+  <p class="hint">Puede ser una foto del documento (incapacidad, citación, constancia) o un PDF de máximo 1 MB. Solo tu instructor podrá verlo.</p>
+  <button class="btn" id="btnEnviarExc" onclick="enviarExcusa()">Enviar excusa</button>
+  <button class="btn sec" style="margin-top:8px" onclick="cerrar('modalExc')">Cancelar</button>
+</div></div>
+
 <!-- MODAL DETALLE APRENDIZ -->
 <div id="modalDet" class="modal"><div class="modal-card wide">
   <div class="row" style="justify-content:space-between;margin-bottom:8px">
@@ -204,6 +239,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
    <div class="menu" style="margin-top:14px" id="menuInstructor">
      <a class="active" onclick="showTab('dashboard',this)">📊 Panel</a>
      <a onclick="showTab('juicios',this)">📋 Juicios de la ficha</a>
+     <a onclick="showTab('asist',this)">✅ Asistencia <span id="badgeExc" class="dotc"></span></a>
      <a onclick="showTab('lista',this)">👥 Aprendices</a>
    </div>
    <div class="menu" style="margin-top:14px" id="menuAprendiz">
@@ -227,13 +263,27 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
      <div class="box"><h2 style="margin-bottom:10px">Todas las fichas</h2><div id="contenedorFichasAdmin"></div></div>
    </div>
    <div id="tab-juicios" class="tab"><div class="box"><h2>Juicios · Ficha <span class="fichaActiva"></span></h2><div id="bodyJuicios" style="margin-top:10px"></div></div></div>
+   <div id="tab-asist" class="tab">
+     <div class="box"><h2>Tomar asistencia · Ficha <span class="fichaActiva"></span></h2>
+       <div class="row" style="margin-top:10px;align-items:flex-end">
+         <div><div class="label" style="margin-top:0">Fecha de la sesión</div><input type="date" id="asFecha" class="input" style="width:auto" onchange="cambiarFechaAsist()"></div>
+         <div style="flex:1;min-width:200px"><div class="label" style="margin-top:0">Tema (opcional)</div><input id="asTema" class="input" style="text-align:left" placeholder="Ej: Torneado cilíndrico"></div>
+       </div>
+       <p id="asInfo" class="muted" style="margin-top:10px"></p>
+       <div class="row" style="margin-top:8px"><button class="mini ghost" onclick="marcarTodos('asistio')">Marcar todos: asistió</button></div>
+       <div id="asLista" style="margin-top:6px"></div>
+       <button class="btn" id="btnGuardarAsist" style="background:var(--dgreen)" onclick="guardarAsistencia()">Guardar asistencia</button>
+     </div>
+     <div class="box" id="boxExcusas"></div>
+     <div class="box"><h2>Resumen de asistencia</h2><p class="muted" style="margin-top:4px">Verde: sin fallas · Amarillo: 1 a 3 fallas · Rojo: más de 3 fallas</p><div id="asResumen" style="margin-top:10px"></div></div>
+   </div>
    <div id="tab-lista" class="tab"><div class="box"><h2>Aprendices · Ficha <span class="fichaActiva"></span></h2>
 <div class="row" style="margin-top:10px"><button class="btn auto" style="background:var(--dgreen)" onclick="generarFaltantes()">Generar PIN a quienes no tienen</button><button class="btn auto sec" onclick="copiarPins()">Copiar lista con PIN</button></div>
 <p class="muted" style="margin-top:8px">Entrega a cada aprendiz su PIN en privado. Tras 5 intentos fallidos, su acceso se bloquea 15 minutos.</p><div id="listaCompleta" style="margin-top:10px"></div></div></div>
 
    <!-- Aprendiz -->
    <div id="tab-inicio" class="tab"><div class="box" id="miJuicio"></div></div>
-   <div id="tab-asistencia" class="tab"><div class="box"><h2>Mi asistencia</h2><div class="empty">Aquí verás tu asistencia por sesión. Esta sección se activa en la siguiente etapa.</div></div></div>
+   <div id="tab-asistencia" class="tab"><div class="box" id="miAsistencia"></div></div>
   </div>
  </div>
 </div>
@@ -270,12 +320,12 @@ function prefSet(n){try{n?localStorage.setItem('sena_ficha_activa',n):localStora
 function fichaDesdeFila(r){
   return{numero:r.numero,nombre:r.nombre||'',codigo:r.codigo||'',jornada:r.jornada||'',estadoFicha:r.estado_ficha||'',
     inicio:r.inicio||'',fin:r.fin||'',modalidad:r.modalidad||'',centro:r.centro||'',reporte:r.reporte||'',
-    estructura:r.estructura||[],aprendices:[],juicios:{}};
+    estructura:r.estructura||[],aprendices:[],juicios:{},asistencia:{},sesiones:{},excusas:[]};
 }
-async function fetchAll(tabla,orden){
+async function fetchAll(tabla,orden,cols){
   let out=[],desde=0;const paso=1000;   // Supabase entrega máximo 1000 filas por consulta
   while(true){
-    let q=sb.from(tabla).select('*');
+    let q=sb.from(tabla).select(cols||'*');
     orden.forEach(o=>{q=q.order(o)});
     const{data,error}=await q.range(desde,desde+paso-1);
     if(error)throw error;
@@ -289,10 +339,16 @@ async function cargarInstructor(){
   const fs=await fetchAll('fichas',['numero']);
   const ap=await fetchAll('aprendices',['ficha','doc']);
   const ju=await fetchAll('juicios',['ficha','doc','resultado']);
+  const se=await fetchAll('sesiones',['ficha','fecha']);
+  const as=await fetchAll('asistencia',['ficha','doc','fecha']);
+  const ex=await fetchAll('excusas',['ficha','doc','fecha'],'ficha,doc,fecha,nombre_archivo,tipo,estado,comentario,creado');
   const nuevo={fichas:{}};
   fs.forEach(r=>{nuevo.fichas[r.numero]=fichaDesdeFila(r)});
   ap.forEach(a=>{const f=nuevo.fichas[a.ficha];if(f)f.aprendices.push({doc:a.doc,tipo:a.tipo||'',nombre:a.nombre||'',apellidos:a.apellidos||'',estado:a.estado||'',pin:a.pin||''})});
   ju.forEach(j=>{const f=nuevo.fichas[j.ficha];if(!f)return;(f.juicios[j.doc]=f.juicios[j.doc]||{})[j.resultado]=[j.juicio||'',j.fecha||'',j.funcionario||'']});
+  se.forEach(x=>{const f=nuevo.fichas[x.ficha];if(f)f.sesiones[x.fecha]=x.tema||''});
+  as.forEach(x=>{const f=nuevo.fichas[x.ficha];if(!f)return;(f.asistencia[x.doc]=f.asistencia[x.doc]||{})[x.fecha]=x.estado;if(f.sesiones[x.fecha]===undefined)f.sesiones[x.fecha]=''});
+  ex.forEach(x=>{const f=nuevo.fichas[x.ficha];if(f)f.excusas.push({doc:x.doc,fecha:x.fecha,estado:x.estado,comentario:x.comentario||'',nombre_archivo:x.nombre_archivo||''})});
   DB=nuevo;
 }
 async function cargarAprendiz(d,f,p){
@@ -303,6 +359,9 @@ async function cargarAprendiz(d,f,p){
   const fi=fichaDesdeFila(data.ficha);
   fi.aprendices=[data.aprendiz];
   fi.juicios[data.aprendiz.doc]=data.juicios||{};
+  const dA=data.aprendiz.doc;fi.asistencia[dA]={};
+  (data.asistencia||[]).forEach(x=>{fi.asistencia[dA][x.fecha]=x.estado;fi.sesiones[x.fecha]=x.tema||''});
+  fi.excusas=(data.excusas||[]).map(e=>({doc:dA,fecha:e.fecha,estado:e.estado,comentario:e.comentario||'',nombre_archivo:e.nombre||''}));
   DB={fichas:{[fi.numero]:fi}};
   return true;
 }
@@ -573,7 +632,7 @@ function renderDetalle(doc){
 function verDetalle(doc){filtro='todos';renderDetalle(doc);abrir('modalDet')}
 
 /* ============ Render ============ */
-function renderAll(){renderFichas();renderJuicios();renderLista();renderAprendiz()}
+function renderAll(){renderFichas();renderJuicios();renderLista();renderAprendiz();renderAsistInstructor();renderAsistAprendiz()}
 
 function renderFichas(){
   if(!SES||SES.rol!=='instructor')return;
@@ -676,6 +735,215 @@ function exportarFichas(){
   const t=Object.values(DB.fichas).map(f=>f.numero+' - '+f.nombre).join('\n');
   if(!t){toast('No hay fichas para copiar');return}
   (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Lista copiada')).catch(()=>alert('Lista de fichas:\n'+t));
+}
+
+
+/* ============ Asistencia ============ */
+let asEst={},asKey='',excFecha=null;
+function hoyISO(){const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())}
+function fmtDia(f){
+  const[y,m,d]=String(f).split('-').map(Number);
+  const t=new Date(y,m-1,d).toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  return t.charAt(0).toUpperCase()+t.slice(1);
+}
+function fmtCorta(f){const p=String(f).split('-');return p[2]+'/'+p[1]}
+function conteoAsist(f,doc){
+  let as=0,fa=0,ex=0;
+  Object.values(f.asistencia[doc]||{}).forEach(e=>{if(e==='asistio')as++;else if(e==='falla')fa++;else if(e==='excusa')ex++});
+  return{as,fa,ex,total:as+fa+ex};
+}
+function semaforo(n){return n===0?'verde':n<=3?'amarillo':'rojo'}
+const SEM_TXT={verde:'Verde',amarillo:'Amarillo',rojo:'Rojo'};
+const nomAp=(f,doc)=>{const a=f.aprendices.find(x=>x.doc===doc);return a?(a.apellidos+' '+a.nombre).trim():doc};
+
+/* ---- Instructor: tomar asistencia ---- */
+function cargarEstadosAsist(){
+  const f=fichaAct();if(!f)return;
+  const fecha=$('asFecha').value;
+  asKey=f.numero+'|'+fecha;asEst={};
+  f.aprendices.filter(a=>!inactivo(a)).forEach(a=>{asEst[a.doc]=(f.asistencia[a.doc]||{})[fecha]||'asistio'});
+  $('asTema').value=f.sesiones[fecha]||'';
+}
+function cambiarFechaAsist(){cargarEstadosAsist();renderAsistLista()}
+function setAsist(doc,e){asEst[doc]=e;renderAsistLista()}
+function marcarTodos(e){Object.keys(asEst).forEach(d=>{asEst[d]=e});renderAsistLista()}
+function renderAsistLista(){
+  const f=fichaAct();if(!f)return;
+  const fecha=$('asFecha').value;
+  const act=f.aprendices.filter(a=>!inactivo(a)).sort((a,b)=>(a.apellidos+a.nombre).localeCompare(b.apellidos+b.nombre,'es'));
+  const existe=f.sesiones[fecha]!==undefined;
+  $('asInfo').textContent=fecha?(fmtDia(fecha)+(existe?' · Ya hay asistencia guardada: al guardar se actualiza.':' · Sesión nueva: todos aparecen como "asistió", cambia solo las excepciones.')):'Elige una fecha.';
+  const btn=(a,e,t)=>`<button class="${asEst[a.doc]===e?'on '+e:''}" data-d="${esc(a.doc)}" data-e="${e}" onclick="setAsist(this.dataset.d,this.dataset.e)">${t}</button>`;
+  $('asLista').innerHTML=act.map(a=>`<div class="asrow"><div><b>${esc(a.apellidos)}</b> ${esc(a.nombre)}<div class="muted">${esc(a.tipo)} ${esc(a.doc)}</div></div>
+    <div class="seg" role="group" aria-label="Asistencia de ${esc(a.nombre)}">${btn(a,'asistio','Asistió')}${btn(a,'falla','Falla')}${btn(a,'excusa','Excusa')}</div></div>`).join('')||'<div class="empty">No hay aprendices activos.</div>';
+}
+async function guardarAsistencia(){
+  const f=fichaAct(),fecha=$('asFecha').value;
+  if(!f)return;
+  if(!fecha){toast('Elige la fecha de la sesión');return}
+  const act=f.aprendices.filter(a=>!inactivo(a));
+  const tema=$('asTema').value.trim();
+  const btn=$('btnGuardarAsist');btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    const r=await sb.from('sesiones').upsert({ficha:f.numero,fecha,tema:tema||null},{onConflict:'ficha,fecha'});
+    if(r.error)throw r.error;
+    await lote('asistencia',act.map(a=>({ficha:f.numero,doc:a.doc,fecha,estado:asEst[a.doc]||'asistio'})),'ficha,doc,fecha');
+  }catch(e){
+    alert('No se pudo guardar la asistencia: '+(e.message||e));
+    btn.disabled=false;btn.textContent='Guardar asistencia';return;
+  }
+  f.sesiones[fecha]=tema;
+  act.forEach(a=>{(f.asistencia[a.doc]=f.asistencia[a.doc]||{})[fecha]=asEst[a.doc]||'asistio'});
+  btn.disabled=false;btn.textContent='Guardar asistencia';
+  renderAsistInstructor();
+  toast('Asistencia del '+fmtCorta(fecha)+' guardada');
+}
+function renderAsistInstructor(){
+  if(!SES||SES.rol!=='instructor')return;
+  const f=fichaAct();
+  if(!f){
+    $('asLista').innerHTML='<div class="empty">Sube un juicio evaluativo para crear la ficha y sus aprendices.</div>';
+    $('boxExcusas').innerHTML='';$('asResumen').innerHTML='';$('badgeExc').textContent='';return;
+  }
+  if(!$('asFecha').value)$('asFecha').value=hoyISO();
+  if(asKey!==f.numero+'|'+$('asFecha').value)cargarEstadosAsist();
+  renderAsistLista();renderExcusasIns();renderResumenAsist();
+}
+function renderResumenAsist(){
+  const f=fichaAct();
+  const act=f.aprendices.filter(a=>!inactivo(a)).sort((a,b)=>(a.apellidos+a.nombre).localeCompare(b.apellidos+b.nombre,'es'));
+  if(!Object.keys(f.sesiones).length){$('asResumen').innerHTML='<div class="empty">Todavía no hay sesiones registradas.</div>';return}
+  const filas=act.map(a=>{
+    const c=conteoAsist(f,a.doc),sem=semaforo(c.fa);
+    const fechas=Object.entries(f.asistencia[a.doc]||{}).filter(([,e])=>e==='falla').map(([d])=>d).sort().map(fmtCorta).join(', ');
+    return `<tr><td><b>${esc(a.apellidos)}</b> ${esc(a.nombre)}</td><td>${c.as}</td><td>${c.fa}</td><td>${c.ex}</td>
+      <td><span class="pdot ${sem}"></span>${SEM_TXT[sem]}</td><td class="muted">${esc(fechas)||'—'}</td></tr>`}).join('');
+  $('asResumen').innerHTML=`<p class="muted" style="margin-bottom:8px">${Object.keys(f.sesiones).length} sesiones registradas</p><div class="tblwrap"><table class="tbl"><thead><tr><th>Aprendiz</th><th>Asistió</th><th>Fallas</th><th>Excusas</th><th>Semáforo</th><th>Fechas con falla</th></tr></thead><tbody>${filas}</tbody></table></div>`;
+}
+function renderExcusasIns(){
+  const f=fichaAct();
+  const pend=f.excusas.filter(e=>e.estado==='pendiente').sort((a,b)=>a.fecha<b.fecha?1:-1);
+  $('badgeExc').textContent=pend.length?String(pend.length):'';
+  $('boxExcusas').innerHTML=`<h2>Excusas por revisar${pend.length?' ('+pend.length+')':''}</h2>`+(pend.length?pend.map(e=>`
+    <div class="asrow"><div><b>${esc(nomAp(f,e.doc))}</b><div class="muted">Falla del ${esc(fmtDia(e.fecha))} · ${esc(e.nombre_archivo||'archivo')}</div></div>
+    <div class="row">
+      <button class="mini ghost" data-d="${esc(e.doc)}" data-f="${esc(e.fecha)}" onclick="verExcusa(this.dataset.d,this.dataset.f)">Ver archivo</button>
+      <button class="mini" data-d="${esc(e.doc)}" data-f="${esc(e.fecha)}" onclick="resolverExcusa(this.dataset.d,this.dataset.f,true)">Aprobar</button>
+      <button class="mini danger" data-d="${esc(e.doc)}" data-f="${esc(e.fecha)}" onclick="resolverExcusa(this.dataset.d,this.dataset.f,false)">Rechazar</button>
+    </div></div>`).join(''):'<div class="empty" style="padding:14px">No hay excusas pendientes.</div>');
+}
+async function verExcusa(doc,fecha){
+  const f=fichaAct();
+  const w=window.open('','_blank');
+  const{data,error}=await sb.from('excusas').select('datos,tipo').eq('ficha',f.numero).eq('doc',doc).eq('fecha',fecha).single();
+  if(error||!data){if(w)w.close();alert('No se pudo abrir el archivo.');return}
+  try{
+    const bin=atob(data.datos),u8=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+    const url=URL.createObjectURL(new Blob([u8],{type:data.tipo}));
+    if(w)w.location.href=url;else alert('Tu navegador bloqueó la ventana emergente. Permítela para ver el archivo.');
+  }catch(e){if(w)w.close();alert('El archivo no se pudo leer.')}
+}
+async function resolverExcusa(doc,fecha,aprobar){
+  const f=fichaAct();let com=null;
+  if(!aprobar){com=prompt('Motivo del rechazo (opcional). Se le mostrará al aprendiz:');if(com===null)return}
+  else if(!confirm('¿Aprobar la excusa? La falla pasará a "excusa" y dejará de contar.'))return;
+  try{
+    const r=await sb.from('excusas').update({estado:aprobar?'aprobada':'rechazada',comentario:(com||'').trim()||null}).eq('ficha',f.numero).eq('doc',doc).eq('fecha',fecha);
+    if(r.error)throw r.error;
+    if(aprobar){
+      const r2=await sb.from('asistencia').update({estado:'excusa'}).eq('ficha',f.numero).eq('doc',doc).eq('fecha',fecha);
+      if(r2.error)throw r2.error;
+    }
+  }catch(e){alert('No se pudo guardar: '+(e.message||e));return}
+  const ex=f.excusas.find(x=>x.doc===doc&&x.fecha===fecha);
+  if(ex){ex.estado=aprobar?'aprobada':'rechazada';ex.comentario=(com||'').trim()}
+  if(aprobar&&f.asistencia[doc])f.asistencia[doc][fecha]='excusa';
+  if(asKey===f.numero+'|'+fecha&&aprobar)asEst[doc]='excusa';
+  renderAsistInstructor();
+  toast(aprobar?'Excusa aprobada':'Excusa rechazada');
+}
+
+/* ---- Aprendiz: semáforo y excusas ---- */
+function renderAsistAprendiz(){
+  if(!SES||SES.rol!=='aprendiz')return;
+  const f=fichaAct();if(!f)return;
+  const doc=SES.id,c=conteoAsist(f,doc),sem=semaforo(c.fa),n=c.fa;
+  const tit=sem==='verde'?'Vas muy bien':sem==='amarillo'?`Alerta: ${n} falla${n>1?'s':''}`:`Atención: ${n} fallas`;
+  const det=sem==='verde'?'No tienes fallas. ¡Sigue así!'
+    :sem==='amarillo'?'Si llegas a más de 3 fallas pasas a rojo. Si puedes justificar alguna, carga tu excusa abajo.'
+    :'Superaste las 3 fallas. Habla con tu instructor y carga las excusas que tengas pendientes.';
+  const luz=(k,cl)=>`<i class="luz ${cl} ${sem===k?'on':''}"></i>`;
+  const fechas=Object.entries(f.asistencia[doc]||{}).sort((a,b)=>a[0]<b[0]?1:-1);
+  const faltas=fechas.filter(([,e])=>e!=='asistio');
+  let html=`<h2>Mi asistencia</h2>
+   <div class="semwrap ${sem}">
+     <div class="semaforo" role="img" aria-label="Semáforo en ${SEM_TXT[sem]}">${luz('rojo','r')}${luz('amarillo','a')}${luz('verde','v')}</div>
+     <div><div class="semtit">${esc(tit)}</div><div class="muted" style="margin-top:4px;font-size:13px">${esc(det)}</div></div>
+   </div>
+   <div class="kpis">
+     <div class="kpi"><b>${c.total}</b><span>sesiones registradas</span></div>
+     <div class="kpi"><b>${c.as}</b><span>asististe</span></div>
+     <div class="kpi"><b>${c.fa}</b><span>fallas</span></div>
+     <div class="kpi"><b>${c.ex}</b><span>excusas aprobadas</span></div>
+   </div>
+   <h2 style="font-size:15px;margin:14px 0 8px">Días en que no asististe</h2>`;
+  if(!faltas.length)html+='<div class="empty" style="padding:14px">No tienes ausencias registradas.</div>';
+  faltas.forEach(([fecha,est])=>{
+    const ex=f.excusas.find(x=>x.doc===doc&&x.fecha===fecha),tema=f.sesiones[fecha];
+    let pill,meta='',boton='';
+    if(est==='excusa'){pill='<span class="pill ok">Excusa aprobada</span>'}
+    else if(ex&&ex.estado==='pendiente'){pill='<span class="pill pend">Excusa en revisión</span>';meta='Archivo enviado: '+esc(ex.nombre_archivo||'')}
+    else if(ex&&ex.estado==='rechazada'){
+      pill='<span class="pill bad">Excusa rechazada</span>';
+      meta=(ex.comentario?'Motivo: '+esc(ex.comentario)+'. ':'')+'Puedes cargar otro soporte.';
+      boton='Cargar otra excusa';
+    }else{pill='<span class="pill bad">Falla</span>';meta='Si tienes una justificación, cárgala. Si no, la falla se mantiene.';boton='Cargar excusa'}
+    html+=`<div class="res"><div class="t"><b>${esc(fmtDia(fecha))}</b>${tema?' · '+esc(tema):''}</div>${pill}
+      <div class="meta">${meta}${boton?` <button class="mini" style="margin-left:6px" data-f="${esc(fecha)}" onclick="abrirExcusa(this.dataset.f)">${boton}</button>`:''}</div></div>`;
+  });
+  if(fechas.length)html+=`<details class="comp" style="margin-top:14px"><summary><div class="t">Ver todas mis sesiones (${fechas.length})</div><span class="pill ok">${c.as} asistidas</span></summary>
+    ${fechas.map(([fe,e])=>`<div class="res"><div class="t">${esc(fmtDia(fe))}</div><span class="pill ${e==='asistio'?'ok':e==='excusa'?'pend':'bad'}">${e==='asistio'?'Asistió':e==='excusa'?'Excusa':'Falla'}</span></div>`).join('')}</details>`;
+  $('miAsistencia').innerHTML=html;
+}
+function abrirExcusa(fecha){
+  excFecha=fecha;$('excFechaTxt').textContent='Falla del '+fmtDia(fecha);
+  $('excArchivo').value='';abrir('modalExc');
+}
+function leerB64(blob){return new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=ko;r.readAsDataURL(blob)})}
+async function prepararArchivo(file){
+  if(file.type==='application/pdf'){
+    if(file.size>1024*1024)throw new Error('El PDF pesa más de 1 MB. Envía una foto del documento o un PDF más liviano.');
+    return{tipo:'application/pdf',datos:await leerB64(file)};
+  }
+  if(!/^image\//.test(file.type))throw new Error('Formato no permitido. Usa una foto (JPG o PNG) o un PDF.');
+  let bmp;
+  try{bmp=await createImageBitmap(file)}catch(e){throw new Error('No pude leer esa imagen. Prueba con otra foto o con un PDF.')}
+  const fac=Math.min(1,1600/Math.max(bmp.width,bmp.height));
+  const cv=document.createElement('canvas');
+  cv.width=Math.max(1,Math.round(bmp.width*fac));cv.height=Math.max(1,Math.round(bmp.height*fac));
+  const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cv.width,cv.height);cx.drawImage(bmp,0,0,cv.width,cv.height);
+  let q=0.8,blob;
+  do{blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',q));q-=0.1}while(blob&&blob.size>900*1024&&q>0.25);
+  if(!blob||blob.size>1200*1024)throw new Error('La imagen es muy pesada. Intenta con otra foto.');
+  return{tipo:'image/jpeg',datos:await leerB64(blob)};
+}
+const MSG_EXC={bloqueado:'Demasiados intentos fallidos. Espera 15 minutos.',no:'Tu sesión ya no es válida. Sal y vuelve a entrar.',tipo:'Formato no permitido. Usa una foto o un PDF.',tamano:'El archivo es muy pesado. Usa una foto o un PDF más liviano.',sin_falla:'Esa fecha no tiene una falla registrada.',ya_aprobada:'Esa falla ya tiene una excusa aprobada.'};
+async function enviarExcusa(){
+  const file=$('excArchivo').files[0],ses=ssGet();
+  if(!file){alert('Elige un archivo.');return}
+  if(!ses){alert('Tu sesión expiró. Sal y vuelve a entrar.');return}
+  const btn=$('btnEnviarExc');btn.disabled=true;btn.textContent='Enviando...';
+  try{
+    const{tipo,datos}=await prepararArchivo(file);
+    const{data,error}=await sb.rpc('aprendiz_subir_excusa',{p_doc:SES.id,p_ficha:SES.ficha,p_pin:ses.p,p_fecha:excFecha,p_nombre:file.name,p_tipo:tipo,p_datos:datos});
+    if(error)throw error;
+    if(data!=='ok'){alert(MSG_EXC[data]||'No se pudo enviar la excusa.');return}
+    await cargarAprendiz(SES.id,SES.ficha,ses.p);
+    cerrar('modalExc');renderAll();
+    toast('Excusa enviada. Tu instructor la revisará.');
+  }catch(e){alert('No se pudo enviar: '+(e.message||e))}
+  finally{btn.disabled=false;btn.textContent='Enviar excusa'}
 }
 
 /* ============ Arranque: recuperar sesión si ya había una ============ */
