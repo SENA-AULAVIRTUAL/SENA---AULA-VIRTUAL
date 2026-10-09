@@ -321,7 +321,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
 <p class="muted" style="margin-top:8px">Cada aprendiz crea su PIN desde el ingreso con «Primera vez» y tú lo apruebas aquí. Tras 5 intentos fallidos, su acceso se bloquea 15 minutos.</p><div id="listaCompleta" style="margin-top:10px"></div></div></div>
 
    <!-- Aprendiz -->
-   <div id="tab-inicio" class="tab"><div class="box" id="miJuicio"></div></div>
+   <div id="tab-inicio" class="tab"><div class="box" id="hoyAp" style="display:none;border:2px solid var(--green);background:var(--soft2)"></div><div class="box" id="miJuicio"></div></div>
    <div id="tab-asistencia" class="tab"><div class="box" id="miAsistencia"></div></div>
    <div id="tab-horarioap" class="tab"><div class="box" id="miHorario"></div></div>
   </div>
@@ -406,6 +406,7 @@ async function cargarAprendiz(d,f,p){
   const dA=data.aprendiz.doc;fi.asistencia[dA]={};
   (data.asistencia||[]).forEach(x=>{fi.asistencia[dA][x.fecha]=x.estado;fi.sesiones[x.fecha]=x.tema||''});
   fi.excusas=(data.excusas||[]).map(e=>({doc:dA,fecha:e.fecha,estado:e.estado,comentario:e.comentario||'',nombre_archivo:e.nombre||''}));
+  fi._diag={conClave:('trimestres' in data),nTrim:(data.trimestres||[]).length,nBloques:(data.horario||[]).length};
   (data.trimestres||[]).forEach(t=>{fi.horario[t.trimestre]={inicio:t.inicio||'',fin:t.fin||'',generado:'',bloques:[]}});
   (data.horario||[]).forEach(b=>{const h=fi.horario[b.trimestre];if(h)h.bloques.push({dia:b.dia,ini:b.ini,fin:b.fin,horas:b.horas,aula:b.aula||'',materia:b.materia||'',raps:b.raps||[],instructor:b.instructor||'',vinculacion:b.vinculacion||''})});
   DB={fichas:{[fi.numero]:fi}};
@@ -586,6 +587,7 @@ function parseJuicio(buf){
 }
 function totalRes(est){return est.reduce((n,c)=>n+c.rs.length,0)}
 const inactivo=a=>['cancelado','retirado'].includes(norm(a.estado));
+function claseEstado(a){const n=norm(a.estado);if(n==='en formacion')return 'ok';if(n==='cancelado'||n==='retirado')return 'bad';return 'pend'}
 function mostrarPrevia(){
   const p=pendiente,ex=DB.fichas[p.numero];
   const act=p.aprendices.filter(a=>!inactivo(a)).length;
@@ -755,7 +757,7 @@ function renderJuicios(){
   if(!f){el.innerHTML='<div class="empty">Sube un juicio evaluativo para ver el avance de tus aprendices.</div>';return}
   const filas=f.aprendices.slice().sort((a,b)=>(a.apellidos+a.nombre).localeCompare(b.apellidos+b.nombre,'es')).map(a=>{
     const s=statsAp(f,a.doc);
-    return `<tr><td><b>${esc(a.apellidos)}</b> ${esc(a.nombre)}<div class="muted">${esc(a.tipo)} ${esc(a.doc)}${inactivo(a)?' · '+esc(a.estado):''}</div></td>
+    return `<tr><td><b>${esc(a.apellidos)}</b> ${esc(a.nombre)}<div class="muted">${esc(a.tipo)} ${esc(a.doc)}${claseEstado(a)!=='ok'?' <span class="pill '+claseEstado(a)+'">'+esc(a.estado)+'</span>':''}</div></td>
       <td style="min-width:140px"><div class="bar"><i style="width:${s.pct}%"></i></div><div class="muted" style="margin-top:3px">${s.ap}/${s.tot} · ${s.pct}%</div></td>
       <td><button class="mini ghost" data-d="${esc(a.doc)}" onclick="verDetalle(this.dataset.d)">Ver detalle</button></td></tr>`}).join('');
   el.innerHTML=`<div class="tblwrap"><table class="tbl"><thead><tr><th>Aprendiz</th><th>Avance</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>`;
@@ -780,8 +782,8 @@ function renderLista(){
     const acc=ina?'—':a.acceso==='aprobado'?'<span class="pill ok">Con PIN</span>':a.acceso==='pendiente'?'<span class="pill pend">Por aprobar</span>':'<span class="pill gris">Sin PIN</span>';
     const btn=(!ina&&a.acceso!=='sin_pin')?`<button class="mini ghost" data-d="${esc(a.doc)}" onclick="restablecerPin(this.dataset.d)">Restablecer PIN</button>`:'';
     return `<tr><td>${i+1}</td><td>${esc(a.tipo)}</td><td>${esc(a.doc)}</td><td>${esc(a.apellidos)} ${esc(a.nombre)}</td>
-    <td><span class="pill ${ina?'bad':'ok'}">${esc(a.estado)}</span></td><td>${acc}</td><td>${btn}</td></tr>`}).join('');
-  el.innerHTML=`<div class="tblwrap"><table class="tbl"><thead><tr><th>#</th><th>Tipo</th><th>Documento</th><th>Nombre</th><th>Estado</th><th>Acceso</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>`;
+    <td><span class="pill ${claseEstado(a)}">${esc(a.estado)}</span></td><td>${acc}</td><td>${btn}</td></tr>`}).join('');
+  el.innerHTML=`<p class="muted" style="margin-bottom:8px"><span class="pdot verde"></span>En formación &nbsp; <span class="pdot amarillo"></span>Con novedad &nbsp; <span class="pdot rojo"></span>Cancelado o retirado</p><div class="tblwrap"><table class="tbl"><thead><tr><th>#</th><th>Tipo</th><th>Documento</th><th>Nombre</th><th>Estado</th><th>Acceso</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>`;
 }
 /* ---- Accesos de los aprendices (PIN creado por ellos, aprobado por el instructor) ---- */
 async function refrescarSolicitudes(avisar){
@@ -1326,12 +1328,17 @@ async function guardarHorarios(){
   const btn=$('btnGuardarHor');btn.disabled=true;btn.textContent='Guardando...';
   try{for(const p of sel)await guardarHorarioFicha(p.destino,tri,ini,fin,p)}
   catch(e){alert('No se pudo guardar el horario: '+(e.message||e));btn.disabled=false;btn.textContent='Guardar horarios';return}
+  btn.textContent='Verificando...';
+  try{await cargarInstructor()}catch(e){}
   cerrar('modalHor');horPend=null;
   const ult=sel[sel.length-1].destino;
   if(SES.ficha!==ult&&sel.some(p=>p.destino===SES.ficha)===false){SES.ficha=ult;prefSet(ult)}
   horSelIns=tri;
   renderAll();
-  toast('Horario '+tri+' guardado en '+sel.length+(sel.length>1?' fichas':' ficha'));
+  const res=sel.map(p=>{const h=DB.fichas[p.destino]&&DB.fichas[p.destino].horario[tri];return{n:p.destino,b:h?h.bloques.length:0}});
+  const mal=res.filter(r=>r.b===0);
+  if(mal.length)alert('Ojo: en la base de datos NO quedaron bloques para la ficha '+mal.map(r=>r.n).join(', ')+'. Mándame una captura de este mensaje.');
+  toast('Guardado en la base: '+res.map(r=>'ficha '+r.n+' → '+r.b+' bloques').join(' · '));
 }
 
 /* ---- Vista compartida: semana + materias con sus resultados ---- */
@@ -1422,7 +1429,8 @@ function renderHorarioIns(){
   if(!ks.length){el.innerHTML='<div class="empty">Esta ficha todavía no tiene horario.<br>Pulsa <b>Subir PDF del horario</b>.</div>';return}
   if(!horSelIns||!f.horario[horSelIns])horSelIns=trimPorDefecto(f);
   const h=f.horario[horSelIns];
-  el.innerHTML=`<div class="filtros">${chipsTrim(f,horSelIns,'selTrimIns')}</div>
+  const totB=ks.reduce((n,k)=>n+f.horario[k].bloques.length,0);
+  el.innerHTML=`<p class="muted" style="margin-bottom:6px">Guardado en la base: ${ks.length} trimestre${ks.length>1?'s':''} · ${totB} bloques en la ficha ${esc(f.numero)}.</p><div class="filtros">${chipsTrim(f,horSelIns,'selTrimIns')}</div>
     <div class="row" style="margin:6px 0 12px;align-items:flex-end">
       <div><div class="label" style="margin-top:0">Empieza</div><input type="date" id="hdIni" class="input" style="width:auto" value="${esc(h.inicio)}"></div>
       <div><div class="label" style="margin-top:0">Termina</div><input type="date" id="hdFin" class="input" style="width:auto" value="${esc(h.fin)}"></div>
@@ -1461,14 +1469,67 @@ async function editarInstructor(materia){
   renderHorarioIns();toast('Instructor actualizado');
 }
 
+
+/* ---- Mensaje "hoy" del aprendiz ---- */
+function trimActivo(f){
+  const ks=trimOrdenados(f);
+  return ks.find(k=>estadoTrim(f.horario[k])==='curso')||ks.find(k=>estadoTrim(f.horario[k])==='sin')||null;
+}
+function hoyHTML(f){
+  const ks=trimOrdenados(f);
+  if(!ks.length)return '';
+  const ahora=new Date(),p=n=>String(n).padStart(2,'0');
+  const hhmm=p(ahora.getHours())+':'+p(ahora.getMinutes());
+  let fecha=ahora.toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  fecha=fecha.charAt(0).toUpperCase()+fecha.slice(1);
+  const t=trimActivo(f);
+  let html=`<div style="font-size:12px;font-weight:800;color:var(--dgreen)">HOY</div><div style="font-size:19px;font-weight:800;margin:2px 0 6px">${esc(fecha)}</div>`;
+  if(!t){
+    return html+'<div class="muted" style="font-size:14px">Ahora no hay un trimestre en curso. Revisa tu horario para ver los trimestres anteriores o próximos.</div>';
+  }
+  const idx=(ahora.getDay()+6)%7;
+  const B=f.horario[t].bloques;
+  const delDia=d=>B.filter(b=>b.dia===d).sort((a,b)=>String(a.ini).localeCompare(String(b.ini)));
+  const hoyB=delDia(idx);
+  if(hoyB.length){
+    html+=`<div style="font-size:14px;margin-bottom:4px">Hoy tienes formación${hoyB.length>1?' en '+hoyB.length+' clases':''}:</div>`;
+    hoyB.forEach(b=>{
+      const est=hhmm>=b.fin?['Terminó','gris']:(hhmm>=b.ini?['Ahora','ok']:['Más tarde','pend']);
+      html+=`<div class="res" style="background:var(--card);border-radius:12px;margin-top:6px;border:1px solid var(--border)">
+        <div class="t"><b>${esc(b.materia||'(sin materia)')}</b></div><span class="pill ${est[1]}">${est[0]}</span>
+        <div class="meta"><b>${esc(b.ini)} – ${esc(b.fin)}</b>${b.aula?' · '+esc(b.aula):''}${b.instructor?' · Instructor: <b>'+esc(b.instructor)+'</b>':''}</div></div>`;
+    });
+    return html;
+  }
+  html+='<div style="font-size:14px">Hoy no tienes formación.</div>';
+  for(let k=1;k<=7;k++){
+    const d=(idx+k)%7,nb=delDia(d);
+    if(nb.length){
+      const b=nb[0];
+      html+=`<div class="muted" style="margin-top:6px;font-size:13px">Tu próxima formación es ${k===1?'mañana':'el '+DIA_LARGO[d].toLowerCase()} a las <b>${esc(b.ini)}</b>: ${esc(b.materia||'')}${b.instructor?' con '+esc(b.instructor):''}.</div>`;
+      break;
+    }
+  }
+  return html;
+}
+
 /* ---- Aprendiz ---- */
 function renderHorarioAp(){
   if(!SES||SES.rol!=='aprendiz')return;
   const f=fichaAct(),el=$('miHorario');if(!f)return;
+  const hoy=hoyHTML(f),box=$('hoyAp');
+  if(box){box.innerHTML=hoy;box.style.display=hoy?'block':'none'}
   const ks=trimOrdenados(f);
-  if(!ks.length){el.innerHTML='<h2>Mi horario</h2><div class="empty">Tu instructor todavía no ha cargado el horario.</div>';return}
+  if(!ks.length){
+    const d=f._diag||{};
+    const aviso=d.conClave===false?'Aviso técnico: la base de datos no está enviando el horario (falta actualizar la función aprendiz_login con supabase-horario.sql).'
+      :'Aviso técnico: la ficha '+f.numero+' no tiene trimestres guardados en la base (recibidos: '+(d.nTrim||0)+').';
+    el.innerHTML='<h2>Mi horario</h2><div class="empty">Tu instructor todavía no ha cargado el horario.</div><p class="muted" style="text-align:center;font-size:11px">'+esc(aviso)+'</p>';
+    return;
+  }
   if(!horSelAp||!f.horario[horSelAp])horSelAp=trimPorDefecto(f);
   el.innerHTML=`<h2>Mi horario</h2><p class="muted" style="margin-top:4px">Ficha ${esc(f.numero)}</p>
+    ${hoy?'<div style="margin-top:10px;padding:12px;border:2px solid var(--green);border-radius:14px;background:var(--soft2)">'+hoy+'</div>':''}
     <div class="filtros" style="margin-top:10px">${chipsTrim(f,horSelAp,'selTrimAp')}</div>`+horarioHTML(f,horSelAp,'ap',SES.id);
 }
 function selTrimAp(t){horSelAp=t;renderHorarioAp()}
