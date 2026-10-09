@@ -271,12 +271,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
      <a onclick="showTab('juicios',this)">📋 Juicios de la ficha</a>
      <a onclick="showTab('asist',this)">✅ Asistencia <span id="badgeExc" class="dotc"></span></a>
      <a onclick="showTab('horario',this)">🗓️ Horario</a>
+     <a onclick="showTab('evid',this)">📁 Evidencias</a>
      <a onclick="showTab('lista',this)">👥 Aprendices <span id="badgeSol" class="dotc"></span></a>
    </div>
    <div class="menu" style="margin-top:14px" id="menuAprendiz">
      <a class="active" onclick="showTab('inicio',this)">🏠 Mi juicio</a>
      <a onclick="showTab('asistencia',this)">✅ Mi asistencia</a>
      <a onclick="showTab('horarioap',this)">🗓️ Mi horario</a>
+     <a onclick="showTab('evidap',this)">📁 Mis evidencias</a>
    </div>
   </div>
 
@@ -316,6 +318,26 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
      </div>
      <div class="box" id="horInsBody"></div>
    </div>
+   <div id="tab-evid" class="tab">
+     <div class="box"><h2>Evidencias · Ficha <span class="fichaActiva"></span></h2>
+       <p class="muted" style="margin-top:4px">Los aprendices suben su evidencia desde la app y se guarda sola en tu Drive: <b>carpeta de la ficha / APELLIDOS NOMBRES / sección / archivo</b>. La carpeta de cada aprendiz se crea automáticamente.</p>
+       <div class="label">Enlace de la carpeta de Drive de esta ficha</div>
+       <input id="evCarpeta" class="input" style="text-align:left" placeholder="https://drive.google.com/drive/folders/...">
+       <div class="label">URL del script de Google (termina en /exec)</div>
+       <input id="evScript" class="input" style="text-align:left" placeholder="https://script.google.com/macros/s/.../exec">
+       <div class="row" style="margin-top:12px"><button class="btn auto" style="background:var(--dgreen)" onclick="guardarDrive()">Guardar</button><button class="btn auto sec" onclick="probarDrive()">Probar conexión</button><span id="evEstadoCfg"></span></div>
+     </div>
+     <div class="box"><h2>Secciones de trabajo</h2>
+       <div class="row" style="margin-top:10px;align-items:flex-end">
+         <div style="flex:1;min-width:160px"><div class="label" style="margin-top:0">Nombre</div><input id="secNombre" class="input" style="text-align:left" maxlength="80" placeholder="Ej: Guía 1 - Seguridad industrial"></div>
+         <div style="flex:1;min-width:160px"><div class="label" style="margin-top:0">Descripción (opcional)</div><input id="secDesc" class="input" style="text-align:left" maxlength="150"></div>
+         <div><div class="label" style="margin-top:0">Trimestre</div><select id="secTri" class="input" style="width:auto;text-align:left"></select></div>
+         <button class="btn auto" style="background:var(--dgreen)" onclick="crearSeccion()">Crear sección</button>
+       </div>
+       <div id="evSecciones" style="margin-top:10px"></div>
+     </div>
+     <div class="box"><div class="row" style="justify-content:space-between"><h2>Evidencias recibidas</h2><button class="mini ghost" onclick="refrescarEvidencias(true)">↻ Actualizar</button></div><div id="evRecibidas" style="margin-top:8px"></div></div>
+   </div>
    <div id="tab-lista" class="tab"><div class="box"><h2>Aprendices · Ficha <span class="fichaActiva"></span></h2>
 <div id="boxSolicitudes" style="margin-top:10px"></div>
 <p class="muted" style="margin-top:8px">Cada aprendiz crea su PIN desde el ingreso con «Primera vez» y tú lo apruebas aquí. Tras 5 intentos fallidos, su acceso se bloquea 15 minutos.</p><div id="listaCompleta" style="margin-top:10px"></div></div></div>
@@ -324,6 +346,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visi
    <div id="tab-inicio" class="tab"><div class="box" id="hoyAp" style="display:none;border:2px solid var(--green);background:var(--soft2)"></div><div class="box" id="miJuicio"></div></div>
    <div id="tab-asistencia" class="tab"><div class="box" id="miAsistencia"></div></div>
    <div id="tab-horarioap" class="tab"><div class="box" id="miHorario"></div></div>
+   <div id="tab-evidap" class="tab"><div class="box" id="misEvid"></div></div>
   </div>
  </div>
 </div>
@@ -360,7 +383,7 @@ function prefSet(n){try{n?localStorage.setItem('sena_ficha_activa',n):localStora
 function fichaDesdeFila(r){
   return{numero:r.numero,nombre:r.nombre||'',codigo:r.codigo||'',jornada:r.jornada||'',estadoFicha:r.estado_ficha||'',
     inicio:r.inicio||'',fin:r.fin||'',modalidad:r.modalidad||'',centro:r.centro||'',reporte:r.reporte||'',
-    estructura:r.estructura||[],aprendices:[],juicios:{},asistencia:{},sesiones:{},excusas:[],horario:{}};
+    estructura:r.estructura||[],aprendices:[],juicios:{},asistencia:{},sesiones:{},excusas:[],horario:{},secciones:[],evidencias:[],driveCarpeta:r.drive_carpeta||'',driveScript:r.drive_script||''};
 }
 async function fetchAll(tabla,orden,cols){
   let out=[],desde=0;const paso=1000;   // Supabase entrega máximo 1000 filas por consulta
@@ -384,6 +407,8 @@ async function cargarInstructor(){
   const ex=await fetchAll('excusas',['ficha','doc','fecha'],'ficha,doc,fecha,nombre_archivo,tipo,estado,comentario,creado');
   const tr=await fetchAll('trimestres',['ficha','trimestre']);
   const hb=await fetchAll('horario_bloques',['ficha','trimestre','dia','hora_ini']);
+  const sc=await fetchAll('secciones_trabajo',['ficha','orden']);
+  const ev=await fetchAll('evidencias',['ficha','creado']);
   const nuevo={fichas:{}};
   fs.forEach(r=>{nuevo.fichas[r.numero]=fichaDesdeFila(r)});
   ap.forEach(a=>{const f=nuevo.fichas[a.ficha];if(f)f.aprendices.push({doc:a.doc,tipo:a.tipo||'',nombre:a.nombre||'',apellidos:a.apellidos||'',estado:a.estado||'',acceso:a.acceso||'sin_pin',solicitado:a.solicitado||''})});
@@ -393,6 +418,8 @@ async function cargarInstructor(){
   tr.forEach(x=>{const f=nuevo.fichas[x.ficha];if(f)f.horario[x.trimestre]={inicio:x.inicio||'',fin:x.fin||'',generado:x.generado||'',bloques:[]}});
   hb.forEach(x=>{const f=nuevo.fichas[x.ficha];const h=f&&f.horario[x.trimestre];if(h)h.bloques.push({dia:x.dia,ini:x.hora_ini,fin:x.hora_fin,horas:x.horas,aula:x.aula||'',materia:x.materia||'',raps:x.raps||[],instructor:x.instructor||'',vinculacion:x.vinculacion||''})});
   ex.forEach(x=>{const f=nuevo.fichas[x.ficha];if(f)f.excusas.push({doc:x.doc,fecha:x.fecha,estado:x.estado,comentario:x.comentario||'',nombre_archivo:x.nombre_archivo||''})});
+  sc.forEach(x=>{const f=nuevo.fichas[x.ficha];if(f)f.secciones.push({id:x.id,nombre:x.nombre,descripcion:x.descripcion||'',trimestre:x.trimestre||'',orden:x.orden||0,abierta:x.abierta!==false})});
+  ev.forEach(x=>{const f=nuevo.fichas[x.ficha];if(f)f.evidencias.push({id:x.id,doc:x.doc,seccion_id:x.seccion_id,seccion_nombre:x.seccion_nombre||'',nombre:x.nombre||'',archivo:x.archivo||'',drive_url:x.drive_url||'',creado:x.creado||''})});
   DB=nuevo;
 }
 async function cargarAprendiz(d,f,p){
@@ -406,6 +433,8 @@ async function cargarAprendiz(d,f,p){
   const dA=data.aprendiz.doc;fi.asistencia[dA]={};
   (data.asistencia||[]).forEach(x=>{fi.asistencia[dA][x.fecha]=x.estado;fi.sesiones[x.fecha]=x.tema||''});
   fi.excusas=(data.excusas||[]).map(e=>({doc:dA,fecha:e.fecha,estado:e.estado,comentario:e.comentario||'',nombre_archivo:e.nombre||''}));
+  fi.secciones=(data.secciones||[]).map(s=>({id:s.id,nombre:s.nombre,descripcion:s.descripcion||'',trimestre:s.trimestre||'',orden:s.orden||0,abierta:s.abierta!==false}));
+  fi.evidencias=(data.evidencias||[]).map(e=>({id:e.id,doc:dA,seccion_id:e.seccion_id,seccion_nombre:e.seccion_nombre||'',nombre:e.nombre||'',archivo:e.archivo||'',drive_url:'',creado:e.creado||''}));
   fi._diag={conClave:('trimestres' in data),nTrim:(data.trimestres||[]).length,nBloques:(data.horario||[]).length};
   (data.trimestres||[]).forEach(t=>{fi.horario[t.trimestre]={inicio:t.inicio||'',fin:t.fin||'',generado:'',bloques:[]}});
   (data.horario||[]).forEach(b=>{const h=fi.horario[b.trimestre];if(h)h.bloques.push({dia:b.dia,ini:b.ini,fin:b.fin,horas:b.horas,aula:b.aula||'',materia:b.materia||'',raps:b.raps||[],instructor:b.instructor||'',vinculacion:b.vinculacion||''})});
@@ -514,6 +543,7 @@ function showTab(id,el){
   const t=$('tab-'+id);if(t)t.classList.add('active');
   if(el){el.parentElement.querySelectorAll('a').forEach(a=>a.classList.remove('active'));el.classList.add('active')}
   if(id==='lista'&&SES&&SES.rol==='instructor')refrescarSolicitudes().catch(()=>{});
+  if(id==='evid'&&SES&&SES.rol==='instructor')refrescarEvidencias().catch(()=>{});
 }
 
 /* ============ Lectura del Excel de SofiaPlus ============ */
@@ -719,7 +749,7 @@ function renderDetalle(doc){
 function verDetalle(doc){filtro='todos';renderDetalle(doc);abrir('modalDet')}
 
 /* ============ Render ============ */
-function renderAll(){renderFichas();renderJuicios();renderLista();renderAprendiz();renderAsistInstructor();renderAsistAprendiz();renderHorarioIns();renderHorarioAp()}
+function renderAll(){renderFichas();renderJuicios();renderLista();renderAprendiz();renderAsistInstructor();renderAsistAprendiz();renderHorarioIns();renderHorarioAp();renderEvidIns();renderEvidAp()}
 
 function renderFichas(){
   if(!SES||SES.rol!=='instructor')return;
@@ -1533,6 +1563,181 @@ function renderHorarioAp(){
     <div class="filtros" style="margin-top:10px">${chipsTrim(f,horSelAp,'selTrimAp')}</div>`+horarioHTML(f,horSelAp,'ap',SES.id);
 }
 function selTrimAp(t){horSelAp=t;renderHorarioAp()}
+
+/* ============ Evidencias en Google Drive ============ */
+let evKey='',evFiltroSec='';
+const BLOQ_EXT=/\.(exe|bat|cmd|com|scr|msi|js|jar|vbs|apk|ps1|sh|dll)$/i;
+const MAX_EVIDENCIA=15*1024*1024;
+const MSG_EV={bloqueado:'Demasiados intentos fallidos. Espera 15 minutos.',no:'Tu PIN no es válido. Sal y vuelve a entrar.',pendiente:'Tu acceso aún no está aprobado.',sin_pin:'Aún no tienes PIN.',
+  sin_carpeta:'Tu instructor todavía no configuró la carpeta de Drive.',seccion_invalida:'Esa sección no existe.',seccion_cerrada:'Esa sección ya está cerrada.',
+  muy_grande:'El archivo es muy pesado (máximo 15 MB).',carpeta_no_accesible:'El script no puede entrar a la carpeta de Drive. Avisa a tu instructor.',datos_incompletos:'Faltan datos para subir la evidencia.'};
+
+function idCarpetaDrive(txt){
+  const t=String(txt||'').trim();
+  const m=t.match(/\/folders\/([\w-]{10,})/)||t.match(/[?&]id=([\w-]{10,})/);
+  if(m)return m[1];
+  return /^[\w-]{20,}$/.test(t)?t:'';
+}
+const RE_SCRIPT=/^https:\/\/script\.google\.com\/(a\/macros\/[\w.-]+\/|macros\/)s\/[\w-]+\/exec$/;
+function fmtFechaHora(t){try{return new Date(t).toLocaleString('es-CO',{dateStyle:'medium',timeStyle:'short'})}catch(e){return ''}}
+
+/* ---------- Instructor ---------- */
+async function refrescarEvidencias(avisar){
+  const ev=await fetchAll('evidencias',['ficha','creado']);
+  Object.values(DB.fichas).forEach(f=>{f.evidencias=[]});
+  ev.forEach(x=>{const f=DB.fichas[x.ficha];if(f)f.evidencias.push({id:x.id,doc:x.doc,seccion_id:x.seccion_id,seccion_nombre:x.seccion_nombre||'',nombre:x.nombre||'',archivo:x.archivo||'',drive_url:x.drive_url||'',creado:x.creado||''})});
+  renderEvidIns();
+  if(avisar===true)toast('Evidencias actualizadas');
+}
+function renderEvidIns(){
+  if(!SES||SES.rol!=='instructor')return;
+  const f=fichaAct();
+  if(!f){$('evSecciones').innerHTML='<div class="empty">Sube un juicio evaluativo para crear la ficha.</div>';$('evRecibidas').innerHTML='';return}
+  if(evKey!==f.numero){
+    evKey=f.numero;
+    $('evCarpeta').value=f.driveCarpeta?'https://drive.google.com/drive/folders/'+f.driveCarpeta:'';
+    $('evScript').value=f.driveScript||'';
+    evFiltroSec='';
+  }
+  $('evEstadoCfg').innerHTML=f.driveCarpeta&&f.driveScript?'<span class="pill ok">Drive configurado</span>':'<span class="pill pend">Falta configurar el Drive</span>';
+  const tris=trimOrdenados(f),sel=$('secTri').value;
+  $('secTri').innerHTML='<option value="">Sin trimestre</option>'+tris.map(t=>`<option value="${esc(t)}" ${t===sel?'selected':''}>${esc(t)}</option>`).join('');
+  const act=f.aprendices.filter(a=>!inactivo(a));
+  const secs=f.secciones.slice().sort((a,b)=>(a.orden-b.orden)||a.nombre.localeCompare(b.nombre,'es'));
+  $('evSecciones').innerHTML=secs.length?secs.map(s=>{
+    const entregaron=new Set(f.evidencias.filter(e=>e.seccion_id===s.id).map(e=>e.doc));
+    const n=act.filter(a=>entregaron.has(a.doc)).length;
+    return `<div class="asrow"><div style="flex:1;min-width:200px"><b>${esc(s.nombre)}</b> <span class="pill ${s.abierta?'ok':'gris'}">${s.abierta?'Abierta':'Cerrada'}</span>${s.trimestre?' <span class="pill gris">'+esc(s.trimestre)+'</span>':''}
+      <div class="muted">${esc(s.descripcion||'')}${s.descripcion?' · ':''}${n} de ${act.length} aprendices han entregado</div></div>
+      <div class="row"><button class="mini ghost" data-i="${esc(s.id)}" onclick="alternarSeccion(this.dataset.i)">${s.abierta?'Cerrar':'Abrir'}</button>
+      <button class="mini danger" data-i="${esc(s.id)}" onclick="borrarSeccion(this.dataset.i)" aria-label="Borrar sección">🗑️</button></div></div>`}).join('')
+    :'<div class="empty" style="padding:14px">Aún no hay secciones. Crea la primera arriba (por ejemplo «Guía 1»).</div>';
+  renderEvidRecibidas(f,act,secs);
+}
+function renderEvidRecibidas(f,act,secs){
+  const opt='<option value="">Todas las secciones</option>'+secs.map(s=>`<option value="${esc(s.id)}" ${s.id===evFiltroSec?'selected':''}>${esc(s.nombre)}</option>`).join('');
+  let lista=f.evidencias.slice().sort((a,b)=>String(b.creado).localeCompare(String(a.creado)));
+  if(evFiltroSec)lista=lista.filter(e=>e.seccion_id===evFiltroSec);
+  let falta='';
+  if(evFiltroSec){
+    const ya=new Set(lista.map(e=>e.doc));
+    const sin=act.filter(a=>!ya.has(a.doc)).map(a=>(a.apellidos+' '+a.nombre).trim());
+    falta=sin.length?`<p class="muted" style="margin:8px 0"><b>Sin entregar (${sin.length}):</b> ${sin.slice(0,12).map(esc).join(', ')}${sin.length>12?' y '+(sin.length-12)+' más':''}</p>`:'<p class="muted" style="margin:8px 0">Todos los aprendices activos entregaron.</p>';
+  }
+  const filas=lista.map(e=>`<tr><td><b>${esc(nomAp(f,e.doc))}</b></td><td>${esc(e.seccion_nombre)}</td><td>${esc(e.nombre)}<div class="muted">${esc(e.archivo)}</div></td><td class="muted">${esc(fmtFechaHora(e.creado))}</td>
+    <td>${/^https:\/\/(drive|docs)\.google\.com\//.test(e.drive_url)?`<a href="${esc(e.drive_url)}" target="_blank" rel="noopener noreferrer" class="mini ghost" style="text-decoration:none;display:inline-block">Abrir en Drive</a>`:''}</td></tr>`).join('');
+  $('evRecibidas').innerHTML=`<div class="row" style="margin-bottom:6px"><select class="input" style="width:auto;text-align:left" onchange="evFiltro(this.value)" aria-label="Filtrar por sección">${opt}</select><span class="muted">${lista.length} evidencia${lista.length===1?'':'s'}</span></div>${falta}`
+    +(lista.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Aprendiz</th><th>Sección</th><th>Evidencia</th><th>Fecha</th><th></th></tr></thead><tbody>${filas}</tbody></table></div>`:'<div class="empty" style="padding:14px">Todavía no hay evidencias.</div>');
+}
+function evFiltro(v){evFiltroSec=v;const f=fichaAct();if(f)renderEvidIns()}
+
+async function guardarDrive(){
+  const f=fichaAct();if(!f)return;
+  const id=idCarpetaDrive($('evCarpeta').value),url=$('evScript').value.trim();
+  if(!id){alert('No encontré el identificador de la carpeta. Abre la carpeta en Drive y copia el enlace completo de la barra del navegador.');return}
+  if(!RE_SCRIPT.test(url)){alert('La URL del script debe empezar por https://script.google.com/ y terminar en /exec');return}
+  const{error}=await sb.from('fichas').update({drive_carpeta:id,drive_script:url}).eq('numero',f.numero);
+  if(error){alert('No se pudo guardar: '+error.message);return}
+  f.driveCarpeta=id;f.driveScript=url;
+  renderEvidIns();toast('Drive guardado para la ficha '+f.numero);
+}
+async function probarDrive(){
+  const url=$('evScript').value.trim();
+  if(!RE_SCRIPT.test(url)){alert('Primero pega la URL del script (termina en /exec).');return}
+  toast('Probando conexión...');
+  try{
+    const r=await fetch(url);const j=await r.json();
+    alert(j&&j.ok?'✓ Conexión correcta: '+(j.mensaje||'el script responde'):'El script respondió, pero no es el de evidencias.');
+  }catch(e){alert('No se pudo conectar con el script. Revisa que esté implementado como «Aplicación web», ejecutando como «Yo» y con acceso para «Cualquier persona».')}
+}
+async function crearSeccion(){
+  const f=fichaAct();if(!f)return;
+  const nombre=$('secNombre').value.trim();
+  if(!nombre){alert('Escribe el nombre de la sección.');return}
+  if(f.secciones.some(s=>norm(s.nombre)===norm(nombre))){alert('Ya existe una sección con ese nombre.');return}
+  const{data,error}=await sb.from('secciones_trabajo').insert({ficha:f.numero,nombre,descripcion:$('secDesc').value.trim()||null,trimestre:$('secTri').value||null,orden:f.secciones.length+1}).select().single();
+  if(error){alert('No se pudo crear: '+error.message);return}
+  f.secciones.push({id:data.id,nombre:data.nombre,descripcion:data.descripcion||'',trimestre:data.trimestre||'',orden:data.orden||0,abierta:data.abierta!==false});
+  $('secNombre').value='';$('secDesc').value='';
+  renderEvidIns();toast('Sección creada');
+}
+async function alternarSeccion(id){
+  const f=fichaAct(),s=f&&f.secciones.find(x=>x.id===id);if(!s)return;
+  const{error}=await sb.from('secciones_trabajo').update({abierta:!s.abierta}).eq('id',id);
+  if(error){alert('No se pudo cambiar: '+error.message);return}
+  s.abierta=!s.abierta;renderEvidIns();
+}
+async function borrarSeccion(id){
+  const f=fichaAct(),s=f&&f.secciones.find(x=>x.id===id);if(!s)return;
+  if(!confirm('¿Borrar la sección «'+s.nombre+'»? Las evidencias ya entregadas se conservan en tu Drive y en la lista.'))return;
+  const{error}=await sb.from('secciones_trabajo').delete().eq('id',id);
+  if(error){alert('No se pudo borrar: '+error.message);return}
+  f.secciones=f.secciones.filter(x=>x.id!==id);
+  f.evidencias.forEach(e=>{if(e.seccion_id===id)e.seccion_id=null});
+  renderEvidIns();
+}
+
+/* ---------- Aprendiz ---------- */
+function renderEvidAp(){
+  if(!SES||SES.rol!=='aprendiz')return;
+  const f=fichaAct(),el=$('misEvid');if(!f)return;
+  const cab='<h2>Mis evidencias</h2>';
+  if(!f.driveScript){el.innerHTML=cab+'<div class="empty">Tu instructor todavía no ha habilitado la carga de evidencias.</div>';return}
+  const a=f.aprendices.find(x=>x.doc===SES.id)||{};
+  const abiertas=f.secciones.filter(s=>s.abierta).sort((x,y)=>(x.orden-y.orden)||x.nombre.localeCompare(y.nombre,'es'));
+  const mias=f.evidencias.slice().sort((x,y)=>String(y.creado).localeCompare(String(x.creado)));
+  let html=cab;
+  if(!abiertas.length)html+='<div class="empty">Tu instructor todavía no ha abierto ninguna sección de trabajo.</div>';
+  else html+=`<p class="muted" style="margin-top:4px">Tu evidencia se guarda sola en tu carpeta <b>${esc((a.apellidos+' '+a.nombre).trim())}</b>, dentro de la sección que elijas.</p>
+    <div class="label">Sección de trabajo</div>
+    <select id="evSec" class="input" style="text-align:left"><option value="">Elige una sección</option>${abiertas.map(s=>`<option value="${esc(s.id)}">${esc(s.nombre)}${s.trimestre?' · '+esc(s.trimestre):''}</option>`).join('')}</select>
+    <div class="label">Nombre de la evidencia</div>
+    <input id="evNombre" class="input" style="text-align:left" maxlength="100" placeholder="Ej: Taller de torneado - punto 3">
+    <div class="label">Archivo (foto, PDF, documento... máximo 15 MB)</div>
+    <input type="file" id="evArchivo" class="input" style="text-align:left">
+    <button class="btn" id="btnSubirEv" onclick="subirEvidencia()">Subir evidencia</button>`;
+  html+=`<h2 style="font-size:15px;margin:18px 0 8px">Lo que has entregado${mias.length?' ('+mias.length+')':''}</h2>`;
+  html+=mias.length?mias.map(e=>`<div class="res"><div class="t"><b>${esc(e.nombre)}</b><div class="muted">${esc(e.seccion_nombre)}</div></div><span class="pill ok">Entregada</span><div class="meta">${esc(fmtFechaHora(e.creado))}</div></div>`).join(''):'<div class="empty" style="padding:14px">Todavía no has subido evidencias.</div>';
+  el.innerHTML=html;
+}
+async function prepararEvidencia(file){
+  let blob=file,tipo=file.type||'application/octet-stream',nombre=file.name;
+  if(/^image\/(jpeg|png|webp)$/.test(tipo)&&file.size>3*1024*1024){
+    try{
+      const bmp=await createImageBitmap(file);
+      const fac=Math.min(1,2400/Math.max(bmp.width,bmp.height));
+      const cv=document.createElement('canvas');cv.width=Math.max(1,Math.round(bmp.width*fac));cv.height=Math.max(1,Math.round(bmp.height*fac));
+      const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cv.width,cv.height);cx.drawImage(bmp,0,0,cv.width,cv.height);
+      let q=0.88,b;
+      do{b=await new Promise(r=>cv.toBlob(r,'image/jpeg',q));q-=0.08}while(b&&b.size>3*1024*1024&&q>0.4);
+      if(b){blob=b;tipo='image/jpeg';nombre=file.name.replace(/\.\w+$/,'')+'.jpg'}
+    }catch(e){}
+  }
+  if(blob.size>MAX_EVIDENCIA)throw new Error('El archivo pesa más de 15 MB. Comprímelo o sube uno más liviano.');
+  return{tipo,archivo:nombre,datos:await leerB64(blob)};
+}
+async function subirEvidencia(){
+  const f=fichaAct(),ses=ssGet();
+  const sec=$('evSec').value,nom=$('evNombre').value.trim(),file=$('evArchivo').files[0];
+  if(!sec){alert('Elige la sección de trabajo.');return}
+  if(!nom){alert('Escribe el nombre de la evidencia.');return}
+  if(!file){alert('Elige el archivo.');return}
+  if(BLOQ_EXT.test(file.name)){alert('Ese tipo de archivo no está permitido.');return}
+  if(!ses){alert('Tu sesión expiró. Sal y vuelve a entrar.');return}
+  if(!RE_SCRIPT.test(f.driveScript||'')){alert('La carga de evidencias no está bien configurada. Avisa a tu instructor.');return}
+  const btn=$('btnSubirEv');btn.disabled=true;btn.textContent='Subiendo... no cierres la página';
+  try{
+    const pre=await prepararEvidencia(file);
+    const resp=await fetch(f.driveScript,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},redirect:'follow',
+      body:JSON.stringify({doc:SES.id,ficha:SES.ficha,pin:ses.p,seccion:sec,nombre:nom,archivo:pre.archivo,tipo:pre.tipo,datos:pre.datos})});
+    const j=await resp.json();
+    if(!j||!j.ok){alert(MSG_EV[j&&j.error]||('No se pudo subir la evidencia'+(j&&j.error?': '+j.error:'.')));return}
+    await cargarAprendiz(SES.id,SES.ficha,ses.p);
+    renderAll();
+    toast(j.aviso?'Evidencia guardada en Drive. Avisa a tu instructor si no aparece en tu lista.':'Evidencia subida a tu carpeta');
+  }catch(e){alert('No se pudo subir la evidencia: '+(e.message||e))}
+  finally{const b=$('btnSubirEv');if(b){b.disabled=false;b.textContent='Subir evidencia'}}
+}
 
 /* ============ Arranque: recuperar sesión si ya había una ============ */
 (async function(){
