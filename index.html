@@ -1643,12 +1643,23 @@ async function guardarDrive(){
 }
 async function probarDrive(){
   const url=$('evScript').value.trim();
-  if(!RE_SCRIPT.test(url)){alert('Primero pega la URL del script (termina en /exec).');return}
+  if(!RE_SCRIPT.test(url)){alert('Primero pega la URL del script. Debe empezar por https://script.google.com/ y terminar en /exec (no en /dev).');return}
   toast('Probando conexión...');
+  const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),15000);
+  let texto;
   try{
-    const r=await fetch(url);const j=await r.json();
-    alert(j&&j.ok?'✓ Conexión correcta: '+(j.mensaje||'el script responde'):'El script respondió, pero no es el de evidencias.');
-  }catch(e){alert('No se pudo conectar con el script. Revisa que esté implementado como «Aplicación web», ejecutando como «Yo» y con acceso para «Cualquier persona».')}
+    const r=await fetch(url,{signal:ctl.signal});
+    texto=await r.text();
+  }catch(e){
+    clearTimeout(t);
+    alert('No se pudo conectar con el script.\n\nLo más común: el acceso de la implementación no es «Cualquier persona».\n\nPrueba esto: abre la URL del script en una ventana de incógnito.\n• Si te pide iniciar sesión con Google, hay que cambiar el acceso a «Cualquier persona» (Implementar → Administrar implementaciones → editar → Nueva versión).\n• Si muestra {"ok":true,...}, avísame y lo revisamos.');
+    return;
+  }
+  clearTimeout(t);
+  let j=null;try{j=JSON.parse(texto)}catch(e){}
+  if(j&&j.ok)alert('✓ Conexión correcta: '+(j.mensaje||'el script responde'));
+  else if(j)alert('El script respondió, pero no es el de evidencias. Revisa que hayas pegado el código completo y vuelto a implementar.');
+  else alert('El script respondió con una página de Google, no con datos. Casi siempre es porque pide iniciar sesión: cambia el acceso a «Cualquier persona» y crea una nueva versión de la implementación.');
 }
 async function crearSeccion(){
   const f=fichaAct();if(!f)return;
